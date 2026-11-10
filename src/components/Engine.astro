@@ -1,0 +1,611 @@
+---
+import { useStrings, type Lang } from '../i18n/ui';
+import type { Scenario } from '../content/engine/types';
+
+interface Props {
+  lang: Lang;
+  scenarios: Scenario[];
+  /** Unique prefix when more than one engine is on a page. */
+  uid?: string;
+  /** Start the replay when the engine scrolls into view. */
+  autoplay?: boolean;
+}
+
+const { lang, scenarios, uid = 'engine', autoplay = true } = Astro.props;
+const s = useStrings(lang).engine;
+const letters = ['A', 'B', 'C', 'D'];
+---
+
+<section
+  class="engine"
+  data-engine
+  data-autoplay={autoplay ? 'true' : 'false'}
+  data-status-idle={s.statusIdle}
+  data-status-drafting={s.statusDrafting}
+  data-status-annotating={s.statusAnnotating}
+  data-status-done={s.statusDone}
+  aria-label={s.name}
+>
+  <header class="engine-head">
+    <div class="engine-id">
+      <p class="engine-name">{s.name}</p>
+      <p class="engine-status" data-status aria-live="polite">{s.statusIdle}</p>
+    </div>
+    {
+      scenarios.length > 1 && (
+        <div class="engine-tabs" role="tablist" aria-label={s.choose}>
+          {scenarios.map((sc, i) => (
+            <button
+              type="button"
+              role="tab"
+              id={`${uid}-tab-${sc.id}`}
+              aria-controls={`${uid}-brief-${sc.id}`}
+              aria-selected={i === 0 ? 'true' : 'false'}
+              tabindex={i === 0 ? 0 : -1}
+              data-tab={sc.id}
+            >
+              {sc.run[lang].label}
+            </button>
+          ))}
+        </div>
+      )
+    }
+  </header>
+
+  <div class="engine-body" data-body tabindex="0" aria-label={s.brief}>
+    {
+      scenarios.map((sc) => {
+        const run = sc.run[lang];
+        return (
+          <article
+            class="brief"
+            id={`${uid}-brief-${sc.id}`}
+            data-brief={sc.id}
+            role={scenarios.length > 1 ? 'tabpanel' : undefined}
+            aria-labelledby={scenarios.length > 1 ? `${uid}-tab-${sc.id}` : undefined}
+          >
+            <div class="brief-intro">
+              <p class="brief-label">{s.brief}</p>
+              <p class="brief-text">{run.brief}</p>
+            </div>
+
+            <ol class="steps">
+              {run.steps.map((step, n) => (
+                <li class="step" data-step>
+                  <span class="step-num" aria-hidden="true">{n + 1}</span>
+                  <div class="step-body">
+                    <h3 class="step-title">{s.steps[step.key]}</h3>
+                    {step.blocks.map((b) => {
+                      if (b.t === 'p') return <p class="block-p" data-type>{b.text}</p>;
+                      if (b.t === 'rows')
+                        return (
+                          <dl class="rows">
+                            {b.rows.map((r) => (
+                              <div class="row">
+                                <dt data-type>{r.label}</dt>
+                                <dd data-type>{r.text}</dd>
+                              </div>
+                            ))}
+                          </dl>
+                        );
+                      if (b.t === 'points') {
+                        const Tag = b.ordered ? 'ol' : 'ul';
+                        return (
+                          <Tag class:list={['points', { ordered: b.ordered }]}>
+                            {b.items.map((it) => (
+                              <li>
+                                {it.title && <strong class="point-title" data-type>{it.title}</strong>}
+                                <span data-type>{it.text}</span>
+                              </li>
+                            ))}
+                          </Tag>
+                        );
+                      }
+                      if (b.t === 'options')
+                        return (
+                          <div class="options">
+                            {b.items.map((o, oi) => (
+                              <div class:list={['option', { recommended: o.recommended }]}>
+                                <p class="option-head">
+                                  <span class="option-letter" aria-hidden="true">{letters[oi]}</span>
+                                  <span class="option-name" data-type>{o.name}</span>
+                                  {o.recommended && <span class="option-badge">{s.recommended}</span>}
+                                </p>
+                                <p class="option-text" data-type>{o.text}</p>
+                                <dl class="tradeoffs">
+                                  <div>
+                                    <dt>{s.upside}</dt>
+                                    <dd data-type>{o.upside}</dd>
+                                  </div>
+                                  <div>
+                                    <dt>{s.risk}</dt>
+                                    <dd data-type>{o.risk}</dd>
+                                  </div>
+                                </dl>
+                              </div>
+                            ))}
+                          </div>
+                        );
+                      return null;
+                    })}
+                  </div>
+                  <aside class="step-notes" aria-label={s.legendJudgment}>
+                    {step.notes.map((note) => (
+                      <p class="note" data-note>{note}</p>
+                    ))}
+                  </aside>
+                </li>
+              ))}
+            </ol>
+            <p class="fictional">{s.fictional}</p>
+          </article>
+        );
+      })
+    }
+  </div>
+
+  <footer class="engine-foot">
+    <p class="legend">
+      <span class="key key-ai" aria-hidden="true"></span>{s.legendAi}
+      <span class="key key-judgment" aria-hidden="true"></span>{s.legendJudgment}
+    </p>
+    <div class="controls" data-controls>
+      <button type="button" class="ctrl" data-replay>{s.replay}</button>
+      <button type="button" class="ctrl" data-skip>{s.showAll}</button>
+      <button type="button" class="ctrl" data-print>{s.print}</button>
+    </div>
+  </footer>
+</section>
+
+<script>
+  import { initEngines } from '../scripts/engine';
+  initEngines();
+</script>
+
+<style>
+  .engine {
+    --pad: clamp(1rem, 3vw, 2.25rem);
+    background: var(--ink-sunk);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .engine-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+    padding: 0.9rem var(--pad);
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--sans);
+  }
+
+  .engine-id {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+  }
+
+  .engine-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.01em;
+  }
+
+  .engine-status {
+    font-size: 0.875rem;
+    color: var(--ai);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .engine-status::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.85;
+  }
+
+  :global(.engine.is-annotating) .engine-status {
+    color: var(--judgment);
+  }
+
+  :global(.engine.is-done) .engine-status {
+    color: var(--stone);
+  }
+
+  .engine-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .engine-tabs button {
+    font: inherit;
+    font-size: 0.875rem;
+    color: var(--stone);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    padding: 0.35rem 0.85rem;
+    cursor: pointer;
+  }
+
+  .engine-tabs button:hover {
+    color: var(--paper);
+  }
+
+  .engine-tabs button[aria-selected='true'] {
+    color: var(--paper);
+    border-color: var(--rule-strong);
+  }
+
+  .engine-body {
+    max-height: min(74vh, 860px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scroll-behavior: auto;
+    padding: var(--pad);
+    scrollbar-color: var(--rule-strong) transparent;
+  }
+
+  .brief-intro {
+    display: grid;
+    gap: 0.5rem;
+    max-width: 62ch;
+    margin-left: var(--num-col);
+    padding-bottom: 1.75rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .brief-label {
+    font-family: var(--sans);
+    font-size: 0.875rem;
+    color: var(--stone);
+  }
+
+  .brief-text {
+    font-size: clamp(1.2rem, 2vw, 1.45rem);
+    line-height: 1.45;
+    font-variation-settings: 'opsz' 36;
+  }
+
+  .brief {
+    --num-col: 2.25rem;
+  }
+
+  .steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: var(--num-col) minmax(0, 1fr);
+    column-gap: 0;
+    padding-block: 1.6rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .step:last-child {
+    border-bottom: 0;
+  }
+
+  .step-num {
+    font-family: var(--sans);
+    font-size: 0.875rem;
+    color: var(--ai);
+    padding-top: 0.15rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .step-body {
+    min-width: 0;
+    padding-left: 1rem;
+    border-left: 1px solid rgba(143, 176, 216, 0.35);
+    display: grid;
+    gap: 0.9rem;
+    max-width: 66ch;
+  }
+
+  .step-title {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.005em;
+    line-height: 1.3;
+  }
+
+  .block-p {
+    color: var(--paper);
+  }
+
+  .rows {
+    margin: 0;
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.1rem;
+  }
+
+  .row dt {
+    font-family: var(--sans);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--stone);
+  }
+
+  .row dd {
+    margin: 0;
+  }
+
+  .points {
+    margin: 0;
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .points li::marker {
+    color: var(--stone);
+    font-family: var(--sans);
+    font-size: 0.875em;
+  }
+
+  .point-title {
+    display: block;
+    font-weight: 600;
+    font-variation-settings: 'opsz' 24;
+  }
+
+  .options {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .option {
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .option.recommended {
+    border-color: rgba(143, 176, 216, 0.55);
+    background: var(--ai-soft);
+  }
+
+  .option-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.35rem 0.7rem;
+    font-weight: 600;
+  }
+
+  .option-letter {
+    font-family: var(--sans);
+    font-size: 0.875rem;
+    color: var(--ai);
+  }
+
+  .option-badge {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--ink);
+    background: var(--ai);
+    padding: 0.1rem 0.5rem;
+    border-radius: 999px;
+  }
+
+  .option-text {
+    color: var(--paper);
+  }
+
+  .tradeoffs {
+    margin: 0.2rem 0 0;
+    display: grid;
+    gap: 0.35rem;
+    font-size: 1rem;
+  }
+
+  .tradeoffs div {
+    display: grid;
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+
+  .tradeoffs dt {
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    color: var(--stone);
+    padding-top: 0.15rem;
+  }
+
+  .tradeoffs dd {
+    margin: 0;
+    color: var(--stone);
+  }
+
+  /* Margin notes: Alberto's judgment */
+  .step-notes {
+    grid-column: 2;
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 1.1rem;
+    padding-left: 1rem;
+  }
+
+  .note {
+    position: relative;
+    padding-left: 0.95rem;
+    border-left: 2px solid var(--judgment);
+    color: var(--judgment);
+    font-style: italic;
+    font-size: 1.02rem;
+    line-height: 1.5;
+    font-variation-settings: 'opsz' 18;
+  }
+
+  .fictional {
+    margin-top: 1.5rem;
+    margin-left: var(--num-col);
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    color: var(--stone);
+    max-width: 62ch;
+  }
+
+  .engine-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+    padding: 0.85rem var(--pad);
+    border-top: 1px solid var(--rule);
+    font-family: var(--sans);
+    font-size: 0.875rem;
+  }
+
+  .legend {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    color: var(--stone);
+  }
+
+  .key {
+    width: 18px;
+    height: 2px;
+    display: inline-block;
+  }
+
+  .key-ai {
+    background: var(--ai);
+  }
+
+  .key-judgment {
+    background: var(--judgment);
+    margin-left: 0.9rem;
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .ctrl {
+    font: inherit;
+    color: var(--paper);
+    background: transparent;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    padding: 0.35rem 0.9rem;
+    cursor: pointer;
+  }
+
+  .ctrl:hover {
+    border-color: var(--paper);
+  }
+
+  /* Wide screens: notes move into the right margin, like an editor's markup */
+  @media (min-width: 1100px) {
+    .step {
+      grid-template-columns: var(--num-col) minmax(0, 1fr) minmax(240px, 300px);
+      column-gap: 2.5rem;
+    }
+
+    .step-body {
+      grid-column: 2;
+    }
+
+    .step-notes {
+      grid-column: 3;
+      margin-top: 0;
+      padding-left: 0;
+      align-content: start;
+    }
+
+    .brief {
+      --num-col: 2.5rem;
+    }
+  }
+
+  /* Replay states (set by the script) */
+  :global(.engine.is-playing) .step.is-pending {
+    display: none;
+  }
+
+  :global(.engine.is-playing) .fictional {
+    visibility: hidden;
+  }
+
+  :global(.engine.is-playing) .note:not(.is-shown) {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+
+  .note {
+    transition:
+      opacity 420ms ease,
+      transform 420ms ease;
+  }
+
+  :global(.engine.is-playing) .step.is-current .step-num {
+    color: var(--paper);
+  }
+
+  :global(.engine-caret) {
+    display: inline-block;
+    width: 0.5ch;
+    height: 1em;
+    margin-left: 1px;
+    vertical-align: -0.12em;
+    background: var(--ai);
+    animation: caret 900ms steps(1) infinite;
+  }
+
+  @keyframes caret {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @media print {
+    .engine {
+      border: 0;
+      background: none;
+    }
+
+    .engine-head,
+    .engine-foot {
+      display: none;
+    }
+
+    .engine-body {
+      max-height: none;
+      overflow: visible;
+      padding: 0;
+    }
+
+    .brief[hidden] {
+      display: none !important;
+    }
+  }
+</style>

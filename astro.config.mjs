@@ -1,0 +1,9 @@
+// @ts-check
+import { defineConfig } from 'astro/config';
+
+export default defineConfig({
+  // Update to the custom domain once it is connected.
+  site: 'https://albertodrucker.vercel.app',
+  trailingSlash: 'always',
+  build: { format: 'directory' },
+});

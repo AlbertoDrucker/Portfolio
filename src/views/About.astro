@@ -1,0 +1,101 @@
+---
+import Base from '../layouts/Base.astro';
+import type { Lang } from '../i18n/ui';
+import { about } from '../content/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = about[lang];
+---
+
+<Base lang={lang} slug="about" title={c.metaTitle} description={c.metaDescription}>
+  <section class="page-hero wrap">
+    <h1 class="page-title">{c.title}</h1>
+    <p class="page-lead">{c.lead}</p>
+  </section>
+
+  <section class="wrap about-body">
+    <div class="prose about-prose">
+      {c.paragraphs.map((p) => <p>{p}</p>)}
+    </div>
+    <aside class="focus">
+      <h2 class="focus-title">{c.focusTitle}</h2>
+      <ul>
+        {c.focus.map((f) => <li>{f}</li>)}
+      </ul>
+    </aside>
+  </section>
+</Base>
+
+<style>
+  .page-hero {
+    padding-top: clamp(3.5rem, 9vw, 7rem);
+    padding-bottom: clamp(2.5rem, 6vw, 4rem);
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .page-title {
+    font-size: clamp(2.8rem, 7vw, 6rem);
+    line-height: 1;
+    letter-spacing: -0.028em;
+    font-weight: 360;
+    font-variation-settings: 'opsz' 72;
+  }
+
+  .page-lead {
+    font-size: clamp(1.4rem, 2.6vw, 2.1rem);
+    line-height: 1.25;
+    font-variation-settings: 'opsz' 48;
+    max-width: 28ch;
+  }
+
+  .about-body {
+    display: grid;
+    gap: 3rem;
+    padding-top: clamp(1rem, 3vw, 2rem);
+    padding-bottom: clamp(4rem, 9vw, 7rem);
+  }
+
+  .about-prose {
+    font-size: clamp(1.1rem, 1.5vw, 1.25rem);
+    line-height: 1.65;
+  }
+
+  .focus {
+    align-self: start;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .focus-title {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .focus ul {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .focus li {
+    padding-left: 0.9rem;
+    border-left: 2px solid var(--rule-strong);
+    line-height: 1.4;
+  }
+
+  @media (min-width: 960px) {
+    .about-body {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      column-gap: 4rem;
+    }
+  }
+</style>

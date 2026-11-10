@@ -1,0 +1,216 @@
+---
+import '@fontsource-variable/newsreader/opsz.css';
+import '@fontsource-variable/newsreader/opsz-italic.css';
+import '@fontsource-variable/archivo/wght.css';
+import '../styles/global.css';
+import { localePath, otherLang, useStrings, type Lang, type PageSlug } from '../i18n/ui';
+import { contact } from '../content/site';
+
+interface Props {
+  lang: Lang;
+  slug: PageSlug;
+  title: string;
+  description: string;
+}
+
+const { lang, slug, title, description } = Astro.props;
+const t = useStrings(lang);
+const alt = otherLang(lang);
+const site = Astro.site ?? new URL('https://albertodrucker.vercel.app');
+const canonical = new URL(localePath(lang, slug), site).href;
+const altHref = new URL(localePath(alt, slug), site).href;
+const enHref = new URL(localePath('en', slug), site).href;
+
+const nav: { slug: PageSlug; label: string }[] = [
+  { slug: 'work', label: t.nav.work },
+  { slug: 'how-i-work', label: t.nav.howIWork },
+  { slug: 'about', label: t.nav.about },
+];
+---
+
+<!doctype html>
+<html lang={lang === 'es' ? 'es-MX' : 'en'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang={lang === 'es' ? 'es-MX' : 'en'} href={canonical} />
+    <link rel="alternate" hreflang={alt === 'es' ? 'es-MX' : 'en'} href={altHref} />
+    <link rel="alternate" hreflang="x-default" href={enHref} />
+    <meta name="theme-color" content="#131821" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_MX' : 'en_US'} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t.skip}</a>
+
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <a class="brand" href={localePath(lang)} aria-current={slug === '' ? 'page' : undefined}>{t.siteName}</a>
+        <nav class="site-nav" aria-label={t.nav.label}>
+          <ul>
+            {
+              nav.map((item) => (
+                <li>
+                  <a href={localePath(lang, item.slug)} aria-current={slug === item.slug ? 'page' : undefined}>
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+        <a class="lang" href={localePath(alt, slug)} hreflang={alt} lang={alt} aria-label={t.switchLangLabel}>
+          {t.switchLang}
+        </a>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap footer-inner">
+        <div class="footer-contact">
+          <h2 class="footer-title">{t.footer.contactTitle}</h2>
+          <p class="footer-lead">{t.footer.contactLead}</p>
+          <p class="footer-links">
+            {contact.email && <a href={`mailto:${contact.email}`}>{contact.email}</a>}
+            {contact.linkedin && <a href={contact.linkedin} rel="me noopener">LinkedIn</a>}
+          </p>
+        </div>
+        <div class="footer-meta">
+          <p>{t.footer.location}</p>
+          <p>{t.footer.built}</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    min-height: 4.25rem;
+    font-family: var(--sans);
+    font-size: 0.95rem;
+  }
+
+  .brand {
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.005em;
+    margin-right: auto;
+  }
+
+  .site-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1.6rem;
+  }
+
+  .site-nav a,
+  .lang {
+    text-decoration: none;
+    color: var(--stone);
+  }
+
+  .site-nav a:hover,
+  .lang:hover,
+  .site-nav a[aria-current='page'] {
+    color: var(--paper);
+  }
+
+  .lang {
+    padding: 0.3rem 0.8rem;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    font-size: 0.875rem;
+  }
+
+  @media (max-width: 760px) {
+    .header-inner {
+      flex-wrap: wrap;
+      row-gap: 0.25rem;
+      padding-block: 0.85rem;
+    }
+
+    .site-nav {
+      order: 3;
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .site-nav ul {
+      gap: 1.15rem;
+      white-space: nowrap;
+      padding-block: 0.35rem;
+    }
+  }
+
+  .site-footer {
+    border-top: 1px solid var(--rule);
+    padding-block: clamp(3.5rem, 8vw, 6rem) 2.5rem;
+  }
+
+  .footer-inner {
+    display: grid;
+    gap: 3rem;
+  }
+
+  .footer-title {
+    font-size: var(--step-3);
+    letter-spacing: -0.015em;
+    font-variation-settings: 'opsz' 72;
+  }
+
+  .footer-lead {
+    margin-top: 0.75rem;
+    color: var(--stone);
+    max-width: 44ch;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    font-family: var(--sans);
+    font-size: 1.05rem;
+  }
+
+  .footer-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
+    font-family: var(--sans);
+    font-size: 0.875rem;
+    color: var(--stone);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  @media print {
+    .site-header,
+    .site-footer,
+    .skip-link {
+      display: none;
+    }
+  }
+</style>

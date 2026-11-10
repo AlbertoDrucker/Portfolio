@@ -1,0 +1,257 @@
+---
+import Base from '../layouts/Base.astro';
+import Engine from '../components/Engine.astro';
+import { stepOrder, useStrings, type Lang } from '../i18n/ui';
+import { howIWork } from '../content/site';
+import { scenarios } from '../content/engine';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = howIWork[lang];
+const steps = useStrings(lang).engine.steps;
+---
+
+<Base lang={lang} slug="how-i-work" title={c.metaTitle} description={c.metaDescription}>
+  <section class="page-hero wrap">
+    <h1 class="page-title">{c.title}</h1>
+    <p class="page-lead">{c.lead}</p>
+    <p class="page-intro">{c.intro}</p>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title">{c.methodTitle}</h2>
+      </div>
+      <ol class="method">
+        <li class="method-head" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span class="col-ai">{c.aiLabel}</span>
+          <span class="col-me">{c.meLabel}</span>
+        </li>
+        {
+          c.method.map((m, i) => (
+            <li class="method-row">
+              <span class="method-num">{i + 1}</span>
+              <h3 class="method-name">{steps[stepOrder[i]]}</h3>
+              <p class="method-ai">
+                <span class="method-tag">{c.aiLabel}</span>
+                {m.ai}
+              </p>
+              <p class="method-me">
+                <span class="method-tag">{c.meLabel}</span>
+                {m.me}
+              </p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title">{c.engineTitle}</h2>
+        <p class="section-lead">{c.engineLead}</p>
+      </div>
+      <Engine lang={lang} scenarios={scenarios} uid="method" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title">{c.principlesTitle}</h2>
+      </div>
+      <ul class="principles">
+        {
+          c.principles.map((p) => (
+            <li>
+              <h3 class="principle-title">{p.title}</h3>
+              <p class="principle-text">{p.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap built">
+      <h2 class="section-title">{c.builtTitle}</h2>
+      <p class="built-text">{c.builtText}</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-hero {
+    padding-top: clamp(3.5rem, 9vw, 7rem);
+    padding-bottom: clamp(3rem, 7vw, 5rem);
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .page-title {
+    font-size: clamp(2.8rem, 7vw, 6rem);
+    line-height: 1;
+    letter-spacing: -0.028em;
+    font-weight: 360;
+    font-variation-settings: 'opsz' 72;
+  }
+
+  .page-lead {
+    font-size: clamp(1.4rem, 2.6vw, 2.1rem);
+    line-height: 1.25;
+    font-variation-settings: 'opsz' 48;
+    max-width: 30ch;
+  }
+
+  .page-intro {
+    max-width: 58ch;
+    color: var(--stone);
+  }
+
+  .method {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .method-head {
+    display: none;
+  }
+
+  .method-row {
+    display: grid;
+    grid-template-columns: 2.25rem minmax(0, 1fr);
+    column-gap: 0.5rem;
+    row-gap: 0.6rem;
+    padding-block: 1.4rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .method-num {
+    font-family: var(--sans);
+    font-size: 0.875rem;
+    color: var(--stone);
+    padding-top: 0.2rem;
+  }
+
+  .method-name {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 1.05rem;
+    line-height: 1.35;
+  }
+
+  .method-ai,
+  .method-me {
+    grid-column: 2;
+    padding-left: 0.9rem;
+    max-width: 52ch;
+  }
+
+  .method-ai {
+    border-left: 2px solid var(--ai);
+  }
+
+  .method-me {
+    border-left: 2px solid var(--judgment);
+  }
+
+  .method-tag {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    color: var(--stone);
+    margin-bottom: 0.1rem;
+  }
+
+  @media (min-width: 960px) {
+    .method-head,
+    .method-row {
+      display: grid;
+      grid-template-columns: 2.5rem minmax(0, 0.9fr) minmax(0, 1.1fr) minmax(0, 1.1fr);
+      column-gap: 2rem;
+      align-items: baseline;
+    }
+
+    .method-head {
+      font-family: var(--sans);
+      font-size: 0.875rem;
+      padding-bottom: 0.75rem;
+    }
+
+    .col-ai {
+      color: var(--ai);
+    }
+
+    .col-me {
+      color: var(--judgment);
+    }
+
+    .method-ai,
+    .method-me {
+      grid-column: auto;
+    }
+
+    .method-tag {
+      display: none;
+    }
+  }
+
+  .principles {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 2rem 2.5rem;
+  }
+
+  .principles li {
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .principle-title {
+    font-size: var(--step-1);
+    line-height: 1.2;
+    font-variation-settings: 'opsz' 48;
+  }
+
+  .principle-text {
+    margin-top: 0.6rem;
+    color: var(--stone);
+    max-width: 44ch;
+  }
+
+  @media (min-width: 800px) {
+    .principles {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .built {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .built-text {
+    max-width: 56ch;
+    font-size: clamp(1.15rem, 1.8vw, 1.4rem);
+    line-height: 1.5;
+  }
+
+  @media (min-width: 900px) {
+    .built {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+      column-gap: 2.5rem;
+    }
+  }
+</style>

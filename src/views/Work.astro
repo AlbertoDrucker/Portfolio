@@ -1,0 +1,114 @@
+---
+import Base from '../layouts/Base.astro';
+import type { Lang } from '../i18n/ui';
+import { work } from '../content/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = work[lang];
+---
+
+<Base lang={lang} slug="work" title={c.metaTitle} description={c.metaDescription}>
+  <section class="page-hero wrap">
+    <h1 class="page-title">{c.title}</h1>
+    <p class="page-intro">{c.lead}</p>
+  </section>
+
+  <div class="wrap stories">
+    {
+      c.stories.map((story) => (
+        <article class="story" id={story.id}>
+          <p class="story-area">{story.area}</p>
+          <div class="story-main">
+            <h2 class="story-title">{story.title}</h2>
+            <p class="story-summary">{story.summary}</p>
+            <div class="prose story-body">
+              {story.body.map((p) => (
+                <p>{p}</p>
+              ))}
+            </div>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</Base>
+
+<style>
+  .page-hero {
+    padding-top: clamp(3.5rem, 9vw, 7rem);
+    padding-bottom: clamp(2.5rem, 6vw, 4rem);
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .page-title {
+    font-size: clamp(2.8rem, 7vw, 6rem);
+    line-height: 1;
+    letter-spacing: -0.028em;
+    font-weight: 360;
+    font-variation-settings: 'opsz' 72;
+  }
+
+  .page-intro {
+    max-width: 52ch;
+    color: var(--stone);
+    font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+  }
+
+  .stories {
+    padding-bottom: clamp(4rem, 9vw, 7rem);
+  }
+
+  .story {
+    display: grid;
+    gap: 0.75rem;
+    padding-block: clamp(2.5rem, 5vw, 4rem);
+    border-top: 1px solid var(--rule);
+    scroll-margin-top: 1.5rem;
+  }
+
+  .story-area {
+    font-family: var(--sans);
+    font-size: 0.875rem;
+    color: var(--stone);
+  }
+
+  .story-main {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .story-title {
+    font-size: var(--step-3);
+    letter-spacing: -0.015em;
+    line-height: 1.08;
+    max-width: 24ch;
+    font-variation-settings: 'opsz' 72;
+  }
+
+  .story-summary {
+    font-size: clamp(1.15rem, 1.7vw, 1.35rem);
+    line-height: 1.45;
+    color: var(--stone);
+    max-width: 48ch;
+  }
+
+  .story-body {
+    margin-top: 0.5rem;
+  }
+
+  @media (min-width: 900px) {
+    .story {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      column-gap: 2.5rem;
+    }
+
+    .story-area {
+      padding-top: 0.8rem;
+    }
+  }
+</style>

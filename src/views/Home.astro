@@ -1,0 +1,189 @@
+---
+import Base from '../layouts/Base.astro';
+import Engine from '../components/Engine.astro';
+import { localePath, type Lang } from '../i18n/ui';
+import { home, work } from '../content/site';
+import { scenarios } from '../content/engine';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = home[lang];
+const w = work[lang];
+---
+
+<Base lang={lang} slug="" title={c.metaTitle} description={c.metaDescription}>
+  <section class="hero wrap">
+    <h1 class="hero-title">
+      {c.heroLines.map((line) => <span class="hero-line">{line}</span>)}
+    </h1>
+    <p class="hero-intro">{c.heroIntro}</p>
+  </section>
+
+  <section class="wrap engine-section">
+    <p class="engine-intro">{c.engineIntro}</p>
+    <Engine lang={lang} scenarios={scenarios} uid="home" />
+    <p class="engine-more"><a class="text-link" href={localePath(lang, 'how-i-work')}>{c.methodLink}</a></p>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title">{c.workTitle}</h2>
+        <p class="section-lead">{c.workLead}</p>
+      </div>
+      <ul class="work-list">
+        {
+          w.stories.map((story) => (
+            <li>
+              <a class="work-row" href={`${localePath(lang, 'work')}#${story.id}`}>
+                <span class="work-area">{story.area}</span>
+                <span class="work-title">{story.title}</span>
+                <span class="work-summary">{story.summary}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap about-teaser">
+      <h2 class="section-title">{c.aboutTitle}</h2>
+      <div>
+        <p class="about-text">{c.aboutTeaser}</p>
+        <p class="about-more"><a class="text-link" href={localePath(lang, 'about')}>{c.aboutLink}</a></p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-top: clamp(3.5rem, 10vw, 8.5rem);
+    padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .hero-title {
+    font-size: var(--step-hero);
+    line-height: 0.96;
+    letter-spacing: -0.03em;
+    font-weight: 360;
+    font-variation-settings: 'opsz' 72;
+  }
+
+  .hero-line {
+    display: block;
+  }
+
+  @media (min-width: 900px) {
+    .hero-line + .hero-line {
+      padding-left: 1.2em;
+    }
+  }
+
+  .hero-intro {
+    margin-top: clamp(2rem, 4vw, 3.25rem);
+    max-width: 50ch;
+    font-size: clamp(1.15rem, 1.6vw, 1.35rem);
+    line-height: 1.55;
+    color: var(--paper);
+  }
+
+  @media (min-width: 900px) {
+    .hero-intro {
+      margin-left: calc(var(--step-hero) * 1.2);
+    }
+  }
+
+  .engine-section {
+    padding-bottom: clamp(4rem, 9vw, 7rem);
+  }
+
+  .engine-intro {
+    max-width: 58ch;
+    color: var(--stone);
+    margin-bottom: 1.25rem;
+    font-size: 1.05rem;
+  }
+
+  .engine-more {
+    margin-top: 1.25rem;
+  }
+
+  .work-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .work-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.35rem;
+    padding-block: 1.5rem;
+    border-bottom: 1px solid var(--rule);
+    text-decoration: none;
+  }
+
+  .work-area {
+    font-family: var(--sans);
+    font-size: 0.875rem;
+    color: var(--stone);
+  }
+
+  .work-title {
+    font-size: var(--step-1);
+    line-height: 1.2;
+    font-variation-settings: 'opsz' 48;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+    transition: text-decoration-color 150ms ease;
+  }
+
+  .work-row:hover .work-title {
+    text-decoration-color: var(--paper);
+  }
+
+  .work-summary {
+    color: var(--stone);
+    max-width: 60ch;
+  }
+
+  @media (min-width: 900px) {
+    .work-row {
+      grid-template-columns: 9rem minmax(0, 1.2fr) minmax(0, 1fr);
+      column-gap: 2.5rem;
+      align-items: baseline;
+    }
+  }
+
+  .about-teaser {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .about-text {
+    font-size: clamp(1.25rem, 2.2vw, 1.7rem);
+    line-height: 1.4;
+    max-width: 38ch;
+    font-variation-settings: 'opsz' 36;
+  }
+
+  .about-more {
+    margin-top: 1.25rem;
+  }
+
+  @media (min-width: 900px) {
+    .about-teaser {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+      column-gap: 2.5rem;
+    }
+  }
+</style>
