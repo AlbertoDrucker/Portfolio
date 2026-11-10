@@ -1,0 +1,146 @@
+---
+import { localePath, type Lang } from '../i18n/ui';
+import { labPage, labProjects, type LabCategory } from '../content/lab';
+
+interface Props {
+  lang: Lang;
+  /** Compact layout for the home page: three columns, no summaries on small screens. */
+  compact?: boolean;
+}
+
+const { lang, compact = false } = Astro.props;
+const c = labPage[lang];
+const order: LabCategory[] = ['strategy', 'ai', 'fun'];
+const groups = order.map((cat) => ({ cat, items: labProjects.filter((p) => p.category === cat) }));
+---
+
+<div class:list={['lab-list', { compact }]}>
+  {
+    groups.map((g) => (
+      <section class="lab-group" aria-labelledby={`lab-${g.cat}-${compact ? 'h' : 'p'}`}>
+        <h2 class="lab-cat" id={`lab-${g.cat}-${compact ? 'h' : 'p'}`}>
+          {c.categories[g.cat]}
+          <span class="lab-count">{g.items.length}</span>
+        </h2>
+        <ul class="lab-items">
+          {g.items.map((p) => (
+            <li>
+              <a class="lab-item" href={localePath(lang, `lab/${p.slug}`)}>
+                <span class="lab-title">
+                  {p.copy[lang].title}
+                  {p.status === 'beta' && <span class="lab-status">{c.status.beta}</span>}
+                </span>
+                <span class="lab-summary">{p.copy[lang].summary}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</div>
+
+<style>
+  .lab-list {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 3.5rem);
+  }
+
+  .lab-cat {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .lab-count {
+    font-weight: 400;
+    color: var(--stone);
+    font-size: 0.85rem;
+  }
+
+  .lab-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .lab-item {
+    display: grid;
+    gap: 0.3rem;
+    padding-block: 1.15rem;
+    border-bottom: 1px solid var(--rule);
+    text-decoration: none;
+  }
+
+  .lab-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.4rem 0.75rem;
+    font-size: var(--step-1);
+    line-height: 1.2;
+    font-variation-settings: 'opsz' 48;
+  }
+
+  .lab-item:hover .lab-title {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+  }
+
+  .lab-status {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    color: var(--stone);
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    padding: 0.05rem 0.5rem;
+    text-decoration: none;
+  }
+
+  .lab-summary {
+    color: var(--stone);
+    max-width: 62ch;
+  }
+
+  @media (min-width: 960px) {
+    .lab-list:not(.compact) .lab-group {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      column-gap: 2.5rem;
+    }
+
+    .lab-list:not(.compact) .lab-cat {
+      border-bottom: 0;
+      padding-top: 1.2rem;
+    }
+
+    .lab-list:not(.compact) .lab-items {
+      border-top: 1px solid var(--rule);
+    }
+
+    .lab-list:not(.compact) .lab-item {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+      column-gap: 2rem;
+      align-items: baseline;
+    }
+
+    .compact {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      column-gap: 2.5rem;
+    }
+
+    .compact .lab-title {
+      font-size: 1.3rem;
+    }
+
+    .compact .lab-summary {
+      font-size: 1rem;
+    }
+  }
+</style>

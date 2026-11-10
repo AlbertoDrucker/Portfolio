@@ -1,0 +1,140 @@
+---
+import '../styles/tools.css';
+import Base from '../layouts/Base.astro';
+import { localePath, type Lang } from '../i18n/ui';
+import { findProject, labPage } from '../content/lab';
+import { toolComponents } from '../components/tools/registry';
+
+interface Props {
+  lang: Lang;
+  slug: string;
+}
+
+const { lang, slug } = Astro.props;
+const project = findProject(slug)!;
+const c = labPage[lang];
+const p = project.copy[lang];
+const Tool = toolComponents[slug];
+---
+
+<Base lang={lang} slug={`lab/${slug}`} title={`${p.title} · Alberto Drucker`} description={p.summary}>
+  <section class="tool-hero wrap">
+    <p class="crumbs">
+      <a href={localePath(lang, 'lab')}>{c.back}</a>
+      <span class="tag">{c.categories[project.category]}</span>
+      <span class="tag">{c.status[project.status]}</span>
+    </p>
+    <h1 class="tool-title">{p.title}</h1>
+    <p class="tool-summary">{p.summary}</p>
+  </section>
+
+  <section class="wrap tool-stage" aria-label={p.title}>
+    {Tool ? <Tool lang={lang} /> : null}
+    <p class="tool-disclaimer">{c.disclaimer}</p>
+  </section>
+
+  <section class="section">
+    <div class="wrap tool-story">
+      <div>
+        <h2 class="story-h">{c.whyTitle}</h2>
+        <div class="prose story-prose">
+          {p.why.map((para) => <p>{para}</p>)}
+        </div>
+      </div>
+      <div>
+        <h2 class="story-h">{c.nextTitle}</h2>
+        <ul class="next-list">
+          {p.next.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .tool-hero {
+    padding-top: clamp(2.5rem, 7vw, 5rem);
+    padding-bottom: clamp(1.75rem, 4vw, 2.75rem);
+    display: grid;
+    gap: 1rem;
+  }
+
+  .crumbs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+    font-family: var(--sans);
+    font-size: 0.875rem;
+    color: var(--stone);
+  }
+
+  .crumbs a {
+    margin-right: 0.5rem;
+  }
+
+  .tag {
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    padding: 0.1rem 0.6rem;
+    font-size: 0.8rem;
+  }
+
+  .tool-title {
+    font-size: clamp(2.4rem, 6vw, 4.75rem);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    font-weight: 360;
+    font-variation-settings: 'opsz' 72;
+  }
+
+  .tool-summary {
+    max-width: 56ch;
+    font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+    color: var(--stone);
+  }
+
+  .tool-stage {
+    padding-bottom: clamp(3rem, 7vw, 5rem);
+  }
+
+  .tool-disclaimer {
+    margin-top: 0.9rem;
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    color: var(--stone);
+  }
+
+  .tool-story {
+    display: grid;
+    gap: 3rem;
+  }
+
+  .story-h {
+    font-size: var(--step-2);
+    letter-spacing: -0.01em;
+    font-variation-settings: 'opsz' 60;
+    margin-bottom: 1.25rem;
+  }
+
+  .next-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .next-list li {
+    padding-left: 0.95rem;
+    border-left: 2px solid var(--rule-strong);
+    max-width: 48ch;
+  }
+
+  @media (min-width: 960px) {
+    .tool-story {
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      column-gap: 4rem;
+    }
+  }
+</style>

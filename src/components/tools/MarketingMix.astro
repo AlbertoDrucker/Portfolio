@@ -1,0 +1,130 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { marketingMix } from '../../content/tools/marketing-mix';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = marketingMix[lang];
+const colors = ['var(--paper)', '#d9a58c', '#c9a2d6', '#8cc7b0'];
+---
+
+<div class="tool" data-tool="marketing-mix" data-lang={lang} data-copy={JSON.stringify({ ...c.dyn, channels: c.channels })}>
+  <div class="tool-grid">
+    <div class="tool-inputs">
+      <label class="field">
+        <span class="field-label">{c.budget}<span class="field-value">MXN</span></span>
+        <input type="number" name="budget" min="0" step="100000" value="6000000" inputmode="numeric" />
+      </label>
+      <div class="field">
+        <span class="tool-section-title">{c.allocation}</span>
+        <span class="tool-hint">{c.allocationHint}</span>
+      </div>
+      {
+        c.channels.map((ch, i) => (
+          <label class="field">
+            <span class="field-label">
+              <span class="mm-name">
+                <i style={`background:${colors[i]}`} />
+                {ch.name}
+              </span>
+              <span class="field-value" data-share={ch.id} />
+            </span>
+            <input type="range" name={`w-${ch.id}`} min="0" max="100" step="0.1" value={ch.share} />
+          </label>
+        ))
+      }
+      <div class="btn-row">
+        <button type="button" class="btn" data-optimize>{c.optimize}</button>
+        <button type="button" class="btn btn-quiet" data-reset>{c.reset}</button>
+      </div>
+      <details class="mm-model">
+        <summary>{c.modelTitle}</summary>
+        <p class="tool-hint">{c.modelHint}</p>
+        <table class="tool-table">
+          <thead>
+            <tr><th>{c.tableChannel}</th><th>{c.ceiling}</th><th>{c.saturation}</th></tr>
+          </thead>
+          <tbody>
+            {
+              c.channels.map((ch) => (
+                <tr>
+                  <td>{ch.name}</td>
+                  <td><input type="number" name={`a-${ch.id}`} min="0" step="100000" value={ch.ceiling} aria-label={`${c.ceiling} ${ch.name}`} /></td>
+                  <td><input type="number" name={`k-${ch.id}`} min="1" step="100000" value={ch.saturation} aria-label={`${c.saturation} ${ch.name}`} /></td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </details>
+    </div>
+
+    <div class="tool-outputs">
+      <div class="stats">
+        <div class="stat"><span class="stat-label">{c.revenue}</span><span class="stat-value" data-out="revenue">–</span></div>
+        <div class="stat"><span class="stat-label">{c.roas}</span><span class="stat-value" data-out="roas">–</span></div>
+        <div class="stat"><span class="stat-label">{c.marginal}</span><span class="stat-value" data-out="marginal">–</span></div>
+      </div>
+      <p class="verdict" data-verdict></p>
+      <figure class="mm-fig">
+        <figcaption class="tool-section-title">{c.chartTitle}</figcaption>
+        <svg class="chart" data-chart></svg>
+      </figure>
+      <table class="tool-table mm-table">
+        <thead>
+          <tr><th>{c.tableChannel}</th><th>{c.tableSpend}</th><th>{c.tableRevenue}</th><th>{c.tableMarginal}</th></tr>
+        </thead>
+        <tbody data-rows></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initTools } from '../../scripts/tools/util';
+  import { setupMarketingMix } from '../../scripts/tools/marketing-mix';
+  initTools('[data-tool="marketing-mix"]', setupMarketingMix);
+</script>
+
+<style>
+  .mm-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--paper);
+  }
+
+  .mm-name i {
+    width: 14px;
+    height: 2px;
+    display: inline-block;
+  }
+
+  .mm-model summary {
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--stone);
+  }
+
+  .mm-model[open] summary {
+    margin-bottom: 0.6rem;
+    color: var(--paper);
+  }
+
+  .mm-model .tool-table {
+    margin-top: 0.75rem;
+  }
+
+  .mm-fig {
+    margin: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .mm-table td {
+    font-variant-numeric: tabular-nums;
+  }
+</style>

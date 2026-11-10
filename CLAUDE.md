@@ -31,8 +31,10 @@ Audience: hiring managers and recruiters for corporate strategy and marketing ro
   7. Recommendation (path, first 90 days, measures)
   Judgment notes sit in the margin of every step: what Alberto would validate, question or push back on.
 - Scenarios: brand growth, AI adoption, market launch, process redesign, strategic planning.
-- Sections: Home, How I work with AI, Selected work (anonymized), Lab, About.
-- Lab opens only when it has two working tools (AI Opportunity Map, Automation ROI Simulator). No "coming soon" cards.
+- Sections: Home, Lab, How I work with AI, Selected work (anonymized), About.
+- The Lab is the center of the site: working tools mixing work, interests and things still in development. No live AI: every tool runs in the browser, free, no keys.
+- Every Lab project has a page with the tool, "Why I built it" and "What's next". Tagged Strategy, Applied AI or Just for fun, and marked Live or Beta. A Beta tool still has to work. No "coming soon" cards.
+- Current tools: Market sizing builder, Customer value calculator, Negotiation planner, Positioning builder, Marketing mix optimizer (beta), AI Opportunity Map, Automation ROI simulator, AI workflow builder (beta), Pit strategy simulator. Avoid trademarked names (no "F1").
 
 ## Design system: editorial minimal, dark
 The memorable idea is the annotated brief: the AI draft runs in the main column and Alberto's judgment appears as ochre margin notes, like an editor marking up a manuscript. Spend boldness there; keep everything else quiet.
@@ -45,7 +47,7 @@ Color tokens (`src/styles/tokens.css`):
 - `--stone` #9097a3 secondary text
 - `--ai` #8fb0d8 marks AI drafted content
 - `--judgment` #e0b25a marks Alberto's judgment (margin notes)
-Color carries meaning: blue means AI, ochre means human judgment. Never use them decoratively.
+Color carries meaning: blue means AI, ochre means human judgment. Never use them decoratively. Charts use paper, sand (#d9a58c), lilac (#c9a2d6) and mint (#8cc7b0) for neutral series; green and coral only for good and bad verdicts.
 
 Type:
 - Newsreader (variable, optical size) for headlines and reading text.
@@ -58,7 +60,7 @@ Layout:
 - Numbered markers only for the Engine method (a real sequence).
 
 Motion:
-- One orchestrated moment: the Engine replay. Nothing else animates on load.
+- One orchestrated moment: the Engine replay. Nothing else animates on load. Tools update instantly on input; no decorative transitions.
 - `prefers-reduced-motion` shows the full brief instantly.
 
 Quality floor: responsive to 360px, visible keyboard focus, AA contrast, works without JavaScript (the full brief is server rendered and the replay is progressive enhancement), print stylesheet for the brief.
@@ -72,6 +74,9 @@ Quality floor: responsive to 360px, visible keyboard focus, AA contrast, works w
 - `src/i18n/` UI strings per locale and helpers.
 - `src/content/engine/` scenario runs, one file per scenario with `en` and `es`.
 - `src/content/site.ts` page copy (home, how I work, work stories, about).
+- `src/content/lab.ts` Lab project list and page copy. `src/content/tools/<slug>.ts` each tool's bilingual UI copy and data.
+- `src/components/tools/` one component per tool, registered in `registry.ts`. `src/scripts/tools/` the client logic, with shared `util.ts` (formatting, copy) and `chart.ts` (SVG line charts).
+- Adding a tool: content file, component, script, registry entry, and an entry in `lab.ts`.
 - `src/components/` Astro components; `src/views/` full page bodies shared by both locales; `src/pages/` thin routes.
 
 ## Workflow

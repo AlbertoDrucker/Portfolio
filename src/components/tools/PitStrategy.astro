@@ -1,0 +1,190 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { defaultStrategies, pitStrategy, tyreModel } from '../../content/tools/pit-strategy';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = pitStrategy[lang];
+const payload = { ...c.dyn, compounds: c.compounds, tyres: tyreModel, defaults: defaultStrategies, labels: { stint: c.stint, pitOn: c.pitOn, stops: c.stops, one: c.oneStop, two: c.twoStops, strategy: c.strategy } };
+const names = ['A', 'B', 'C'];
+---
+
+<div class="tool" data-tool="pit-strategy" data-lang={lang} data-copy={JSON.stringify(payload)}>
+  <div class="tool-grid">
+    <div class="tool-inputs">
+      <p class="tool-section-title">{c.raceTitle}</p>
+      <label class="field">
+        <span class="field-label">{c.laps}<span class="field-value" data-out="laps"></span></span>
+        <input type="range" name="laps" min="40" max="70" step="1" value="57" />
+      </label>
+      <label class="field">
+        <span class="field-label">{c.pitLoss}<span class="field-value" data-out="loss"></span></span>
+        <input type="range" name="loss" min="15" max="30" step="0.5" value="22" />
+        <span class="tool-hint">{c.pitLossHint}</span>
+      </label>
+      <label class="field ps-check">
+        <input type="checkbox" name="sc" />
+        <span>{c.safetyCar}</span>
+      </label>
+      <label class="field" data-sc-lap hidden>
+        <span class="field-label">{c.safetyCarLap}<span class="field-value" data-out="scLap"></span></span>
+        <input type="range" name="scLap" min="5" max="50" step="1" value="20" />
+      </label>
+      <p class="tool-section-title">{c.strategiesTitle}</p>
+      <div class="ps-strats" data-strats>
+        {names.map((n, i) => <div class="ps-strat" data-strat={i} data-name={n}></div>)}
+      </div>
+      <button type="button" class="btn" data-find>{c.find}</button>
+    </div>
+
+    <div class="tool-outputs">
+      <div>
+        <p class="tool-section-title">{c.resultsTitle}</p>
+        <table class="tool-table ps-table">
+          <thead>
+            <tr><th>{c.colStrategy}</th><th>{c.colPlan}</th><th>{c.colTime}</th><th>{c.colGap}</th></tr>
+          </thead>
+          <tbody data-results></tbody>
+        </table>
+      </div>
+      <p class="verdict" data-verdict></p>
+      <figure class="ps-fig">
+        <figcaption class="tool-section-title">{c.chartTitle}</figcaption>
+        <svg class="chart" data-chart></svg>
+        <p class="legend-row" data-legend></p>
+        <p class="tool-hint">{c.chartHint}</p>
+      </figure>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initTools } from '../../scripts/tools/util';
+  import { setupPitStrategy } from '../../scripts/tools/pit-strategy';
+  initTools('[data-tool="pit-strategy"]', setupPitStrategy);
+</script>
+
+<style>
+  .ps-check {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    cursor: pointer;
+  }
+
+  .ps-check input {
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: var(--paper);
+  }
+
+  .ps-strats {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  :global(.ps-strat) {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 0.8rem 0.9rem;
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  :global(.ps-strat-head) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  :global(.ps-strat-name) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+  }
+
+  :global(.ps-strat-name i) {
+    width: 14px;
+    height: 2px;
+    display: inline-block;
+  }
+
+  :global(.ps-stints) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(5.5rem, 1fr));
+    gap: 0.5rem;
+  }
+
+  :global(.ps-stints label) {
+    display: grid;
+    gap: 0.25rem;
+    font-size: 0.78rem;
+    color: var(--stone);
+  }
+
+  :global(.ps-strat select) {
+    padding: 0.4rem 1.8rem 0.4rem 0.5rem !important;
+    font-size: 0.9rem !important;
+  }
+
+  :global(.ps-opt) {
+    font-size: 0.8rem;
+    color: #8cc7b0;
+    margin-top: -0.3rem;
+  }
+
+  :global(.ps-strat .ps-warn) {
+    font-size: 0.8rem;
+    color: #d9786a;
+  }
+
+  :global(.ps-strat.is-opt) {
+    border-color: rgba(140, 199, 176, 0.7);
+  }
+
+  :global(.ps-table td) {
+    font-variant-numeric: tabular-nums;
+  }
+
+  :global(.ps-table tr.win td) {
+    color: var(--paper);
+    font-weight: 600;
+  }
+
+  :global(.ps-tyre) {
+    display: inline-block;
+    width: 1.35rem;
+    height: 1.35rem;
+    line-height: 1.2rem;
+    text-align: center;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    font-size: 0.7rem;
+    font-weight: 700;
+    margin-right: 0.2rem;
+  }
+
+  :global(.ps-tyre.S) {
+    color: #e5706a;
+  }
+
+  :global(.ps-tyre.M) {
+    color: #e8cf5f;
+  }
+
+  :global(.ps-tyre.H) {
+    color: #e9e4d8;
+  }
+
+  .ps-fig {
+    margin: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+</style>

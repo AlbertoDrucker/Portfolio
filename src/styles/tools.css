@@ -1,0 +1,497 @@
+/* Shared interface for Lab tools. Quiet controls, legible outputs. */
+
+.tool {
+  --tool-pad: clamp(1rem, 2.6vw, 2rem);
+  background: var(--ink-sunk);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.tool-inputs,
+.tool-outputs {
+  padding: var(--tool-pad);
+  min-width: 0;
+}
+
+.tool-inputs {
+  display: grid;
+  gap: 1.15rem;
+  align-content: start;
+  border-bottom: 1px solid var(--rule);
+}
+
+.tool-outputs {
+  display: grid;
+  gap: 1.75rem;
+  align-content: start;
+}
+
+@media (min-width: 980px) {
+  .tool-grid {
+    grid-template-columns: minmax(300px, 380px) minmax(0, 1fr);
+  }
+
+  .tool-inputs {
+    border-bottom: 0;
+    border-right: 1px solid var(--rule);
+  }
+}
+
+.tool-section-title {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--paper);
+}
+
+.tool-hint {
+  font-size: 0.85rem;
+  color: var(--stone);
+  line-height: 1.45;
+}
+
+/* Fields */
+.field {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.field-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: var(--stone);
+}
+
+.field-value {
+  color: var(--paper);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.tool input[type='text'],
+.tool input[type='number'],
+.tool select,
+.tool textarea {
+  width: 100%;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--paper);
+  background: var(--ink);
+  border: 1px solid var(--rule-strong);
+  border-radius: 4px;
+  padding: 0.55rem 0.7rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.tool textarea {
+  resize: vertical;
+  min-height: 4.5rem;
+  line-height: 1.45;
+}
+
+.tool input::placeholder,
+.tool textarea::placeholder {
+  color: #687080;
+}
+
+.tool input:focus-visible,
+.tool select:focus-visible,
+.tool textarea:focus-visible {
+  outline: 2px solid var(--ai);
+  outline-offset: 1px;
+}
+
+.tool select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--stone) 50%),
+    linear-gradient(135deg, var(--stone) 50%, transparent 50%);
+  background-position:
+    calc(100% - 16px) 55%,
+    calc(100% - 11px) 55%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 2rem;
+}
+
+.input-affix {
+  display: flex;
+  align-items: stretch;
+}
+
+.input-affix span {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 0.6rem;
+  color: var(--stone);
+  border: 1px solid var(--rule-strong);
+  background: var(--ink-raised);
+  font-size: 0.875rem;
+}
+
+.input-affix span:first-child {
+  border-right: 0;
+  border-radius: 4px 0 0 4px;
+}
+
+.input-affix span:last-child {
+  border-left: 0;
+  border-radius: 0 4px 4px 0;
+}
+
+.input-affix input {
+  border-radius: 0;
+  min-width: 0;
+}
+
+.input-affix input:first-child {
+  border-radius: 4px 0 0 4px;
+}
+
+.input-affix input:last-child {
+  border-radius: 0 4px 4px 0;
+}
+
+/* Range sliders */
+.tool input[type='range'] {
+  width: 100%;
+  height: 1.5rem;
+  margin: 0;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+}
+
+.tool input[type='range']::-webkit-slider-runnable-track {
+  height: 3px;
+  background: var(--rule-strong);
+  border-radius: 2px;
+}
+
+.tool input[type='range']::-moz-range-track {
+  height: 3px;
+  background: var(--rule-strong);
+  border-radius: 2px;
+}
+
+.tool input[type='range']::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-top: -6.5px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 0;
+}
+
+.tool input[type='range']::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 0;
+}
+
+/* Segmented control */
+.seg {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  padding: 0.2rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px;
+}
+
+.seg button {
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--stone);
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.3rem 0.8rem;
+  cursor: pointer;
+}
+
+.seg button[aria-pressed='true'] {
+  color: var(--ink);
+  background: var(--paper);
+}
+
+/* Buttons */
+.btn {
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border: 1px solid var(--paper);
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.btn:hover {
+  background: #fff;
+}
+
+.btn-quiet {
+  background: transparent;
+  color: var(--paper);
+  border-color: var(--rule-strong);
+}
+
+.btn-quiet:hover {
+  background: transparent;
+  border-color: var(--paper);
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Outputs */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.stat {
+  background: var(--ink-sunk);
+  padding: 0.9rem 1rem;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.stat-label {
+  font-size: 0.82rem;
+  color: var(--stone);
+}
+
+.stat-value {
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums lining-nums;
+  font-variation-settings: 'opsz' 48;
+  color: var(--paper);
+}
+
+.stat-sub {
+  font-size: 0.82rem;
+  color: var(--stone);
+}
+
+.verdict {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  line-height: 1.5;
+  max-width: 60ch;
+  padding-left: 0.95rem;
+  border-left: 2px solid var(--rule-strong);
+}
+
+.verdict.good {
+  border-left-color: #7fbf9a;
+}
+
+.verdict.warn {
+  border-left-color: var(--judgment);
+}
+
+.verdict.bad {
+  border-left-color: #d9786a;
+}
+
+/* Charts */
+.chart {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  font-family: var(--sans);
+}
+
+.chart .grid line {
+  stroke: var(--rule);
+  stroke-width: 1;
+}
+
+.chart .axis text {
+  fill: var(--stone);
+  font-size: 11px;
+}
+
+.chart .series {
+  fill: none;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.chart .s-main {
+  stroke: var(--paper);
+}
+
+.chart .s-alt {
+  stroke: var(--stone);
+  stroke-dasharray: 4 4;
+}
+
+.chart .s-ai {
+  stroke: var(--ai);
+}
+
+.chart .s-human {
+  stroke: var(--judgment);
+}
+
+.chart .s-c1 {
+  stroke: #e9e4d8;
+}
+
+.chart .s-c2 {
+  stroke: #d9a58c;
+}
+
+.chart .s-c3 {
+  stroke: #c9a2d6;
+}
+
+.chart .s-c4 {
+  stroke: #8cc7b0;
+}
+
+.chart .area {
+  fill: rgba(236, 231, 221, 0.06);
+  stroke: none;
+}
+
+.chart .ref {
+  stroke: var(--stone);
+  stroke-dasharray: 3 4;
+  stroke-width: 1;
+}
+
+.chart .ref-label {
+  fill: var(--stone);
+  font-size: 11px;
+}
+
+.chart .marker {
+  fill: var(--paper);
+}
+
+.chart .marker-label {
+  fill: var(--paper);
+  font-size: 11.5px;
+}
+
+.legend-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.2rem;
+  font-size: 0.82rem;
+  color: var(--stone);
+}
+
+.legend-row span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.legend-row i {
+  display: inline-block;
+  width: 16px;
+  height: 2px;
+  background: currentColor;
+}
+
+.tool-foot {
+  padding: 0.8rem var(--tool-pad);
+  border-top: 1px solid var(--rule);
+  font-size: 0.8rem;
+  color: var(--stone);
+}
+
+/* Tables used by tools */
+.tool-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.tool-table th {
+  text-align: left;
+  font-weight: 500;
+  color: var(--stone);
+  font-size: 0.8rem;
+  padding: 0 0.5rem 0.5rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.tool-table td {
+  padding: 0.5rem 0.5rem 0.5rem 0;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: middle;
+}
+
+.tool-table input,
+.tool-table select {
+  padding: 0.4rem 0.5rem !important;
+  font-size: 0.9rem !important;
+}
+
+.icon-btn {
+  font: inherit;
+  color: var(--stone);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.icon-btn:hover {
+  color: var(--paper);
+  border-color: var(--rule-strong);
+}
+
+@media print {
+  .tool {
+    border: 0;
+  }
+}
+
+/* Stacked choices for longer labels (presets, templates) */
+.seg.stack {
+  display: grid;
+  border-radius: 6px;
+  width: 100%;
+}
+
+.seg.stack button {
+  text-align: left;
+  border-radius: 4px;
+  padding: 0.45rem 0.7rem;
+}

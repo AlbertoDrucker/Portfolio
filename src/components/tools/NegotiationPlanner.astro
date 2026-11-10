@@ -1,0 +1,175 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { negotiationPlanner } from '../../content/tools/negotiation-planner';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = negotiationPlanner[lang];
+---
+
+<div class="tool" data-tool="negotiation-planner" data-lang={lang} data-copy={JSON.stringify(c.dyn)}>
+  <div class="tool-grid">
+    <div class="tool-inputs">
+      <div class="field">
+        <span class="field-label">{c.role}</span>
+        <div class="seg" data-role>
+          <button type="button" data-r="sell" aria-pressed="true">{c.selling}</button>
+          <button type="button" data-r="buy" aria-pressed="false">{c.buying}</button>
+        </div>
+      </div>
+      <div class="field">
+        <span class="field-label">{c.currency}</span>
+        <div class="seg" data-currency>
+          <button type="button" data-cur="MXN" aria-pressed="true">MXN</button>
+          <button type="button" data-cur="USD" aria-pressed="false">USD</button>
+        </div>
+      </div>
+      <label class="field">
+        <span class="field-label">{c.yourWalk}</span>
+        <input type="number" name="yourWalk" step="1000" value="420000" inputmode="decimal" />
+        <span class="tool-hint">{c.yourWalkHintSell}</span>
+      </label>
+      <label class="field">
+        <span class="field-label">{c.yourTarget}</span>
+        <input type="number" name="target" step="1000" value="500000" inputmode="decimal" />
+      </label>
+      <label class="field">
+        <span class="field-label">{c.theirWalk}</span>
+        <input type="number" name="theirWalk" step="1000" value="540000" inputmode="decimal" />
+        <span class="tool-hint">{c.theirWalkHint}</span>
+      </label>
+      <label class="field">
+        <span class="field-label">{c.batna}</span>
+        <textarea name="batna" rows="3" placeholder={c.batnaPlaceholder}></textarea>
+      </label>
+      <label class="field">
+        <span class="field-label">{c.steps}<span class="field-value" data-out="steps"></span></span>
+        <input type="range" name="steps" min="2" max="5" step="1" value="4" />
+      </label>
+    </div>
+
+    <div class="tool-outputs">
+      <div class="stats">
+        <div class="stat"><span class="stat-label">{c.zone}</span><span class="stat-value" data-out="zone">–</span></div>
+        <div class="stat"><span class="stat-label">{c.opening}</span><span class="stat-value" data-out="open">–</span></div>
+        <div class="stat"><span class="stat-label">{c.room}</span><span class="stat-value" data-out="room">–</span></div>
+      </div>
+
+      <figure class="np-fig">
+        <figcaption class="tool-section-title">{c.mapTitle}</figcaption>
+        <svg class="np-line" data-line role="img" aria-label={c.dyn.mapAria}></svg>
+      </figure>
+
+      <p class="verdict" data-verdict></p>
+
+      <div class="np-cols">
+        <div>
+          <p class="tool-section-title">{c.planTitle}</p>
+          <ol class="np-plan" data-plan></ol>
+        </div>
+        <div>
+          <p class="tool-section-title">{c.sheetTitle}</p>
+          <p class="np-batna" data-batna></p>
+          <button type="button" class="btn btn-quiet np-print" data-print>{c.print}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initTools } from '../../scripts/tools/util';
+  import { setupNegotiation } from '../../scripts/tools/negotiation-planner';
+  initTools('[data-tool="negotiation-planner"]', setupNegotiation);
+</script>
+
+<style>
+  .np-fig {
+    margin: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .np-line {
+    width: 100%;
+    overflow: visible;
+  }
+
+  :global(.np-line .np-axis) {
+    stroke: var(--rule-strong);
+    stroke-width: 2;
+  }
+
+  :global(.np-line .np-zone) {
+    fill: rgba(127, 191, 154, 0.16);
+    stroke: rgba(127, 191, 154, 0.6);
+  }
+
+  :global(.np-line .np-gap) {
+    fill: rgba(217, 120, 106, 0.14);
+    stroke: rgba(217, 120, 106, 0.55);
+  }
+
+  :global(.np-line .np-tick) {
+    stroke: var(--paper);
+    stroke-width: 2;
+  }
+
+  :global(.np-line .np-tick.theirs) {
+    stroke: var(--stone);
+    stroke-dasharray: 3 3;
+  }
+
+  :global(.np-line text) {
+    font-family: var(--sans);
+    font-size: 12px;
+    fill: var(--paper);
+  }
+
+  :global(.np-line text.sub) {
+    fill: var(--stone);
+    font-size: 11px;
+  }
+
+  .np-cols {
+    display: grid;
+    gap: 1.75rem;
+  }
+
+  .np-plan {
+    margin: 0.75rem 0 0;
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 0.45rem;
+    font-family: var(--serif);
+    font-size: 1.05rem;
+  }
+
+  :global(.np-plan li span) {
+    color: var(--stone);
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    margin-left: 0.4rem;
+  }
+
+  .np-batna {
+    margin-top: 0.75rem;
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
+
+  .np-print {
+    margin-top: 1rem;
+  }
+
+  @media (min-width: 760px) {
+    .np-cols {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 2rem;
+    }
+  }
+</style>

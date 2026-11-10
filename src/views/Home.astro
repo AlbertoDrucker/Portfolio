@@ -1,6 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import Engine from '../components/Engine.astro';
+import LabList from '../components/LabList.astro';
+import { labPage } from '../content/lab';
 import { localePath, type Lang } from '../i18n/ui';
 import { home, work } from '../content/site';
 import { scenarios } from '../content/engine';
@@ -12,6 +14,7 @@ interface Props {
 const { lang } = Astro.props;
 const c = home[lang];
 const w = work[lang];
+const lab = labPage[lang];
 ---
 
 <Base lang={lang} slug="" title={c.metaTitle} description={c.metaDescription}>
@@ -26,6 +29,17 @@ const w = work[lang];
     <p class="engine-intro">{c.engineIntro}</p>
     <Engine lang={lang} scenarios={scenarios} uid="home" />
     <p class="engine-more"><a class="text-link" href={localePath(lang, 'how-i-work')}>{c.methodLink}</a></p>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title">{lab.homeTitle}</h2>
+        <p class="section-lead">{lab.homeLead}</p>
+      </div>
+      <LabList lang={lang} compact />
+      <p class="lab-more"><a class="text-link" href={localePath(lang, 'lab')}>{lab.homeLink}</a></p>
+    </div>
   </section>
 
   <section class="section">
@@ -112,6 +126,10 @@ const w = work[lang];
 
   .engine-more {
     margin-top: 1.25rem;
+  }
+
+  .lab-more {
+    margin-top: 2rem;
   }
 
   .work-list {

@@ -1,0 +1,128 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { positioningBuilder } from '../../content/tools/positioning-builder';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = positioningBuilder[lang];
+const examples = Object.fromEntries(c.fields.map((f) => [f.name, f.example]));
+---
+
+<div class="tool" data-tool="positioning-builder" data-lang={lang} data-copy={JSON.stringify({ ...c.dyn, examples })}>
+  <div class="tool-grid">
+    <div class="tool-inputs">
+      <div class="btn-row">
+        <button type="button" class="btn btn-quiet" data-example>{c.example}</button>
+        <button type="button" class="btn btn-quiet" data-clear>{c.clear}</button>
+      </div>
+      {
+        c.fields.map((f) => (
+          <label class="field">
+            <span class="field-label">{f.label}</span>
+            {f.name === 'brand' ? (
+              <input type="text" name={f.name} value={f.example} />
+            ) : (
+              <textarea name={f.name} rows="2">{f.example}</textarea>
+            )}
+            <span class="tool-hint">{f.hint}</span>
+          </label>
+        ))
+      }
+    </div>
+
+    <div class="tool-outputs">
+      <div>
+        <p class="tool-section-title">{c.statementTitle}</p>
+        <p class="pb-statement" data-out="statement"></p>
+      </div>
+      <div>
+        <p class="tool-section-title">{c.shortTitle}</p>
+        <p class="pb-short" data-out="short"></p>
+      </div>
+      <div class="pb-checks">
+        <p class="tool-section-title">{c.checksTitle} <span class="muted pb-score" data-out="score"></span></p>
+        <ul data-checks></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initTools } from '../../scripts/tools/util';
+  import { setupPositioning } from '../../scripts/tools/positioning-builder';
+  initTools('[data-tool="positioning-builder"]', setupPositioning);
+</script>
+
+<style>
+  .pb-statement {
+    margin-top: 0.75rem;
+    font-family: var(--serif);
+    font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+    line-height: 1.4;
+    font-variation-settings: 'opsz' 36;
+    max-width: 34ch;
+  }
+
+  :global(.pb-statement mark) {
+    background: none;
+    color: var(--paper);
+    border-bottom: 1px solid var(--rule-strong);
+  }
+
+  :global(.pb-statement .pb-missing) {
+    color: #687080;
+    border-bottom: 1px dashed var(--rule-strong);
+  }
+
+  .pb-short {
+    margin-top: 0.5rem;
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    color: var(--stone);
+  }
+
+  .pb-score {
+    font-weight: 400;
+    margin-left: 0.5rem;
+  }
+
+  .pb-checks ul {
+    list-style: none;
+    margin: 0.75rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  :global(.pb-checks li) {
+    display: grid;
+    grid-template-columns: 1.4rem minmax(0, 1fr);
+    gap: 0.4rem;
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
+  :global(.pb-checks li::before) {
+    content: '';
+    width: 0.7rem;
+    height: 0.7rem;
+    margin-top: 0.35rem;
+    border-radius: 50%;
+    background: #7fbf9a;
+  }
+
+  :global(.pb-checks li.fail::before) {
+    background: var(--judgment);
+  }
+
+  :global(.pb-checks li.fail) {
+    color: var(--paper);
+  }
+
+  :global(.pb-checks li.pass) {
+    color: var(--stone);
+  }
+</style>

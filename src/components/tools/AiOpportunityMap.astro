@@ -1,0 +1,190 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { aiOpportunityMap, industryBoost, useCases } from '../../content/tools/ai-opportunity-map';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = aiOpportunityMap[lang];
+const cases = useCases.map((u) => ({ id: u.id, fn: u.fn, ind: u.ind, impact: u.impact, feas: u.feas, ...u.text[lang] }));
+const payload = { ...c.dyn, cases, boost: industryBoost, fns: c.fns };
+---
+
+<div class="tool" data-tool="ai-opportunity-map" data-lang={lang} data-copy={JSON.stringify(payload)}>
+  <div class="tool-grid">
+    <div class="tool-inputs">
+      <label class="field">
+        <span class="field-label">{c.industry}</span>
+        <select name="industry">
+          {Object.entries(c.industries).map(([k, v], i) => <option value={k} selected={i === 0}>{v}</option>)}
+        </select>
+      </label>
+      <label class="field">
+        <span class="field-label">{c.fn}</span>
+        <select name="fn">
+          <option value="all" selected>{c.allFns}</option>
+          {Object.entries(c.fns).map(([k, v]) => <option value={k}>{v}</option>)}
+        </select>
+      </label>
+      <div class="aom-detail" data-detail aria-live="polite">
+        <p class="tool-hint">{c.hint}</p>
+      </div>
+    </div>
+
+    <div class="tool-outputs">
+      <svg class="aom-map" data-map role="img" aria-label={c.dyn.mapAria}></svg>
+      <div>
+        <p class="tool-section-title">{c.listTitle}</p>
+        <ol class="aom-list" data-list></ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initTools } from '../../scripts/tools/util';
+  import { setupOpportunityMap } from '../../scripts/tools/ai-opportunity-map';
+  initTools('[data-tool="ai-opportunity-map"]', setupOpportunityMap);
+</script>
+
+<style>
+  .aom-map {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    font-family: var(--sans);
+  }
+
+  :global(.aom-map .q) {
+    fill: transparent;
+    stroke: var(--rule);
+  }
+
+  :global(.aom-map .q-quick) {
+    fill: rgba(143, 176, 216, 0.07);
+  }
+
+  :global(.aom-map .q-label) {
+    fill: var(--stone);
+    font-size: 12px;
+  }
+
+  :global(.aom-map .axis-label) {
+    fill: var(--stone);
+    font-size: 11px;
+  }
+
+  :global(.aom-map .dot) {
+    cursor: pointer;
+  }
+
+  :global(.aom-map .dot circle) {
+    fill: var(--ink-sunk);
+    stroke: var(--paper);
+    stroke-width: 1.5;
+    transition: fill 120ms ease;
+  }
+
+  :global(.aom-map .dot text) {
+    fill: var(--paper);
+    font-size: 10.5px;
+    text-anchor: middle;
+    pointer-events: none;
+  }
+
+  :global(.aom-map .dot:hover circle),
+  :global(.aom-map .dot:focus circle),
+  :global(.aom-map .dot.is-on circle) {
+    fill: var(--ai);
+    stroke: var(--ai);
+  }
+
+  :global(.aom-map .dot:hover text),
+  :global(.aom-map .dot:focus text),
+  :global(.aom-map .dot.is-on text) {
+    fill: var(--ink);
+  }
+
+  :global(.aom-map .dot:focus) {
+    outline: none;
+  }
+
+  .aom-list {
+    list-style: none;
+    margin: 0.75rem 0 0;
+    padding: 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  :global(.aom-list button) {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr) auto;
+    gap: 0.75rem;
+    align-items: baseline;
+    text-align: left;
+    font: inherit;
+    color: var(--paper);
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--rule);
+    padding: 0.7rem 0.25rem;
+    cursor: pointer;
+  }
+
+  :global(.aom-list button:hover),
+  :global(.aom-list button.is-on) {
+    background: var(--ai-soft);
+  }
+
+  :global(.aom-list .n) {
+    color: var(--ai);
+    font-variant-numeric: tabular-nums;
+  }
+
+  :global(.aom-list .q) {
+    color: var(--stone);
+    font-size: 0.82rem;
+    white-space: nowrap;
+  }
+
+  :global(.aom-more) {
+    margin-top: 0.9rem;
+  }
+
+  .aom-detail {
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  :global(.aom-detail h3) {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+
+  :global(.aom-detail .aom-q) {
+    color: var(--ai);
+    font-size: 0.85rem;
+  }
+
+  :global(.aom-detail .aom-d) {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    line-height: 1.5;
+  }
+
+  :global(.aom-detail dt) {
+    font-size: 0.82rem;
+    color: var(--stone);
+  }
+
+  :global(.aom-detail dd) {
+    margin: 0.15rem 0 0.7rem;
+  }
+</style>

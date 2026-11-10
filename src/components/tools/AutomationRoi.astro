@@ -1,0 +1,172 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { automationRoi } from '../../content/tools/automation-roi';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = automationRoi[lang];
+const first = c.templates[0];
+const payload = { ...c.dyn, templates: c.templates, autoLevels: c.autoLevels, removeStep: c.removeStep, newStep: c.newStep };
+---
+
+<div class="tool" data-tool="automation-roi" data-lang={lang} data-copy={JSON.stringify(payload)}>
+  <div class="ar-top">
+    <div class="field">
+      <span class="field-label">{c.templateLabel}</span>
+      <div class="seg" data-templates>
+        {c.templates.map((t, i) => <button type="button" data-template={t.id} aria-pressed={i === 0 ? 'true' : 'false'}>{t.label}</button>)}
+      </div>
+    </div>
+  </div>
+
+  <div class="ar-steps">
+    <p class="tool-section-title">{c.stepsTitle}</p>
+    <div class="ar-table-wrap">
+      <table class="tool-table ar-table">
+        <thead>
+          <tr>
+            <th>{c.colStep}</th>
+            <th>{c.colMinutes}</th>
+            <th>{c.colPerMonth}</th>
+            <th>{c.colAuto}</th>
+            <th><span class="visually-hidden">{c.removeStep}</span></th>
+          </tr>
+        </thead>
+        <tbody data-rows></tbody>
+      </table>
+    </div>
+    <button type="button" class="btn btn-quiet" data-add>{c.addStep}</button>
+  </div>
+
+  <div class="tool-grid ar-grid">
+    <div class="tool-inputs">
+      <p class="tool-section-title">{c.costTitle}</p>
+      <label class="field">
+        <span class="field-label">{c.hourCost}</span>
+        <input type="number" name="hourCost" min="0" step="10" value="250" inputmode="decimal" />
+      </label>
+      <label class="field">
+        <span class="field-label">{c.build}</span>
+        <input type="number" name="build" min="0" step="5000" value={first.build} inputmode="decimal" />
+      </label>
+      <label class="field">
+        <span class="field-label">{c.run}</span>
+        <input type="number" name="run" min="0" step="500" value={first.run} inputmode="decimal" />
+      </label>
+    </div>
+    <div class="tool-outputs">
+      <div class="stats">
+        <div class="stat"><span class="stat-label">{c.hoursSaved}</span><span class="stat-value" data-out="hours">–</span></div>
+        <div class="stat"><span class="stat-label">{c.annual}</span><span class="stat-value" data-out="annual">–</span></div>
+        <div class="stat"><span class="stat-label">{c.payback}</span><span class="stat-value" data-out="payback">–</span></div>
+        <div class="stat"><span class="stat-label">{c.threeYear}</span><span class="stat-value" data-out="three">–</span></div>
+      </div>
+      <p class="verdict" data-verdict></p>
+      <figure class="ar-fig">
+        <figcaption class="tool-section-title">{c.chartTitle}</figcaption>
+        <svg class="chart" data-chart></svg>
+      </figure>
+      <div>
+        <p class="tool-section-title">{c.breakdownTitle}</p>
+        <div class="ar-bars" data-bars></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initTools } from '../../scripts/tools/util';
+  import { setupAutomationRoi } from '../../scripts/tools/automation-roi';
+  initTools('[data-tool="automation-roi"]', setupAutomationRoi);
+</script>
+
+<style>
+  .ar-top,
+  .ar-steps {
+    padding: var(--tool-pad);
+    border-bottom: 1px solid var(--rule);
+    display: grid;
+    gap: 0.9rem;
+    justify-items: start;
+  }
+
+  .ar-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .ar-table {
+    min-width: 620px;
+  }
+
+  :global(.ar-table td:first-child) {
+    width: 42%;
+  }
+
+  :global(.ar-table input[type='number']) {
+    max-width: 7rem;
+  }
+
+  .ar-grid {
+    border-top: 0;
+  }
+
+  .ar-fig {
+    margin: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .ar-bars {
+    display: grid;
+    gap: 0.8rem;
+    margin-top: 0.75rem;
+  }
+
+  :global(.ar-bar) {
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  :global(.ar-bar-name) {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.85rem;
+  }
+
+  :global(.ar-bar-name span:last-child) {
+    color: var(--stone);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  :global(.ar-track) {
+    position: relative;
+    height: 8px;
+    background: var(--ink-raised);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  :global(.ar-track .now) {
+    position: absolute;
+    inset: 0 auto 0 0;
+    background: var(--rule-strong);
+    border-radius: 4px;
+  }
+
+  :global(.ar-track .after) {
+    position: absolute;
+    inset: 0 auto 0 0;
+    background: var(--judgment);
+    border-radius: 4px;
+  }
+
+  :global(.ar-saved) {
+    color: var(--ai);
+  }
+</style>

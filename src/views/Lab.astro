@@ -1,0 +1,50 @@
+---
+import Base from '../layouts/Base.astro';
+import LabList from '../components/LabList.astro';
+import type { Lang } from '../i18n/ui';
+import { labPage } from '../content/lab';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = labPage[lang];
+---
+
+<Base lang={lang} slug="lab" title={c.metaTitle} description={c.metaDescription}>
+  <section class="page-hero wrap">
+    <h1 class="page-title">{c.title}</h1>
+    <p class="page-intro">{c.lead}</p>
+  </section>
+  <div class="wrap lab-wrap">
+    <LabList lang={lang} />
+  </div>
+</Base>
+
+<style>
+  .page-hero {
+    padding-top: clamp(3.5rem, 9vw, 7rem);
+    padding-bottom: clamp(2.5rem, 6vw, 4rem);
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .page-title {
+    font-size: clamp(2.8rem, 7vw, 6rem);
+    line-height: 1;
+    letter-spacing: -0.028em;
+    font-weight: 360;
+    font-variation-settings: 'opsz' 72;
+  }
+
+  .page-intro {
+    max-width: 56ch;
+    color: var(--stone);
+    font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+  }
+
+  .lab-wrap {
+    padding-bottom: clamp(4rem, 9vw, 7rem);
+  }
+</style>

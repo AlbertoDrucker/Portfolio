@@ -8,7 +8,7 @@ import { contact } from '../content/site';
 
 interface Props {
   lang: Lang;
-  slug: PageSlug;
+  slug: PageSlug | string;
   title: string;
   description: string;
 }
@@ -22,8 +22,9 @@ const altHref = new URL(localePath(alt, slug), site).href;
 const enHref = new URL(localePath('en', slug), site).href;
 
 const nav: { slug: PageSlug; label: string }[] = [
-  { slug: 'work', label: t.nav.work },
+  { slug: 'lab', label: t.nav.lab },
   { slug: 'how-i-work', label: t.nav.howIWork },
+  { slug: 'work', label: t.nav.work },
   { slug: 'about', label: t.nav.about },
 ];
 ---
@@ -58,7 +59,7 @@ const nav: { slug: PageSlug; label: string }[] = [
             {
               nav.map((item) => (
                 <li>
-                  <a href={localePath(lang, item.slug)} aria-current={slug === item.slug ? 'page' : undefined}>
+                  <a href={localePath(lang, item.slug)} aria-current={slug === item.slug ? 'page' : String(slug).startsWith(item.slug + '/') ? 'true' : undefined}>
                     {item.label}
                   </a>
                 </li>
@@ -132,7 +133,7 @@ const nav: { slug: PageSlug; label: string }[] = [
 
   .site-nav a:hover,
   .lang:hover,
-  .site-nav a[aria-current='page'] {
+  .site-nav a[aria-current] {
     color: var(--paper);
   }
 

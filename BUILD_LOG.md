@@ -20,3 +20,18 @@ A running record of how this site was built with Claude Code. It becomes the pub
 
 **What broke**
 - `npm create astro` could not download its template in this environment, so the project was set up by hand.
+
+## Session 1, continued · Nov 10, 2026
+
+**Decision:** the Lab becomes the center of the site. Working tools from work, interests and ideas in progress, all running in the browser with no AI calls.
+
+**Built**
+- Lab index grouped by Strategy, Applied AI and Just for fun, plus a tool page template with "Why I built it" and "What's next".
+- Shared tool interface (fields, sliders, segmented controls, stats, verdicts), number formatting for English and Spanish, and a small SVG chart helper that redraws at real pixel width.
+- Nine tools: Market sizing builder, Customer value calculator, Negotiation planner, Positioning builder, Marketing mix optimizer, AI Opportunity Map (24 curated use cases), Automation ROI simulator, AI workflow builder, Pit strategy simulator (with a brute force search for the fastest plan).
+- Lab featured on the home page and first in the navigation.
+
+**What broke**
+- The marketing mix optimizer first showed a 0.4% gain because the default split was already near optimal. Retuned the curves and started from a realistic events heavy split, so the optimizer has something to fix.
+- Hidden form fields still showed because `.field` set `display: grid`. Added a global `[hidden]` rule.
+- Blue was briefly used for a chart series. Blue is reserved for AI, so the palette changed.

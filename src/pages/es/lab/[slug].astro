@@ -1,0 +1,12 @@
+---
+import ToolPage from '../../../views/ToolPage.astro';
+import { labProjects } from '../../../content/lab';
+
+export function getStaticPaths() {
+  return labProjects.map((p) => ({ params: { slug: p.slug } }));
+}
+
+const { slug } = Astro.params;
+---
+
+<ToolPage lang="es" slug={slug!} />
