@@ -148,6 +148,72 @@ export const caseStudies: Localized<CaseStudy[]> = {
       learned: 'AI paid off when it answered a product question. It was never the product itself.',
     },
     {
+      id: 'venture',
+      area: 'Strategy',
+      title: 'A venture plan for nutrition built around a new kind of patient',
+      summary:
+        'One in eight U.S. adults now takes a weight loss drug that cuts appetite and costs muscle. Our team designed the food they actually need and the business that could sell it.',
+      context: 'MBA venture plan, team of four, 2026',
+      stats: [
+        { v: '$16 vs $58', l: 'cost to win a customer through clinics compared with paid social' },
+        { v: '4.1x', l: 'lifetime value over acquisition cost once clinics bring 60% of new customers' },
+        { v: 'Month 29', l: 'break even in the model, driven by channel mix rather than ad efficiency' },
+      ],
+      challenge:
+        'Patients on these drugs eat far less, feel nauseous and lose lean tissue along with fat. The protein bars on the shelf are built for gym goers: sweet, dense and full of fibers that make symptoms worse. The question was whether a better product could also be a fundable company.',
+      approach: [
+        'Built the product from the patient’s symptoms: smaller portion, more protein per bite, half the usual sweetness, no sugar alcohols and a bar scored to eat in halves.',
+        'Argued that the moat is the channel, not the bar. Telehealth platforms and obesity clinics become the main route to market, with direct sales as a learning engine for the first months and retail only later.',
+        'Modeled five years of unit economics by channel, the break even point, the funding need and a strict claims policy, then listed every inconsistency in our own plan before submission.',
+      ],
+      outcome:
+        'A seed stage plan where the whole business rests on one ratio: what it costs to win a customer through a clinic versus through ads. That made the risks clear too, starting with how many patients stop the drug within a year.',
+    },
+    {
+      id: 'streaming',
+      area: 'Strategy',
+      title: 'Finding the open space in independent film streaming',
+      summary:
+        'A market report for an investor pitch: where a curated independent film service could win against paid arthouse platforms and free ad supported giants.',
+      context: 'MBA market analysis for a Series A pitch, 2026',
+      stats: [
+        { v: '14% vs 6%', l: 'growth of specialty streaming subscribers against the big platforms, first half of 2026' },
+        { v: '88%', l: 'of niche subscriptions sold through three app storefronts' },
+        { v: '~12 of 90+', l: 'festival premieres that arrived with a distribution deal' },
+      ],
+      challenge:
+        'Specialty streaming is growing faster than the premium platforms, but the leading arthouse service lost money and subscribers after a few big bets. The question was whether there is room for a new player, and in what shape.',
+      approach: [
+        'Pulled the current numbers on subscribers, churn, viewing share and distribution, and mapped every player on two axes: paid versus free, curated versus broad.',
+        'Found the gap: paid curation and free breadth are both taken, and free curation only exists behind a library card. Meanwhile the audience for niche services skews older, while the young cinephile community keeps growing.',
+        'Turned it into seven ranked opportunities, each with its evidence and its main risk, and a one line pitch framing.',
+      ],
+      outcome:
+        'A clear thesis for the pitch: a hybrid model with a free ad supported tier, a paid tier and storefront distribution, buying content cheaply in a buyer’s market and avoiding the large single bets that hurt the category leader.',
+    },
+    {
+      id: 'journey',
+      area: 'Customer research',
+      title: 'Why loyal customers ignore the app that would fix their visit',
+      summary:
+        'A customer journey map for a fast food chicken chain near campus, built from interviews at the door, observation at lunch and public reviews.',
+      context: 'MBA consumer insights project, team of three, 2026',
+      stats: [
+        { v: '8 of 9', l: 'customers we interviewed walked in and skipped the app' },
+        { v: '6 to 8 min', l: 'in line at lunch for walk ins, the wait the app removes' },
+        { v: '7', l: 'Fix, Improve and Wow ideas, each with an owner and a measure' },
+      ],
+      challenge:
+        'The chain’s app is rated almost perfect, yet the lunch line was long and the dining room crowded. We wanted to understand what each type of customer goes through, stage by stage, and why the best fix was going unused.',
+      approach: [
+        'Ran exit interviews, rated each stage as a team, observed a weekday lunch and coded public reviews, tagging every claim on the map to its source.',
+        'Split customers into two groups, walk in loyalists and app ready customers, and mapped goals, actions, thoughts and emotions across seven stages from awareness to the next visit.',
+        'Diagnosed the barrier behind each pain point, mostly uncertainty and resistance to being pushed onto a kiosk, and turned them into seven ideas from fixes to new experiences.',
+      ],
+      outcome:
+        'The headline insight: the app removes the low point of the visit, but the people who would gain most do not trust it. The ideas focus on the first app order, a live order tracker and a staffed counter lane for those who prefer it.',
+    },
+    {
       id: 'medtech',
       area: 'Strategy',
       title: 'Reading an emerging medtech market for a Western device maker',
@@ -279,6 +345,72 @@ export const caseStudies: Localized<CaseStudy[]> = {
       outcome:
         'El asistente se lanzó en dos países, ayudó a elegir tres sabores de producto congelado y redujo 25% el proceso de diseño de producto. El producto que ayudó a definir se volvió el más vendido de la marca. La unidad de AR y CGI cerró más de 50 proyectos en su primer año, incluida una iguala mensual con una empresa agronómica internacional, y abrió una capacidad relevante para el 40% de la cartera de clientes.',
       learned: 'La IA rindió cuando respondió una pregunta de producto. Nunca fue el producto en sí.',
+    },
+    {
+      id: 'venture',
+      area: 'Estrategia',
+      title: 'Un plan de negocio de nutrición para un nuevo tipo de paciente',
+      summary:
+        'Uno de cada ocho adultos en Estados Unidos ya usa un medicamento para bajar de peso que reduce el apetito y cuesta músculo. Nuestro equipo diseñó el alimento que de verdad necesitan y el negocio que podría venderlo.',
+      context: 'Plan de negocio del MBA, equipo de cuatro, 2026',
+      stats: [
+        { v: '$16 vs $58', l: 'dólares para ganar un cliente a través de clínicas contra redes sociales pagadas' },
+        { v: '4.1x', l: 'valor de vida del cliente sobre costo de adquisición cuando las clínicas traen el 60% de los clientes nuevos' },
+        { v: 'Mes 29', l: 'punto de equilibrio en el modelo, por la mezcla de canales y no por eficiencia en anuncios' },
+      ],
+      challenge:
+        'Los pacientes con estos medicamentos comen mucho menos, sienten náusea y pierden masa magra junto con la grasa. Las barras de proteína del anaquel están hechas para quien va al gimnasio: dulces, densas y con fibras que empeoran los síntomas. La pregunta era si un mejor producto también podía ser una empresa con inversión.',
+      approach: [
+        'Construimos el producto desde los síntomas del paciente: porción más pequeña, más proteína por bocado, la mitad del dulzor habitual, sin polialcoholes y una barra marcada para comerse en mitades.',
+        'Planteamos que la ventaja está en el canal, no en la barra. Las plataformas de telemedicina y las clínicas de obesidad son la ruta principal al mercado, la venta directa sirve para aprender los primeros meses y el retail llega después.',
+        'Modelamos cinco años de economía unitaria por canal, el punto de equilibrio, la necesidad de inversión y una política estricta de declaraciones de salud, y antes de entregar listamos cada inconsistencia de nuestro propio plan.',
+      ],
+      outcome:
+        'Un plan de etapa semilla donde todo el negocio descansa en una razón: cuánto cuesta ganar un cliente a través de una clínica contra hacerlo con anuncios. Eso también dejó claros los riesgos, empezando por cuántos pacientes dejan el medicamento en el primer año.',
+    },
+    {
+      id: 'streaming',
+      area: 'Estrategia',
+      title: 'Encontrar el espacio libre en el streaming de cine independiente',
+      summary:
+        'Un reporte de mercado para presentar a inversionistas: dónde podría ganar un servicio curado de cine independiente frente a las plataformas de autor de pago y los gigantes gratuitos con anuncios.',
+      context: 'Análisis de mercado del MBA para una ronda Serie A, 2026',
+      stats: [
+        { v: '14% vs 6%', l: 'crecimiento de suscriptores de streaming especializado contra las grandes plataformas, primer semestre de 2026' },
+        { v: '88%', l: 'de las suscripciones de nicho se venden a través de tres tiendas de apps' },
+        { v: '~12 de 90+', l: 'estrenos de festival que llegaron con un acuerdo de distribución' },
+      ],
+      challenge:
+        'El streaming especializado crece más rápido que las plataformas premium, pero el servicio líder de cine de autor perdió dinero y suscriptores tras algunas apuestas grandes. La pregunta era si hay lugar para un jugador nuevo y con qué forma.',
+      approach: [
+        'Reuní los números actuales de suscriptores, cancelación, participación de audiencia y distribución, y ubiqué a cada jugador en dos ejes: de pago contra gratuito, curado contra amplio.',
+        'Encontré el hueco: la curaduría de pago y la amplitud gratuita ya están ocupadas, y la curaduría gratuita solo existe detrás de una credencial de biblioteca. Además, la audiencia de los servicios de nicho es mayor, mientras la comunidad de cinéfilos jóvenes sigue creciendo.',
+        'Lo convertí en siete oportunidades priorizadas, cada una con su evidencia y su riesgo principal, y una frase para el pitch.',
+      ],
+      outcome:
+        'Una tesis clara para el pitch: un modelo híbrido con una opción gratuita con anuncios, una de pago y distribución en tiendas de apps, comprando contenido barato en un mercado de compradores y evitando las apuestas grandes que dañaron al líder de la categoría.',
+    },
+    {
+      id: 'journey',
+      area: 'Investigación de clientes',
+      title: 'Por qué los clientes leales ignoran la app que arreglaría su visita',
+      summary:
+        'Un mapa del recorrido del cliente para una cadena de comida rápida de pollo cerca del campus, construido con entrevistas a la salida, observación a la hora de la comida y reseñas públicas.',
+      context: 'Proyecto de insights del consumidor del MBA, equipo de tres, 2026',
+      stats: [
+        { v: '8 de 9', l: 'clientes entrevistados entraron al local sin usar la app' },
+        { v: '6 a 8 min', l: 'de fila a la hora de la comida para quien entra, la espera que la app elimina' },
+        { v: '7', l: 'ideas para corregir, mejorar y sorprender, cada una con responsable y métrica' },
+      ],
+      challenge:
+        'La app de la cadena tiene una calificación casi perfecta, pero a la hora de la comida la fila era larga y el comedor estaba lleno. Queríamos entender qué vive cada tipo de cliente, etapa por etapa, y por qué la mejor solución no se estaba usando.',
+      approach: [
+        'Hicimos entrevistas a la salida, calificamos cada etapa como equipo, observamos una comida entre semana y codificamos reseñas públicas, ligando cada afirmación del mapa a su fuente.',
+        'Dividimos a los clientes en dos grupos, los leales que entran al local y los que ya usan la app, y mapeamos metas, acciones, pensamientos y emociones en siete etapas, desde que conocen la marca hasta la siguiente visita.',
+        'Diagnosticamos la barrera detrás de cada punto de dolor, sobre todo incertidumbre y resistencia a que los manden al kiosco, y las convertimos en siete ideas que van de correcciones a experiencias nuevas.',
+      ],
+      outcome:
+        'El insight principal: la app elimina el peor momento de la visita, pero quienes más ganarían no confían en ella. Las ideas se enfocan en la primera orden por app, un seguimiento del pedido en vivo y una caja atendida para quien la prefiere.',
     },
     {
       id: 'medtech',

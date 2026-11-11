@@ -22,10 +22,12 @@ import InnovationPortfolio from './InnovationPortfolio.astro';
 import JourneyMapper from './JourneyMapper.astro';
 import SubscriptionEconomics from './SubscriptionEconomics.astro';
 import WhatsappFollowup from './WhatsappFollowup.astro';
+import AtsScorer from './AtsScorer.astro';
 
 /** Maps a Lab slug to its tool component. Every slug in content/lab.ts needs an entry. */
 export const toolComponents: Record<string, any> = {
   'whatsapp-followup': WhatsappFollowup,
+  'ats-scorer': AtsScorer,
   'first-90-days': First90Days,
   'launch-teardown': LaunchTeardown,
   'plan-on-a-page': PlanOnAPage,

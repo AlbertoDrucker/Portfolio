@@ -1,0 +1,228 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { atsScorer, atsFamilies } from '../../content/tools/ats-scorer';
+import taxonomy from '../../content/tools/ats-taxonomy.json';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = atsScorer[lang];
+const en = atsScorer.en.defaults;
+const payload = {
+  ...c.dyn,
+  families: c.families,
+  familyData: atsFamilies,
+  taxonomy,
+  samples: { en: en.jd, es: en.jdEs, cv: en.cv },
+};
+---
+
+<div class="tool" data-tool="ats-scorer" data-own-state data-lang={lang} data-nofix={c.noFixes} data-copy={JSON.stringify(payload)}>
+  <div class="tool-grid">
+    <div class="tool-inputs">
+      <div class="field">
+        <span class="field-label">{c.samples}</span>
+        <div class="btn-row">
+          <button type="button" class="btn btn-quiet" data-sample="en">{c.sampleEn}</button>
+          <button type="button" class="btn btn-quiet" data-sample="es">{c.sampleEs}</button>
+        </div>
+      </div>
+      <label class="field">
+        <span class="field-label">{c.posting}</span>
+        <textarea name="jd" rows="12" spellcheck="false">{c.defaults.jd}</textarea>
+        <span class="tool-hint">{c.postingHint}</span>
+      </label>
+      <label class="field">
+        <span class="field-label">{c.resume}</span>
+        <textarea name="cv" rows="12" spellcheck="false">{c.defaults.cv}</textarea>
+        <span class="tool-hint">{c.resumeHint}</span>
+      </label>
+      <fieldset class="field ats-families">
+        <legend class="field-label">{c.family}</legend>
+        {
+          (Object.keys(c.families) as (keyof typeof c.families)[]).map((k, i) => (
+            <label class="ats-radio">
+              <input type="radio" name="family" value={k} checked={i === 0} />
+              <span>
+                <strong>{c.families[k]}</strong>
+                <span class="tool-hint">{c.familyHints[k]}</span>
+              </span>
+            </label>
+          ))
+        }
+      </fieldset>
+    </div>
+
+    <div class="tool-outputs">
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-label">{c.score}</span>
+          <span class="stat-value" data-out="score">0</span>
+          <span class="stat-sub" data-out="band"></span>
+        </div>
+        <div class="stat"><span class="stat-label">{c.keywords}</span><span class="stat-value" data-out="kw">0</span></div>
+        <div class="stat"><span class="stat-label">{c.requirements}</span><span class="stat-value" data-out="req">0</span></div>
+        <div class="stat"><span class="stat-label">{c.evidence}</span><span class="stat-value" data-out="ev">0</span></div>
+      </div>
+      <p class="verdict" data-verdict aria-live="polite"></p>
+
+      <div>
+        <p class="tool-section-title">{c.acrossTitle}</p>
+        <p class="tool-hint">{c.acrossLead}</p>
+        <div class="ats-across" data-across></div>
+      </div>
+
+      <div>
+        <p class="tool-section-title">{c.fixesTitle}</p>
+        <ol class="ats-fixes" data-fixes></ol>
+      </div>
+
+      <div>
+        <p class="tool-section-title">{c.checksTitle}</p>
+        <ul class="ats-checks" data-checks></ul>
+      </div>
+
+      <div>
+        <p class="tool-section-title">{c.termsTitle}</p>
+        <div class="app-scroll">
+          <table class="tool-table">
+            <thead>
+              <tr><th scope="col">{c.th.term}</th><th scope="col">{c.th.where}</th><th scope="col">{c.th.match}</th></tr>
+            </thead>
+            <tbody data-terms></tbody>
+          </table>
+        </div>
+      </div>
+      <p class="tool-hint">{c.note}</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initTools } from '../../scripts/tools/util';
+  import { setupAtsScorer } from '../../scripts/tools/ats-scorer';
+  initTools('[data-tool="ats-scorer"]', setupAtsScorer);
+</script>
+
+<style>
+  textarea {
+    width: 100%;
+    font: 0.92rem/1.5 var(--sans);
+    padding: 0.75rem 0.85rem;
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    background: var(--ink-raised);
+    color: var(--paper);
+    resize: vertical;
+  }
+
+  .ats-families {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .ats-radio {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.6rem;
+    align-items: start;
+    cursor: pointer;
+  }
+
+  .ats-radio input {
+    margin-top: 0.3rem;
+    accent-color: var(--ai);
+  }
+
+  .ats-radio > span {
+    display: grid;
+    gap: 0.1rem;
+    font-family: var(--sans);
+  }
+
+  .ats-across {
+    display: grid;
+    gap: 0.6rem;
+    margin-top: 0.75rem;
+  }
+
+  :global(.ats-fam) {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    grid-template-areas: 'n label' 'n bar';
+    column-gap: 0.8rem;
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    color: var(--stone);
+  }
+
+  :global(.ats-fam.is-on) {
+    color: var(--paper);
+    font-weight: 600;
+  }
+
+  :global(.ats-fam-n) {
+    grid-area: n;
+    font-family: var(--display);
+    font-size: 1.7rem;
+    line-height: 1;
+    color: var(--paper);
+  }
+
+  :global(.ats-fam i) {
+    grid-area: bar;
+    display: block;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--rule);
+    margin-top: 0.3rem;
+  }
+
+  :global(.ats-fam.is-on i) {
+    background: var(--ai);
+  }
+
+  .ats-fixes,
+  .ats-checks {
+    margin: 0.6rem 0 0;
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .ats-checks {
+    list-style: none;
+    padding: 0;
+  }
+
+  :global(.ats-checks li) {
+    padding-left: 1.6rem;
+    position: relative;
+  }
+
+  :global(.ats-checks li::before) {
+    position: absolute;
+    left: 0;
+    font-family: var(--sans);
+    font-weight: 700;
+  }
+
+  :global(.ats-checks li.ok::before) {
+    content: '✓';
+    color: var(--good);
+  }
+
+  :global(.ats-checks li.no::before) {
+    content: '!';
+    color: var(--bad);
+  }
+
+  :global(.ats-have) {
+    color: var(--stone);
+  }
+</style>

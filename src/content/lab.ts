@@ -147,6 +147,39 @@ export const labProjects: LabProject[] = [
     },
   },
   {
+    slug: 'ats-scorer',
+    category: 'systems',
+    status: 'live',
+    copy: {
+      en: {
+        title: 'Resume match scorer',
+        summary: 'Paste a job posting and a resume. See how the three main kinds of applicant tracking systems would likely read it, and the few changes that matter most.',
+        why: [
+          'Applying across Mexico and the US, I kept seeing the same thing: a strong resume ranked well with one employer and disappeared with another. The difference was rarely the experience. It was how each system reads words.',
+          'So I studied how these systems work and built an engine around five levels of match: exact wording, a variant of the word, a synonym, the same idea in another language, or missing. Each kind of system gives those levels different credit. It also weighs where a term appears in the posting and where it shows up in the resume, and it flags the screen out questions that end an application before anyone reads it. The version I use also writes the tailored resume. This public version scores and explains, and runs entirely in your browser.',
+        ],
+        next: [
+          'Upload a PDF or Word resume instead of pasting text.',
+          'A side by side view that rewrites one bullet at a time.',
+          'Save several postings and compare which one fits best.',
+        ],
+      },
+      es: {
+        title: 'Evaluador de CV contra vacante',
+        summary: 'Pega una vacante y un CV. Mira cómo lo leerían los tres tipos principales de sistemas de reclutamiento, y los pocos cambios que más importan.',
+        why: [
+          'Aplicando en México y Estados Unidos vi lo mismo una y otra vez: un buen CV quedaba arriba con un empleador y desaparecía con otro. La diferencia casi nunca era la experiencia. Era cómo cada sistema lee las palabras.',
+          'Así que estudié cómo funcionan estos sistemas y construí un motor con cinco niveles de coincidencia: la palabra exacta, una variante, un sinónimo, la misma idea en otro idioma, o nada. Cada tipo de sistema da un crédito distinto a esos niveles. También pesa dónde aparece cada término en la vacante y dónde aparece en el CV, y marca los filtros que terminan una aplicación antes de que alguien la lea. La versión que uso también escribe el CV a la medida. Esta versión pública evalúa y explica, y corre por completo en tu navegador.',
+        ],
+        next: [
+          'Subir el CV en PDF o Word en lugar de pegar el texto.',
+          'Una vista lado a lado que reescribe una viñeta a la vez.',
+          'Guardar varias vacantes y comparar cuál te queda mejor.',
+        ],
+      },
+    },
+  },
+  {
     slug: 'first-90-days',
     category: 'strategy',
     status: 'live',
