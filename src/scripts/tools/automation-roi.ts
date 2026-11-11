@@ -19,6 +19,7 @@ interface Copy {
   autoLevels: { value: number; label: string }[];
   removeStep: string;
   newStep: string;
+  cols: { name: string; minutes: string; perMonth: string; auto: string };
 }
 
 export function setupAutomationRoi(root: HTMLElement) {
@@ -35,7 +36,6 @@ export function setupAutomationRoi(root: HTMLElement) {
     name.type = 'text';
     name.value = s.name;
     name.dataset.k = 'name';
-    name.setAttribute('aria-label', 'Step');
     const mins = document.createElement('input');
     mins.type = 'number';
     mins.min = '0';
@@ -64,8 +64,13 @@ export function setupAutomationRoi(root: HTMLElement) {
       tr.remove();
       update();
     });
-    [name, mins, per, sel, del].forEach((el) => {
+    const labels = [copy.cols.name, copy.cols.minutes, copy.cols.perMonth, copy.cols.auto, ''];
+    [name, mins, per, sel, del].forEach((el, i) => {
       const td = document.createElement('td');
+      if (labels[i]) {
+        td.dataset.label = labels[i];
+        el.setAttribute('aria-label', labels[i]);
+      }
       td.append(el);
       tr.append(td);
     });

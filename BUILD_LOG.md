@@ -42,5 +42,13 @@ A running record of how this site was built with Claude Code. It becomes the pub
 - Four more Strategy Engine scenarios in English and Spanish: AI adoption (an industrial distributor), market launch (a countertop water purifier), process redesign (custom packaging lead time) and strategic planning (a hardware chain's three year plan). All fictional, all through the same seven steps.
 - With five scenarios the Engine shows tabs. On phones the tabs sit in one row that scrolls sideways, and the selected tab stays in view.
 
+**Checked**
+- Every page in both languages at 390px and 1440px: console errors, horizontal overflow, broken links, hreflang tags and an automated accessibility scan (axe). All 28 pages pass.
+- Copy scan for dashes and middle dots, a spelling pass in English and a review of English terms on Spanish pages.
+- Page weight: about 410KB for the home page and 210KB for a tool page, mostly fonts.
+
 **What broke**
 - Five Spanish tab labels wrapped onto four lines on a phone and pushed the brief below the fold. Fixed with the sideways scrolling row.
+- The Automation ROI steps table made the page 614px wide on a phone. Each step is now a small card with labeled fields on narrow screens.
+- The accessibility scan flagged unlabeled inputs in that table (one label was hardcoded in English), a tab panel on an `article`, margin notes marked up as nested landmarks, a skipped heading level and a map announced as an image while holding buttons. All fixed.
+- Page titles used middle dots and the marketing mix showed a range with an en dash. Both replaced.

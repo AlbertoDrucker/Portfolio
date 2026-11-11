@@ -4,6 +4,7 @@ import type { MixChannel } from '../../content/tools/marketing-mix';
 
 interface Copy {
   perPeso: string;
+  range: string;
   optimized: string;
   balanced: string;
   unbalanced: string;
@@ -68,7 +69,7 @@ export function setupMarketingMix(root: HTMLElement) {
     const funded = mr.filter((_, i) => spend[i] > 0);
     const hi = Math.max(...mr);
     const lo = Math.min(...(funded.length ? funded : mr));
-    out('marginal').textContent = `${f.num(lo, 2)} – ${f.num(hi, 2)}`;
+    out('marginal').textContent = fill(copy.range, { lo: f.num(lo, 2), hi: f.num(hi, 2) });
 
     const rows = $(root, '[data-rows]');
     rows.replaceChildren();

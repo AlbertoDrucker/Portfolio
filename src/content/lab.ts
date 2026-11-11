@@ -34,7 +34,7 @@ export const labPage: Localized<{
   disclaimer: string;
 }> = {
   en: {
-    metaTitle: 'Lab · Alberto Drucker',
+    metaTitle: 'Lab | Alberto Drucker',
     metaDescription: 'Working tools for strategy, applied AI and a few things built for fun. Everything runs in your browser.',
     title: 'Lab',
     lead: 'Working tools I built for strategy, applied AI and a few things I care about outside work. Everything runs in your browser, nothing is stored and every tool is free to use.',
@@ -50,7 +50,7 @@ export const labPage: Localized<{
     disclaimer: 'Illustrative models built to support thinking, not to replace your own data.',
   },
   es: {
-    metaTitle: 'Lab · Alberto Drucker',
+    metaTitle: 'Lab | Alberto Drucker',
     metaDescription: 'Herramientas que funcionan para estrategia, IA aplicada y algunas cosas hechas por gusto. Todo corre en tu navegador.',
     title: 'Lab',
     lead: 'Herramientas que construí para estrategia, IA aplicada y algunas cosas que me importan fuera del trabajo. Todo corre en tu navegador, no se guarda nada y todas son gratis.',

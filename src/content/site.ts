@@ -19,7 +19,7 @@ export const home: Localized<{
   methodLink: string;
 }> = {
   en: {
-    metaTitle: 'Alberto Drucker · Strategy that ships',
+    metaTitle: 'Alberto Drucker | Strategy that ships',
     metaDescription:
       'Strategist from Monterrey working at the intersection of marketing, strategy and applied AI. See how I work a strategy question with AI.',
     heroLines: ['Strategy that ships.', 'Applied AI for business.'],
@@ -37,7 +37,7 @@ export const home: Localized<{
     methodLink: 'See the full method',
   },
   es: {
-    metaTitle: 'Alberto Drucker · Estrategia que se ejecuta',
+    metaTitle: 'Alberto Drucker | Estrategia que se ejecuta',
     metaDescription:
       'Estratega regiomontano en la intersección de marketing, estrategia e IA aplicada. Mira cómo trabajo una pregunta estratégica con IA.',
     heroLines: ['Estrategia que se ejecuta.', 'IA aplicada al negocio.'],
@@ -83,7 +83,7 @@ export const howIWork: Localized<{
   builtText: string;
 }> = {
   en: {
-    metaTitle: 'How I work with AI · Alberto Drucker',
+    metaTitle: 'How I work with AI | Alberto Drucker',
     metaDescription: 'A seven step strategy method where AI does the volume and I bring the judgment.',
     title: 'How I work with AI',
     lead: 'AI does the volume. I bring the judgment.',
@@ -115,7 +115,7 @@ export const howIWork: Localized<{
       'I designed and built this site with Claude Code, from the first idea to the deploy. The Strategy Engine, the Lab tools and both languages run on code written with AI under my direction.',
   },
   es: {
-    metaTitle: 'Cómo trabajo con IA · Alberto Drucker',
+    metaTitle: 'Cómo trabajo con IA | Alberto Drucker',
     metaDescription: 'Un método estratégico de siete pasos donde la IA pone el volumen y yo pongo el criterio.',
     title: 'Cómo trabajo con IA',
     lead: 'La IA pone el volumen. Yo pongo el criterio.',
@@ -168,7 +168,7 @@ export const work: Localized<{
   stories: WorkStory[];
 }> = {
   en: {
-    metaTitle: 'Selected work · Alberto Drucker',
+    metaTitle: 'Selected work | Alberto Drucker',
     metaDescription: 'Projects in applied AI, strategy and innovation, told without client names.',
     title: 'Selected work',
     lead: 'Real projects, told without client names. Each one shows a different part of how I work.',
@@ -206,7 +206,7 @@ export const work: Localized<{
     ],
   },
   es: {
-    metaTitle: 'Proyectos · Alberto Drucker',
+    metaTitle: 'Proyectos | Alberto Drucker',
     metaDescription: 'Proyectos de IA aplicada, estrategia e innovación, contados sin nombres de clientes.',
     title: 'Proyectos',
     lead: 'Proyectos reales, contados sin nombres de clientes. Cada uno muestra una parte distinta de cómo trabajo.',
@@ -259,7 +259,7 @@ export const about: Localized<{
   focus: string[];
 }> = {
   en: {
-    metaTitle: 'About · Alberto Drucker',
+    metaTitle: 'About | Alberto Drucker',
     metaDescription: 'Engineer by training, innovation lead by trade, strategist by choice.',
     title: 'About',
     lead: 'Engineer by training, innovation lead by trade, strategist by choice.',
@@ -278,7 +278,7 @@ export const about: Localized<{
     ],
   },
   es: {
-    metaTitle: 'Sobre mí · Alberto Drucker',
+    metaTitle: 'Sobre mí | Alberto Drucker',
     metaDescription: 'Ingeniero de formación, líder de innovación de oficio, estratega por convicción.',
     title: 'Sobre mí',
     lead: 'Ingeniero de formación, líder de innovación de oficio, estratega por convicción.',

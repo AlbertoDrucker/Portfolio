@@ -21,12 +21,12 @@ const c = about[lang];
     <div class="prose about-prose">
       {c.paragraphs.map((p) => <p>{p}</p>)}
     </div>
-    <aside class="focus">
+    <div class="focus">
       <h2 class="focus-title">{c.focusTitle}</h2>
       <ul>
         {c.focus.map((f) => <li>{f}</li>)}
       </ul>
-    </aside>
+    </div>
   </section>
 </Base>
 

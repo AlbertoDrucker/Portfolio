@@ -9,7 +9,14 @@ interface Props {
 const { lang } = Astro.props;
 const c = automationRoi[lang];
 const first = c.templates[0];
-const payload = { ...c.dyn, templates: c.templates, autoLevels: c.autoLevels, removeStep: c.removeStep, newStep: c.newStep };
+const payload = {
+  ...c.dyn,
+  templates: c.templates,
+  autoLevels: c.autoLevels,
+  removeStep: c.removeStep,
+  newStep: c.newStep,
+  cols: { name: c.colStep, minutes: c.colMinutes, perMonth: c.colPerMonth, auto: c.colAuto },
+};
 ---
 
 <div class="tool" data-tool="automation-roi" data-lang={lang} data-copy={JSON.stringify(payload)}>
@@ -93,13 +100,75 @@ const payload = { ...c.dyn, templates: c.templates, autoLevels: c.autoLevels, re
     justify-items: start;
   }
 
-  .ar-table-wrap {
-    width: 100%;
-    overflow-x: auto;
+  .ar-steps {
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .ar-table {
-    min-width: 620px;
+  .ar-table-wrap {
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* Narrow screens: each step becomes a small card with labeled fields. */
+  @media (max-width: 759px) {
+    .ar-table thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+    }
+
+    .ar-table,
+    .ar-table tbody {
+      display: block;
+    }
+
+    :global(.ar-table tr) {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.6fr) auto;
+      align-items: end;
+      gap: 0.55rem 0.6rem;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    :global(.ar-table td) {
+      display: block;
+      padding: 0 !important;
+      border: 0 !important;
+      width: auto !important;
+    }
+
+    :global(.ar-table td:nth-child(1)) {
+      grid-column: 1 / 4;
+    }
+
+    /* The automation level gets the widest field so its labels read in full. */
+    :global(.ar-table td:nth-child(4)) {
+      grid-column: 3 / 5;
+    }
+
+    :global(.ar-table td:nth-child(5)) {
+      grid-column: 4;
+      grid-row: 1;
+      align-self: center;
+    }
+
+    :global(.ar-table td[data-label]:not(:first-child)::before) {
+      content: attr(data-label);
+      display: block;
+      margin-bottom: 0.3rem;
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      color: var(--stone);
+    }
+
+    :global(.ar-table input),
+    :global(.ar-table select) {
+      width: 100%;
+      max-width: none !important;
+    }
   }
 
   :global(.ar-table td:first-child) {

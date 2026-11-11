@@ -34,7 +34,7 @@ const payload = { ...c.dyn, cases, boost: industryBoost, fns: c.fns };
     </div>
 
     <div class="tool-outputs">
-      <svg class="aom-map" data-map role="img" aria-label={c.dyn.mapAria}></svg>
+      <svg class="aom-map" data-map role="group" aria-label={c.dyn.mapAria}></svg>
       <div>
         <p class="tool-section-title">{c.listTitle}</p>
         <ol class="aom-list" data-list></ol>
@@ -161,7 +161,7 @@ const payload = { ...c.dyn, cases, boost: industryBoost, fns: c.fns };
     gap: 0.7rem;
   }
 
-  :global(.aom-detail h3) {
+  :global(.aom-detail h2) {
     font-family: var(--serif);
     font-weight: 400;
     font-size: 1.5rem;

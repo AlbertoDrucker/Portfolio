@@ -59,7 +59,7 @@ export function setupOpportunityMap(root: HTMLElement) {
     const q = document.createElement('p');
     q.className = 'aom-q';
     q.textContent = `${copy.quadrants[c.q as keyof Copy['quadrants']]}, ${copy.fns[c.fn]}`;
-    const h = document.createElement('h3');
+    const h = document.createElement('h2');
     h.textContent = c.t;
     const d = document.createElement('p');
     d.className = 'aom-d';
