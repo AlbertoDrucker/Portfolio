@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import { localePath, type Lang } from '../i18n/ui';
 import { work } from '../content/site';
-import { caseLabels } from '../content/cases';
+import { caseLabels, SHOW_LEARNED } from '../content/cases';
 
 interface Props {
   lang: Lang;
@@ -59,7 +59,7 @@ const L = caseLabels[lang];
               </section>
             )}
           </div>
-          {story.learned && (
+          {SHOW_LEARNED && story.learned && (
             <p class="story-learned">
               <span class="visually-hidden">{L.learned}: </span>
               {story.learned}

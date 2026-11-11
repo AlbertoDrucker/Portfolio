@@ -24,6 +24,9 @@ export const caseLabels: Localized<{ challenge: string; approach: string; outcom
   es: { challenge: 'El reto', approach: 'Lo que hice', outcome: 'Lo que pasó', learned: 'Lo que me llevo', demo: 'Abrir el demo funcionando' },
 };
 
+/** Off until Alberto approves the wording of each "What I took from it" line. */
+export const SHOW_LEARNED = false;
+
 export const caseStudies: Localized<CaseStudy[]> = {
   en: [
     {
@@ -48,7 +51,7 @@ export const caseStudies: Localized<CaseStudy[]> = {
         'Covered the paperwork end to end: leases generated section by section from their template, e-signature from a text link, the state deposit statement within 45 days, notices by certified mail, and a three step renewal flow that asks owners first, then renters, then sends the offer.',
       ],
       outcome:
-        'A working prototype built on their real forms, fees and listings, covering 31 steps of how they run the business. The version on this site uses an invented company, people and homes, so you can try it without seeing anyone’s data.',
+        'A working prototype built on their real forms, fees and listings, covering 31 steps of how they run the business, now heading into a pilot with the team. The version on this site uses an invented company, people and homes, so you can try it without seeing anyone’s data.',
       learned:
         'The hard part was not the software. It was writing down rules that lived in one person’s head, and deciding with her which ones a machine should never apply alone.',
     },
@@ -181,7 +184,7 @@ export const caseStudies: Localized<CaseStudy[]> = {
         'Cubrí el papeleo de principio a fin: contratos generados sección por sección desde su plantilla, firma electrónica desde una liga por mensaje, el estado de depósito que exige el estado en 45 días, avisos por correo certificado y un flujo de renovación de tres pasos que pregunta primero a los propietarios, luego a los inquilinos y después envía la oferta.',
       ],
       outcome:
-        'Un prototipo funcionando, construido sobre sus formatos, comisiones y casas reales, que cubre 31 pasos de cómo operan el negocio. La versión de este sitio usa una empresa, personas y casas inventadas, para que puedas probarla sin ver datos de nadie.',
+        'Un prototipo funcionando, construido sobre sus formatos, comisiones y casas reales, que cubre 31 pasos de cómo operan el negocio, y que va en camino a un piloto con el equipo. La versión de este sitio usa una empresa, personas y casas inventadas, para que puedas probarla sin ver datos de nadie.',
       learned:
         'Lo difícil no fue el software. Fue poner por escrito reglas que vivían en la cabeza de una persona y decidir con ella cuáles nunca debería aplicar una máquina sola.',
     },
