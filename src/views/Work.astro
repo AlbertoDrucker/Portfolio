@@ -1,7 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import { localePath, type Lang } from '../i18n/ui';
-import { home, work } from '../content/site';
+import { work } from '../content/site';
+import { caseLabels } from '../content/cases';
 
 interface Props {
   lang: Lang;
@@ -9,7 +10,7 @@ interface Props {
 
 const { lang } = Astro.props;
 const c = work[lang];
-const demoLabel = home[lang].openDemo;
+const L = caseLabels[lang];
 ---
 
 <Base lang={lang} slug="work" title={c.metaTitle} description={c.metaDescription}>
@@ -22,21 +23,53 @@ const demoLabel = home[lang].openDemo;
     {
       c.stories.map((story) => (
         <article class="story" id={story.id}>
-          <p class="story-area">{story.area}</p>
-          <div class="story-main">
+          <header class="story-head">
+            <p class="story-area">{story.area}</p>
             <h2 class="story-title">{story.title}</h2>
             <p class="story-summary">{story.summary}</p>
-            <div class="prose story-body">
-              {story.body.map((p) => (
-                <p>{p}</p>
+            <p class="story-context">{story.context}</p>
+          </header>
+          {story.stats && (
+            <dl class="story-stats">
+              {story.stats.map((x) => (
+                <div>
+                  <dd>{x.v}</dd>
+                  <dt>{x.l}</dt>
+                </div>
               ))}
-            </div>
-            {story.demo && (
-              <p class="story-demo">
-                <a class="text-link" href={localePath(lang, `lab/${story.demo}`)}>{demoLabel}</a>
-              </p>
+            </dl>
+          )}
+          <div class="story-body">
+            <section>
+              <h3>{L.challenge}</h3>
+              <p>{story.challenge}</p>
+            </section>
+            <section>
+              <h3>{L.approach}</h3>
+              <ul>
+                {story.approach.map((x) => (
+                  <li>{x}</li>
+                ))}
+              </ul>
+            </section>
+            {story.outcome && (
+              <section>
+                <h3>{L.outcome}</h3>
+                <p>{story.outcome}</p>
+              </section>
             )}
           </div>
+          {story.learned && (
+            <p class="story-learned">
+              <span class="visually-hidden">{L.learned}: </span>
+              {story.learned}
+            </p>
+          )}
+          {story.demo && (
+            <p class="story-demo">
+              <a class="story-btn" href={localePath(lang, `lab/${story.demo}`)}>{L.demo}</a>
+            </p>
+          )}
         </article>
       ))
     }
@@ -71,54 +104,136 @@ const demoLabel = home[lang].openDemo;
 
   .story {
     display: grid;
-    gap: 0.75rem;
-    padding-block: clamp(2.5rem, 5vw, 4rem);
+    gap: clamp(1.5rem, 3vw, 2.25rem);
+    padding-block: clamp(3rem, 6vw, 5rem);
     border-top: 1px solid var(--rule);
     scroll-margin-top: 1.5rem;
   }
 
-  .story-area {
-    font-family: var(--sans);
-    font-size: 0.875rem;
-    color: var(--stone);
+  .story-head {
+    display: grid;
+    gap: 0.9rem;
   }
 
-  .story-main {
-    display: grid;
-    gap: 1rem;
+  .story-area {
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ai);
   }
 
   .story-title {
     font-size: var(--step-3);
-    letter-spacing: -0.015em;
-    line-height: 1.08;
-    max-width: 24ch;
-    font-variation-settings: 'opsz' 72;
+    line-height: 1.05;
+    max-width: 22ch;
   }
 
   .story-summary {
     font-size: clamp(1.15rem, 1.7vw, 1.35rem);
-    line-height: 1.45;
-    color: var(--stone);
-    max-width: 48ch;
+    line-height: 1.5;
+    max-width: 56ch;
   }
 
-  .story-demo {
-    margin-top: 1.25rem;
+  .story-context {
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    color: var(--stone);
+  }
+
+  .story-stats {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: 1rem;
+  }
+
+  .story-stats div {
+    padding: 1.1rem 1.25rem 1.2rem;
+    border-radius: 16px;
+    background: var(--ink-sunk);
+    border: 1px solid var(--rule);
+    box-shadow: var(--lift);
+  }
+
+  .story:nth-child(odd) .story-stats div:first-child {
+    background: var(--paper);
+    border-color: var(--paper);
+    color: #fff;
+  }
+
+  .story:nth-child(odd) .story-stats div:first-child dt {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .story-stats dd {
+    margin: 0;
+    font-family: var(--display);
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .story-stats dt {
+    margin-top: 0.5rem;
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: var(--stone);
   }
 
   .story-body {
-    margin-top: 0.5rem;
+    display: grid;
+    gap: 1.75rem;
   }
 
-  @media (min-width: 900px) {
-    .story {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+  @media (min-width: 1000px) {
+    .story-body {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) minmax(0, 1fr);
       column-gap: 2.5rem;
     }
+  }
 
-    .story-area {
-      padding-top: 0.8rem;
-    }
+  .story-body h3 {
+    font-size: 1.15rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .story-body p,
+  .story-body li {
+    line-height: 1.6;
+  }
+
+  .story-body ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .story-learned {
+    justify-self: start;
+    max-width: 60ch;
+    padding: 0.4rem 0.9rem 0.5rem;
+    border-radius: 4px 12px 6px 14px;
+    background: var(--judgment-mark);
+    font-family: var(--hand);
+    font-size: 1.45rem;
+    line-height: 1.25;
+    rotate: -0.4deg;
+  }
+
+  .story-btn {
+    display: inline-block;
+    font: 600 1rem var(--sans);
+    color: #fff;
+    background: var(--ai);
+    border-radius: 999px;
+    padding: 0.75rem 1.4rem;
+    text-decoration: none;
+  }
+
+  .story-btn:hover {
+    background: var(--paper);
   }
 </style>

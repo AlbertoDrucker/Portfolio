@@ -1,3 +1,4 @@
+import { caseStudies, type CaseStudy } from './cases';
 import type { Localized } from '../i18n/ui';
 
 /* ------------------------------------------------------------------ */
@@ -59,7 +60,7 @@ export const home: Localized<{
     workLink: 'Read the stories',
     aboutTitle: 'About',
     aboutTeaser:
-      'Engineer by training, innovation lead by trade, strategist by choice. I care about decisions that hold up and systems that keep working when I’m not in the room.',
+      'Engineer, then the first hire of an innovation department I went on to lead for five years. I like building what does not exist yet, and I start every time with the customer.',
     aboutLink: 'More about me',
     methodLink: 'See the full method',
   },
@@ -92,7 +93,7 @@ export const home: Localized<{
     workLink: 'Leer los proyectos',
     aboutTitle: 'Sobre mí',
     aboutTeaser:
-      'Ingeniero de formación, líder de innovación de oficio, estratega por convicción. Me importan las decisiones que se sostienen y los sistemas que siguen funcionando cuando no estoy en la sala.',
+      'Ingeniero, luego la primera contratación de un área de innovación que dirigí durante cinco años. Me gusta construir lo que todavía no existe, y siempre empiezo por el cliente.',
     aboutLink: 'Más sobre mí',
     methodLink: 'Ver el método completo',
   },
@@ -209,85 +210,21 @@ export const work: Localized<{
   metaDescription: string;
   title: string;
   lead: string;
-  stories: WorkStory[];
+  stories: CaseStudy[];
 }> = {
   en: {
     metaTitle: 'Selected work | Alberto Drucker',
     metaDescription: 'Projects in applied AI, strategy and innovation, told without client names.',
     title: 'Selected work',
-    lead: 'Real projects, told without client names. Each one shows a different part of how I work.',
-    stories: [
-      {
-        id: 'automation',
-        demo: 'rental-ops',
-        area: 'Applied AI',
-        title: 'Taking the busywork out of a property management company',
-        summary: 'Mapping how a small team runs its operation, then automating the repetitive parts with AI.',
-        body: [
-          'A small property management company was running on email, spreadsheets and the memory of a few people. Too much depended on someone remembering to follow up.',
-          'I mapped the workflows end to end and built a system around one rule: the software prepares, a person approves. It triages repairs, drafts messages to renters and vendors, runs late fees by the lease and prepares renewals, across a team workspace, a renter portal and an owner portal.',
-        ],
-      },
-      {
-        id: 'medtech',
-        area: 'Strategy',
-        title: 'Reading an emerging medtech market for a Western device maker',
-        summary: 'A landscape scan of Chinese players in prostate diagnosis and treatment, narrowed to the technology worth watching.',
-        body: [
-          'A Western medical device company wanted to understand where Chinese players are moving in prostate biopsy and treatment, a market that changes fast and is hard to read from the outside.',
-          'Our team scanned the landscape across MRI guided intervention, localized drug delivery and minimally invasive therapies, then focused the client on the single technology with the clearest strategic implications.',
-        ],
-      },
-      {
-        id: 'innovation',
-        area: 'Innovation',
-        title: 'Making innovation a method inside a creative agency',
-        summary: 'Bringing product and service design thinking into brand and campaign work.',
-        body: [
-          'As head of innovation at a creative agency in Monterrey, my job was to make sure ideas started from real insight and ended in something people could use, not only something people would see.',
-          'I brought methods from product and service design into brand and campaign work, and led projects where the brief was a social problem rather than a product. That work taught me how much craft goes into getting a hard message right.',
-        ],
-      },
-    ],
+    lead: 'Real projects and real outcomes. Clients and employers stay unnamed; the industries and the work are all here.',
+    stories: caseStudies.en,
   },
   es: {
     metaTitle: 'Proyectos | Alberto Drucker',
     metaDescription: 'Proyectos de IA aplicada, estrategia e innovación, contados sin nombres de clientes.',
     title: 'Proyectos',
     lead: 'Proyectos reales, contados sin nombres de clientes. Cada uno muestra una parte distinta de cómo trabajo.',
-    stories: [
-      {
-        id: 'automation',
-        demo: 'rental-ops',
-        area: 'IA aplicada',
-        title: 'Quitarle el trabajo manual a una administradora de propiedades',
-        summary: 'Mapear cómo opera un equipo pequeño y automatizar con IA las partes repetitivas.',
-        body: [
-          'Una pequeña administradora de propiedades operaba con correos, hojas de cálculo y la memoria de unas cuantas personas. Demasiado dependía de que alguien se acordara de dar seguimiento.',
-          'Mapeé los flujos de punta a punta y construí un sistema alrededor de una regla: el software prepara, una persona aprueba. Clasifica reparaciones, redacta mensajes a inquilinos y proveedores, aplica recargos según el contrato y prepara renovaciones, en un espacio para el equipo, un portal de inquilinos y un portal de propietarios.',
-        ],
-      },
-      {
-        id: 'medtech',
-        area: 'Estrategia',
-        title: 'Leer un mercado emergente de tecnología médica para un fabricante occidental',
-        summary: 'Un mapeo de los jugadores chinos en diagnóstico y tratamiento de próstata, enfocado en la tecnología que más vale la pena seguir.',
-        body: [
-          'Una empresa occidental de dispositivos médicos quería entender hacia dónde se mueven los jugadores chinos en biopsia y tratamiento de próstata, un mercado que cambia rápido y es difícil de leer desde fuera.',
-          'Nuestro equipo mapeó el panorama en intervención guiada por resonancia, liberación localizada de fármacos y terapias de mínima invasión, y enfocó al cliente en la tecnología con las implicaciones estratégicas más claras.',
-        ],
-      },
-      {
-        id: 'innovation',
-        area: 'Innovación',
-        title: 'Convertir la innovación en un método dentro de una agencia creativa',
-        summary: 'Llevar el pensamiento de diseño de productos y servicios al trabajo de marca y campañas.',
-        body: [
-          'Como head of innovation en una agencia creativa de Monterrey, mi trabajo era asegurar que las ideas nacieran de un insight real y terminaran en algo que la gente pudiera usar, no solo en algo que la gente viera.',
-          'Llevé métodos de diseño de productos y servicios al trabajo de marca y campañas, y lideré proyectos donde el brief era un problema social y no un producto. Ese trabajo me enseñó cuánto oficio requiere comunicar bien un mensaje difícil.',
-        ],
-      },
-    ],
+    stories: caseStudies.es,
   },
 };
 
@@ -309,53 +246,55 @@ export const about: Localized<{
 }> = {
   en: {
     metaTitle: 'About | Alberto Drucker',
-    metaDescription: 'Engineer by training, innovation lead by trade, strategist by choice.',
+    metaDescription: 'Engineer turned head of innovation turned strategist. I build things that did not exist yet, starting from what customers need.',
     title: 'About',
-    lead: 'Engineer by training, innovation lead by trade, strategist by choice.',
+    lead: 'I build things that did not exist yet, starting from what customers actually need.',
     paragraphs: [
-      'I grew up in Monterrey, a city that builds things, and trained as an engineer in innovation and development at Tec de Monterrey. That training never left me. I still start by understanding how a system works before deciding what to change.',
-      'My work has moved between industry, creative work and strategy. I led innovation at a creative agency in Monterrey, where I learned that an idea is worth little until it reaches the people it was made for, and that a sharp insight beats a big budget.',
-      'Today I’m finishing an MBA at Indiana University’s Kelley School of Business, focused on marketing and strategy, and I lead AI and applied technology for the school’s tech club. I use AI every day as a working partner for research, analysis, writing and building.',
-      'I’m moving back to Monterrey to do this work in Mexico. Off the clock, I’m learning to DJ.',
+      'I was born in Mexico City and grew up in Monterrey. I studied Innovation and Development Engineering at Tec de Monterrey and started my career in manufacturing, designing buses and then redesigning the supply process for two of them.',
+      'In 2020 I joined an innovation and marketing consulting firm as the first person in its new innovation department. Over five years I built that practice and then led it as head of innovation, with teams of more than 20 people working on new products, brand strategy, research and new business lines for 18+ brands in four countries.',
+      'Some of the work I’m proudest of: a premium brand that paid back its investment in eight months, a pitch where we won 14 of 14 brands, a five year roadmap that gave a kids’ brand six times as many products, and the strategy for a mental health and suicide prevention campaign that reached more than a million people.',
+      'Now I’m finishing an MBA in marketing at Indiana University’s Kelley School of Business, where I’m VP of AI and Applied Technology at the Tech Club. I build my own tools, like the systems on this site, because a working prototype settles a discussion faster than a deck.',
+      'I’m moving back to Monterrey to do this work in Mexico. Outside work: drums for more than 15 years, tennis since I was a kid, padel, pickleball and skiing.',
     ],
     focusTitle: 'Where I add the most value',
     focus: [
-      { title: 'Product marketing and growth strategy', text: 'Positioning, pricing, promotions and go to market, with the numbers behind each choice.' },
+      { title: 'Building from zero', text: 'Departments, business units and products that did not exist, set up fast and run with a clear method.' },
+      { title: 'From insight to launch', text: 'Research with real customers turned into products, positioning and go to market plans that sell.' },
       { title: 'Strategic planning', text: 'Turning a broad ambition into a few choices, a sequence and measures a team can run.' },
-      { title: 'Innovation and service design', text: 'Starting from real customer insight and ending in something people can use.' },
-      { title: 'Applied AI and automation', text: 'Finding where AI pays off, then building the workflow with a person in control.' },
+      { title: 'Applied AI', text: 'Finding where AI pays off, then building the workflow myself, with a person in control.' },
     ],
     pathTitle: 'How I got here',
     path: [
-      { title: 'Engineer', text: 'Trained to understand how a system works before changing it.' },
-      { title: 'Innovation lead', text: 'Led innovation at a creative agency, taking ideas from insight to launch for brands and fintech products.' },
-      { title: 'Strategist who builds', text: 'An MBA in marketing and strategy, and a habit of building the tool when a slide is not enough.' },
+      { title: 'Engineer', text: 'Product design and process improvement in manufacturing. I still start by understanding how a system works.' },
+      { title: 'Head of innovation', text: 'First hire of an innovation department at a consulting firm, then its lead, from 2020 to 2025.' },
+      { title: 'MBA and builder', text: 'Marketing and strategy at Kelley, and the working systems you can try on this site.' },
     ],
     cta: 'Let’s talk',
   },
   es: {
     metaTitle: 'Sobre mí | Alberto Drucker',
-    metaDescription: 'Ingeniero de formación, líder de innovación de oficio, estratega por convicción.',
+    metaDescription: 'Ingeniero, head of innovation y estratega. Construyo cosas que todavía no existen, a partir de lo que el cliente necesita.',
     title: 'Sobre mí',
-    lead: 'Ingeniero de formación, líder de innovación de oficio, estratega por convicción.',
+    lead: 'Construyo cosas que todavía no existen, a partir de lo que el cliente de verdad necesita.',
     paragraphs: [
-      'Crecí en Monterrey, una ciudad que construye cosas, y estudié Ingeniería en Innovación y Desarrollo en el Tec de Monterrey. Esa formación nunca se fue. Todavía empiezo por entender cómo funciona un sistema antes de decidir qué cambiar.',
-      'Mi trabajo se ha movido entre la industria, el trabajo creativo y la estrategia. Lideré innovación en una agencia creativa de Monterrey, donde aprendí que una idea vale poco hasta que llega a las personas para las que fue hecha, y que un buen insight le gana a un gran presupuesto.',
-      'Hoy estoy terminando un MBA en Kelley School of Business de Indiana University, enfocado en marketing y estrategia, y lidero IA y tecnología aplicada en el club de tecnología de la escuela. Uso IA todos los días como compañera de trabajo para investigar, analizar, escribir y construir.',
-      'Estoy regresando a Monterrey para hacer este trabajo en México. Fuera de la oficina, estoy aprendiendo a ser DJ.',
+      'Nací en la Ciudad de México y crecí en Monterrey. Estudié Ingeniería en Innovación y Desarrollo en el Tec de Monterrey y empecé mi carrera en manufactura, diseñando autobuses y después rediseñando el proceso de abastecimiento de dos modelos.',
+      'En 2020 entré a una consultora de innovación y marketing como la primera persona de su nueva área de innovación. En cinco años construí esa práctica y luego la dirigí como head of innovation, con equipos de más de 20 personas trabajando en nuevos productos, estrategia de marca, investigación y nuevas líneas de negocio para más de 18 marcas en cuatro países.',
+      'Algunos de los proyectos de los que más me enorgullezco: una marca premium que recuperó su inversión en ocho meses, un pitch en el que ganamos 14 de 14 marcas, un roadmap a cinco años que le dio a una marca infantil seis veces más productos y la estrategia de una campaña de salud mental y prevención del suicidio que llegó a más de un millón de personas.',
+      'Hoy estoy terminando un MBA en marketing en Kelley School of Business de Indiana University, donde soy VP de IA y Tecnología Aplicada del Tech Club. Construyo mis propias herramientas, como los sistemas de este sitio, porque un prototipo que funciona resuelve una discusión más rápido que una presentación.',
+      'Estoy regresando a Monterrey para hacer este trabajo en México. Fuera del trabajo: batería y percusiones desde hace más de 15 años, tenis desde niño, pádel, pickleball y esquí.',
     ],
     focusTitle: 'Donde más valor aporto',
     focus: [
-      { title: 'Product marketing y estrategia de crecimiento', text: 'Posicionamiento, precios, promociones y salida al mercado, con los números detrás de cada decisión.' },
+      { title: 'Construir desde cero', text: 'Áreas, unidades de negocio y productos que no existían, puestos en marcha rápido y con un método claro.' },
+      { title: 'Del insight al lanzamiento', text: 'Investigación con clientes reales convertida en productos, posicionamiento y planes de salida al mercado que venden.' },
       { title: 'Planeación estratégica', text: 'Convertir una ambición amplia en pocas decisiones, una secuencia y métricas que un equipo pueda operar.' },
-      { title: 'Innovación y diseño de servicios', text: 'Partir de un insight real del cliente y terminar en algo que la gente pueda usar.' },
-      { title: 'IA aplicada y automatización', text: 'Encontrar dónde la IA sí paga y construir el flujo con una persona al mando.' },
+      { title: 'IA aplicada', text: 'Encontrar dónde la IA sí paga y construir el flujo yo mismo, con una persona al mando.' },
     ],
     pathTitle: 'Cómo llegué aquí',
     path: [
-      { title: 'Ingeniero', text: 'Formado para entender cómo funciona un sistema antes de cambiarlo.' },
-      { title: 'Líder de innovación', text: 'Lideré innovación en una agencia creativa, llevando ideas del insight al lanzamiento para marcas y productos fintech.' },
-      { title: 'Estratega que construye', text: 'Un MBA en marketing y estrategia, y la costumbre de construir la herramienta cuando una lámina no alcanza.' },
+      { title: 'Ingeniero', text: 'Diseño de producto y mejora de procesos en manufactura. Sigo empezando por entender cómo funciona un sistema.' },
+      { title: 'Head of innovation', text: 'Primera contratación del área de innovación de una consultora, y luego su líder, de 2020 a 2025.' },
+      { title: 'MBA y constructor', text: 'Marketing y estrategia en Kelley, y los sistemas funcionando que puedes probar en este sitio.' },
     ],
     cta: 'Platiquemos',
   },
