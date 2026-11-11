@@ -317,7 +317,7 @@ export const about: Localized<{
     ],
     focusTitle: 'Where I add the most value',
     focus: [
-      { title: 'Marketing and growth strategy', text: 'Positioning, pricing, promotions and go to market, with the numbers behind each choice.' },
+      { title: 'Product marketing and growth strategy', text: 'Positioning, pricing, promotions and go to market, with the numbers behind each choice.' },
       { title: 'Strategic planning', text: 'Turning a broad ambition into a few choices, a sequence and measures a team can run.' },
       { title: 'Innovation and service design', text: 'Starting from real customer insight and ending in something people can use.' },
       { title: 'Applied AI and automation', text: 'Finding where AI pays off, then building the workflow with a person in control.' },
@@ -343,7 +343,7 @@ export const about: Localized<{
     ],
     focusTitle: 'Donde más valor aporto',
     focus: [
-      { title: 'Estrategia de marketing y crecimiento', text: 'Posicionamiento, precios, promociones y salida al mercado, con los números detrás de cada decisión.' },
+      { title: 'Product marketing y estrategia de crecimiento', text: 'Posicionamiento, precios, promociones y salida al mercado, con los números detrás de cada decisión.' },
       { title: 'Planeación estratégica', text: 'Convertir una ambición amplia en pocas decisiones, una secuencia y métricas que un equipo pueda operar.' },
       { title: 'Innovación y diseño de servicios', text: 'Partir de un insight real del cliente y terminar en algo que la gente pueda usar.' },
       { title: 'IA aplicada y automatización', text: 'Encontrar dónde la IA sí paga y construir el flujo con una persona al mando.' },
