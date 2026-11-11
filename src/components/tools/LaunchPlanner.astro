@@ -1,0 +1,62 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { launchPlanner, launchQuestions } from '../../content/tools/launch-planner';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = launchPlanner[lang];
+---
+
+<div class="tool" data-tool="launch-planner" data-lang={lang} data-copy={JSON.stringify(c.dyn)}>
+  <div class="tool-grid quiz-grid">
+    <div class="tool-inputs">
+      <p class="quiz-intro">{c.intro}</p>
+      {
+        launchQuestions.map((item, i) => (
+          <fieldset class="quiz-q" data-q={item.id}>
+            <legend>
+              <span class="quiz-n">{i + 1}</span>
+              {item.text[lang].q}
+            </legend>
+            {item.text[lang].options.map((opt, v) => (
+              <label class="quiz-opt">
+                <input type="radio" name={`lp-${item.id}`} value={v} />
+                <span>{opt}</span>
+              </label>
+            ))}
+          </fieldset>
+        ))
+      }
+    </div>
+
+    <div class="tool-outputs">
+      <div class="quiz-result" aria-live="polite">
+        <p class="tool-hint" data-out="progress"></p>
+        <div class="stats">
+          <div class="stat"><span class="stat-label">{c.score}</span><span class="stat-value" data-out="score"></span></div>
+          <div class="stat"><span class="stat-label">{c.tier}</span><span class="stat-value quiz-level" data-out="tier"></span></div>
+        </div>
+        <p class="verdict" data-verdict></p>
+        <div data-plan hidden>
+          <p class="tool-section-title">{c.needsTitle}</p>
+          <p class="quiz-weakest" data-out="weeks"></p>
+          <ul class="quiz-steps" data-needs></ul>
+        </div>
+        <div data-watch hidden>
+          <p class="tool-section-title">{c.watchTitle}</p>
+          <p class="quiz-weakest" data-out="watch"></p>
+        </div>
+        <button type="button" class="btn btn-quiet" data-reset>{c.reset}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initTools } from '../../scripts/tools/util';
+  import { setupLaunchPlanner } from '../../scripts/tools/launch-planner';
+  initTools('[data-tool="launch-planner"]', setupLaunchPlanner);
+</script>

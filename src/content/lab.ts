@@ -1,6 +1,6 @@
 import type { Localized } from '../i18n/ui';
 
-export type LabCategory = 'strategy' | 'ai' | 'fun';
+export type LabCategory = 'systems' | 'strategy' | 'ai' | 'fun';
 export type LabStatus = 'live' | 'beta';
 
 export interface LabProjectCopy {
@@ -35,16 +35,17 @@ export const labPage: Localized<{
   ctaTitle: string;
   ctaText: string;
   ctaLink: string;
+  bar: { share: string; copied: string; print: string; reset: string; note: string };
 }> = {
   en: {
     metaTitle: 'Lab | Alberto Drucker',
     metaDescription: 'Working tools for strategy, applied AI and a few things built for fun. Everything runs in your browser.',
     title: 'Lab',
-    lead: 'Working tools I built for strategy, applied AI and a few things I care about outside work. Everything runs in your browser, nothing is stored and every tool is free to use.',
+    lead: 'Working systems and tools I built for strategy, growth and applied AI, plus a few things I care about outside work. Everything runs in your browser, your data stays with you and every tool is free to use.',
     homeTitle: 'From the Lab',
     homeLead: 'Tools you can use right now. Some come from work, some from curiosity, all of them keep evolving.',
     homeLink: 'Open the Lab',
-    categories: { strategy: 'Strategy', ai: 'Applied AI', fun: 'Just for fun' },
+    categories: { systems: 'Systems I built', strategy: 'Strategy and growth', ai: 'Applied AI', fun: 'Just for fun' },
     status: { live: 'Live', beta: 'Beta' },
     open: 'Open the tool',
     whyTitle: 'Why I built it',
@@ -54,16 +55,17 @@ export const labPage: Localized<{
     ctaTitle: 'Want this built around your business?',
     ctaText: 'Every tool here started as a real question. I can adapt this one to your numbers, your process and your team, or build the one you need.',
     ctaLink: 'Let’s talk',
+    bar: { share: 'Copy a link to this scenario', copied: 'Link copied. Anyone who opens it sees your numbers.', print: 'Print or save as PDF', reset: 'Reset', note: 'Your inputs are saved in this browser only.' },
   },
   es: {
     metaTitle: 'Lab | Alberto Drucker',
     metaDescription: 'Herramientas que funcionan para estrategia, IA aplicada y algunas cosas hechas por gusto. Todo corre en tu navegador.',
     title: 'Lab',
-    lead: 'Herramientas que construí para estrategia, IA aplicada y algunas cosas que me importan fuera del trabajo. Todo corre en tu navegador, no se guarda nada y todas son gratis.',
+    lead: 'Sistemas y herramientas que construí para estrategia, crecimiento e IA aplicada, además de algunas cosas que me importan fuera del trabajo. Todo corre en tu navegador, tus datos se quedan contigo y todo es gratis.',
     homeTitle: 'Desde el Lab',
     homeLead: 'Herramientas que puedes usar ahora mismo. Algunas vienen del trabajo, otras de la curiosidad, y todas siguen evolucionando.',
     homeLink: 'Abrir el Lab',
-    categories: { strategy: 'Estrategia', ai: 'IA aplicada', fun: 'Por gusto' },
+    categories: { systems: 'Sistemas que construí', strategy: 'Estrategia y crecimiento', ai: 'IA aplicada', fun: 'Por gusto' },
     status: { live: 'Lista', beta: 'Beta' },
     open: 'Abrir herramienta',
     whyTitle: 'Por qué la construí',
@@ -73,10 +75,152 @@ export const labPage: Localized<{
     ctaTitle: '¿Quieres esto hecho a la medida de tu negocio?',
     ctaText: 'Cada herramienta de este sitio empezó como una pregunta real. Puedo adaptar esta a tus números, tu proceso y tu equipo, o construir la que necesitas.',
     ctaLink: 'Platiquemos',
+    bar: { share: 'Copiar enlace a este escenario', copied: 'Enlace copiado. Quien lo abra verá tus números.', print: 'Imprimir o guardar en PDF', reset: 'Reiniciar', note: 'Tus datos se guardan solo en este navegador.' },
   },
 };
 
 export const labProjects: LabProject[] = [
+  {
+    slug: 'rental-ops',
+    category: 'systems',
+    status: 'live',
+    copy: {
+      en: {
+        title: 'Rental operations system',
+        summary: 'A working demo of the operating system I built for a property management company: the system drafts, a person approves, and nothing falls through the cracks.',
+        why: [
+          'A small property management team was running dozens of homes on email, spreadsheets and memory. Repairs, late rent and renewals all depended on someone remembering to follow up.',
+          'I mapped how they work and built a system around one rule: the software prepares everything and a person approves it. It reads a repair request, sets the priority, picks the vendor and drafts both messages. It starts late fees only after an approval and stops them on its own. The original connects a team workspace, a renter portal, an owner portal and a public site. This demo shows the core with fictional homes and people.',
+        ],
+        next: [
+          'Showings with calendar sync and notices to current renters.',
+          'Contracts with electronic signature that update each home’s status on their own.',
+          'Owner statements and a valuation that traces every number to its source.',
+        ],
+      },
+      es: {
+        title: 'Sistema de operación de rentas',
+        summary: 'Una demo funcional del sistema operativo que construí para una administradora de propiedades: el sistema prepara, una persona aprueba y nada se queda sin seguimiento.',
+        why: [
+          'Un equipo pequeño administraba decenas de viviendas con correos, hojas de cálculo y memoria. Reparaciones, rentas atrasadas y renovaciones dependían de que alguien se acordara de dar seguimiento.',
+          'Mapeé cómo trabajan y construí un sistema alrededor de una regla: el software prepara todo y una persona lo aprueba. Lee una solicitud de reparación, define la prioridad, elige al proveedor y redacta los dos mensajes. Inicia recargos solo después de una aprobación y los detiene por sí solo. El original conecta un espacio para el equipo, un portal de inquilinos, un portal de propietarios y un sitio público. Esta demo muestra el núcleo con viviendas y personas ficticias.',
+        ],
+        next: [
+          'Visitas con sincronización de calendario y avisos a los inquilinos actuales.',
+          'Contratos con firma electrónica que actualizan solos el estado de cada vivienda.',
+          'Estados de cuenta para propietarios y un avalúo que rastrea cada número a su fuente.',
+        ],
+      },
+    },
+  },
+  {
+    slug: 'networking-crm',
+    category: 'systems',
+    status: 'live',
+    copy: {
+      en: {
+        title: 'Networking CRM',
+        summary: 'A personal CRM you can use right now. Each week it answers one question: who should you follow up with, and what should you say?',
+        why: [
+          'Relationships fade because of forgotten follow ups, not bad intentions. I wanted one place that tells me who to contact this week and why, without the weight of a sales tool.',
+          'The logic is simple and strict. A promise I made outranks everything. Then come things people offered me, then people I have not spoken with in too long for how close we are. The version I use every day also reads my notes and drafts messages with AI. This public version runs entirely in your browser, so your contacts never leave your device.',
+        ],
+        next: [
+          'Import contacts from a LinkedIn export.',
+          'Insights on which introductions turn into real opportunities.',
+          'Reminders by email on Monday morning.',
+        ],
+      },
+      es: {
+        title: 'CRM de networking',
+        summary: 'Un CRM personal que puedes usar ahora mismo. Cada semana responde una pregunta: ¿a quién debes dar seguimiento y qué le dices?',
+        why: [
+          'Las relaciones se enfrían por seguimientos olvidados, no por mala intención. Quería un solo lugar que me dijera a quién contactar esta semana y por qué, sin el peso de una herramienta de ventas.',
+          'La lógica es simple y estricta. Una promesa que hice va antes que todo. Después vienen las cosas que otras personas me ofrecieron, y luego la gente con la que llevo demasiado tiempo sin hablar para lo cercanos que somos. La versión que uso todos los días también lee mis notas y redacta mensajes con IA. Esta versión pública corre por completo en tu navegador, así que tus contactos nunca salen de tu dispositivo.',
+        ],
+        next: [
+          'Importar contactos desde una exportación de LinkedIn.',
+          'Análisis de qué presentaciones se convierten en oportunidades reales.',
+          'Recordatorios por correo los lunes en la mañana.',
+        ],
+      },
+    },
+  },
+  {
+    slug: 'promo-roi',
+    category: 'strategy',
+    status: 'live',
+    copy: {
+      en: {
+        title: 'Promotion return calculator',
+        summary: 'Find out whether a promotion really makes money once you count the discount on units you would sell anyway, the sales it steals and the sales it borrows.',
+        why: [
+          'Promotions are judged by volume, and volume almost always goes up. The harder question is how much of that volume is truly new and what it cost to get it.',
+          'This separates the lift into what is new, what came from your own shelf and what came from next month, then shows the lift you need to break even. It is the conversation I would want before signing a promotional calendar.',
+        ],
+        next: ['Compare promotion mechanics side by side: price cut, multipack and bonus pack.', 'Retailer margin and funding split between brand and retailer.'],
+      },
+      es: {
+        title: 'Calculadora de retorno de promociones',
+        summary: 'Descubre si una promoción realmente deja dinero cuando cuentas el descuento en unidades que venderías de todos modos, las ventas que canibaliza y las que adelanta.',
+        why: [
+          'Las promociones se evalúan por volumen, y el volumen casi siempre sube. La pregunta difícil es cuánto de ese volumen es realmente nuevo y cuánto costó conseguirlo.',
+          'Esto separa el incremento en lo que es nuevo, lo que salió de tu propio anaquel y lo que salió del mes siguiente, y muestra el incremento que necesitas para salir a mano. Es la conversación que yo querría tener antes de firmar un calendario promocional.',
+        ],
+        next: ['Comparar mecánicas lado a lado: descuento, multiempaque y producto adicional.', 'Margen de la cadena y reparto de la inversión entre marca y cadena.'],
+      },
+    },
+  },
+  {
+    slug: 'order-channels',
+    category: 'strategy',
+    status: 'live',
+    copy: {
+      en: {
+        title: 'Order channel simulator',
+        summary: 'See what it costs to take an order by rep, phone, WhatsApp or portal, and what moving customers to digital ordering is worth.',
+        why: [
+          'In most B2B companies orders arrive four different ways, and nobody knows what each way costs. The expensive part is rarely the order itself. It is the errors that follow.',
+          'This puts a number on the cost to serve by channel, errors included, and on the prize for shifting the mix. It turns a digital ordering project from a technology idea into a business case.',
+        ],
+        next: ['Segment customers by size to see who should move first.', 'Adoption curve: how fast the mix can realistically shift.'],
+      },
+      es: {
+        title: 'Simulador de canales de pedido',
+        summary: 'Mira cuánto cuesta tomar un pedido por vendedor, teléfono, WhatsApp o portal, y cuánto vale mover a los clientes a la toma de pedido digital.',
+        why: [
+          'En la mayoría de las empresas B2B los pedidos llegan de cuatro formas distintas y nadie sabe cuánto cuesta cada una. Lo caro rara vez es el pedido. Son los errores que vienen después.',
+          'Esto le pone número al costo de servir por canal, con errores incluidos, y al premio por cambiar la mezcla. Convierte un proyecto de pedido digital de una idea de tecnología en un caso de negocio.',
+        ],
+        next: ['Segmentar clientes por tamaño para ver quién debe migrar primero.', 'Curva de adopción: qué tan rápido puede cambiar la mezcla de forma realista.'],
+      },
+    },
+  },
+  {
+    slug: 'launch-planner',
+    category: 'strategy',
+    status: 'live',
+    copy: {
+      en: {
+        title: 'Launch size planner',
+        summary: 'Six questions that tell you how big a launch should be, what it needs and where it is most likely to go wrong.',
+        why: [
+          'Teams burn out treating every release as a major launch, and then the one that carries the plan gets the same effort as the rest.',
+          'Sizing the launch first is the cheapest decision in product marketing. This asks six questions and returns the size, the work it requires and the main risk to manage.',
+        ],
+        next: ['A week by week timeline you can export.', 'Launch roles: who owns positioning, enablement and channels.'],
+      },
+      es: {
+        title: 'Planeador del tamaño de lanzamiento',
+        summary: 'Seis preguntas que te dicen qué tan grande debe ser un lanzamiento, qué necesita y dónde es más probable que falle.',
+        why: [
+          'Los equipos se desgastan tratando cada liberación como un gran lanzamiento, y luego el que carga el plan recibe el mismo esfuerzo que los demás.',
+          'Dimensionar el lanzamiento primero es la decisión más barata en marketing de producto. Esto hace seis preguntas y devuelve el tamaño, el trabajo que requiere y el principal riesgo por manejar.',
+        ],
+        next: ['Un calendario semana a semana que puedas exportar.', 'Roles del lanzamiento: quién es dueño de posicionamiento, habilitación y canales.'],
+      },
+    },
+  },
   {
     slug: 'pricing-breakeven',
     category: 'strategy',

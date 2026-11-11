@@ -9,6 +9,17 @@ export const home: Localized<{
   metaDescription: string;
   heroLines: string[];
   heroIntro: string;
+  ctaBuilt: string;
+  ctaContact: string;
+  systemsTitle: string;
+  systemsLead: string;
+  systems: { slug: string; points: string[] }[];
+  openDemo: string;
+  engineTitle: string;
+  toolsTitle: string;
+  toolsLead: string;
+  toolsLink: string;
+  featured: string[];
   engineIntro: string;
   workTitle: string;
   workLead: string;
@@ -21,10 +32,24 @@ export const home: Localized<{
   en: {
     metaTitle: 'Alberto Drucker | Strategy that ships',
     metaDescription:
-      'Strategist from Monterrey working at the intersection of marketing, strategy and applied AI. See how I work a strategy question with AI.',
+      'Strategist from Monterrey working across marketing, strategy and applied AI. Working systems and free tools you can use with your own numbers.',
     heroLines: ['Strategy that ships.', 'Applied AI for business.'],
     heroIntro:
-      'I’m a strategist from Monterrey with an engineer’s training and a designer’s habits. I turn messy business questions into clear decisions and working systems, and I use AI to get there faster without handing over the thinking.',
+      'I’m a strategist from Monterrey with an engineer’s training and a designer’s habits. I turn messy business questions into clear decisions, and then into systems people actually use. AI gets me there faster. The judgment stays mine.',
+    ctaBuilt: 'See what I have built',
+    ctaContact: 'Get in touch',
+    systemsTitle: 'Systems I built',
+    systemsLead: 'Two working products, not slides. Open them and use them.',
+    systems: [
+      { slug: 'rental-ops', points: ['Reads a repair request and sets the priority', 'Drafts every message, a person approves', 'Starts and stops late fees by the lease'] },
+      { slug: 'networking-crm', points: ['Tells you who to contact this week and why', 'Keeps every promise visible until it is done', 'Runs in your browser, your data stays yours'] },
+    ],
+    openDemo: 'Open the live demo',
+    engineTitle: 'How I think through a strategy question',
+    toolsTitle: 'Tools for your business',
+    toolsLead: 'Each one answers a question I hear from owners and commercial teams. Free to use, with your own numbers.',
+    toolsLink: 'See all {n} tools in the Lab',
+    featured: ['promo-roi', 'pricing-breakeven', 'funnel-leak', 'order-channels', 'ai-readiness', 'launch-planner'],
     engineIntro:
       'Below is a replay of how I work a strategy question with AI. The draft in the main column comes from my AI workflow. The notes in the margin are my judgment.',
     workTitle: 'Selected work',
@@ -39,10 +64,24 @@ export const home: Localized<{
   es: {
     metaTitle: 'Alberto Drucker | Estrategia que se ejecuta',
     metaDescription:
-      'Estratega regiomontano en la intersección de marketing, estrategia e IA aplicada. Mira cómo trabajo una pregunta estratégica con IA.',
+      'Estratega regiomontano en marketing, estrategia e IA aplicada. Sistemas que funcionan y herramientas gratuitas para usar con tus propios números.',
     heroLines: ['Estrategia que se ejecuta.', 'IA aplicada al negocio.'],
     heroIntro:
-      'Soy estratega, regiomontano, con formación de ingeniero y hábitos de diseñador. Convierto preguntas de negocio complejas en decisiones claras y sistemas que funcionan, y uso IA para llegar más rápido sin delegar el criterio.',
+      'Soy estratega, regiomontano, con formación de ingeniero y hábitos de diseñador. Convierto preguntas de negocio complejas en decisiones claras, y luego en sistemas que la gente sí usa. La IA me ayuda a llegar más rápido. El criterio sigue siendo mío.',
+    ctaBuilt: 'Mira lo que he construido',
+    ctaContact: 'Contáctame',
+    systemsTitle: 'Sistemas que construí',
+    systemsLead: 'Dos productos que funcionan, no presentaciones. Ábrelos y úsalos.',
+    systems: [
+      { slug: 'rental-ops', points: ['Lee una solicitud de reparación y define la prioridad', 'Redacta cada mensaje, una persona aprueba', 'Inicia y detiene recargos según el contrato'] },
+      { slug: 'networking-crm', points: ['Te dice a quién contactar esta semana y por qué', 'Mantiene cada compromiso visible hasta cumplirlo', 'Corre en tu navegador, tus datos son tuyos'] },
+    ],
+    openDemo: 'Abrir la demo',
+    engineTitle: 'Cómo pienso una pregunta estratégica',
+    toolsTitle: 'Herramientas para tu negocio',
+    toolsLead: 'Cada una responde una pregunta que escucho de dueños y equipos comerciales. Gratis, con tus propios números.',
+    toolsLink: 'Ver las {n} herramientas del Lab',
+    featured: ['promo-roi', 'pricing-breakeven', 'funnel-leak', 'order-channels', 'ai-readiness', 'launch-planner'],
     engineIntro:
       'Abajo puedes ver cómo trabajo una pregunta estratégica con IA. El borrador de la columna principal sale de mi flujo de trabajo con IA. Las notas al margen son mi criterio.',
     workTitle: 'Proyectos',
@@ -154,6 +193,8 @@ export const howIWork: Localized<{
 
 export interface WorkStory {
   id: string;
+  /** Lab slug of a live demo for this story, if there is one. */
+  demo?: string;
   area: string;
   title: string;
   summary: string;
@@ -175,12 +216,13 @@ export const work: Localized<{
     stories: [
       {
         id: 'automation',
+        demo: 'rental-ops',
         area: 'Applied AI',
         title: 'Taking the busywork out of a property management company',
         summary: 'Mapping how a small team runs its operation, then automating the repetitive parts with AI.',
         body: [
           'A small property management company was running on email, spreadsheets and the memory of a few people. Too much depended on someone remembering to follow up.',
-          'I mapped the workflows end to end, found where time was leaking and built AI automations for the repetitive steps, so the team can spend its time on tenants and owners instead of paperwork.',
+          'I mapped the workflows end to end and built a system around one rule: the software prepares, a person approves. It triages repairs, drafts messages to renters and vendors, runs late fees by the lease and prepares renewals, across a team workspace, a renter portal and an owner portal.',
         ],
       },
       {
@@ -213,12 +255,13 @@ export const work: Localized<{
     stories: [
       {
         id: 'automation',
+        demo: 'rental-ops',
         area: 'IA aplicada',
         title: 'Quitarle el trabajo manual a una administradora de propiedades',
         summary: 'Mapear cómo opera un equipo pequeño y automatizar con IA las partes repetitivas.',
         body: [
           'Una pequeña administradora de propiedades operaba con correos, hojas de cálculo y la memoria de unas cuantas personas. Demasiado dependía de que alguien se acordara de dar seguimiento.',
-          'Mapeé los flujos de punta a punta, encontré dónde se perdía el tiempo y construí automatizaciones con IA para los pasos repetitivos, para que el equipo dedique su tiempo a inquilinos y propietarios en lugar de papeleo.',
+          'Mapeé los flujos de punta a punta y construí un sistema alrededor de una regla: el software prepara, una persona aprueba. Clasifica reparaciones, redacta mensajes a inquilinos y proveedores, aplica recargos según el contrato y prepara renovaciones, en un espacio para el equipo, un portal de inquilinos y un portal de propietarios.',
         ],
       },
       {
@@ -256,7 +299,10 @@ export const about: Localized<{
   lead: string;
   paragraphs: string[];
   focusTitle: string;
-  focus: string[];
+  focus: { title: string; text: string }[];
+  pathTitle: string;
+  path: { title: string; text: string }[];
+  cta: string;
 }> = {
   en: {
     metaTitle: 'About | Alberto Drucker',
@@ -271,11 +317,18 @@ export const about: Localized<{
     ],
     focusTitle: 'Where I add the most value',
     focus: [
-      'Marketing and growth strategy',
-      'Strategic planning and new business models',
-      'Innovation, product and service design',
-      'Applied AI and process automation',
+      { title: 'Marketing and growth strategy', text: 'Positioning, pricing, promotions and go to market, with the numbers behind each choice.' },
+      { title: 'Strategic planning', text: 'Turning a broad ambition into a few choices, a sequence and measures a team can run.' },
+      { title: 'Innovation and service design', text: 'Starting from real customer insight and ending in something people can use.' },
+      { title: 'Applied AI and automation', text: 'Finding where AI pays off, then building the workflow with a person in control.' },
     ],
+    pathTitle: 'How I got here',
+    path: [
+      { title: 'Engineer', text: 'Trained to understand how a system works before changing it.' },
+      { title: 'Innovation lead', text: 'Led innovation at a creative agency, taking ideas from insight to launch for brands and fintech products.' },
+      { title: 'Strategist who builds', text: 'An MBA in marketing and strategy, and a habit of building the tool when a slide is not enough.' },
+    ],
+    cta: 'Let’s talk',
   },
   es: {
     metaTitle: 'Sobre mí | Alberto Drucker',
@@ -290,11 +343,18 @@ export const about: Localized<{
     ],
     focusTitle: 'Donde más valor aporto',
     focus: [
-      'Estrategia de marketing y crecimiento',
-      'Planeación estratégica y nuevos modelos de negocio',
-      'Innovación y diseño de productos y servicios',
-      'IA aplicada y automatización de procesos',
+      { title: 'Estrategia de marketing y crecimiento', text: 'Posicionamiento, precios, promociones y salida al mercado, con los números detrás de cada decisión.' },
+      { title: 'Planeación estratégica', text: 'Convertir una ambición amplia en pocas decisiones, una secuencia y métricas que un equipo pueda operar.' },
+      { title: 'Innovación y diseño de servicios', text: 'Partir de un insight real del cliente y terminar en algo que la gente pueda usar.' },
+      { title: 'IA aplicada y automatización', text: 'Encontrar dónde la IA sí paga y construir el flujo con una persona al mando.' },
     ],
+    pathTitle: 'Cómo llegué aquí',
+    path: [
+      { title: 'Ingeniero', text: 'Formado para entender cómo funciona un sistema antes de cambiarlo.' },
+      { title: 'Líder de innovación', text: 'Lideré innovación en una agencia creativa, llevando ideas del insight al lanzamiento para marcas y productos fintech.' },
+      { title: 'Estratega que construye', text: 'Un MBA en marketing y estrategia, y la costumbre de construir la herramienta cuando una lámina no alcanza.' },
+    ],
+    cta: 'Platiquemos',
   },
 };
 
@@ -302,8 +362,15 @@ export const about: Localized<{
 /* Contact                                                             */
 /* ------------------------------------------------------------------ */
 
+/**
+ * Contact settings. The email address itself is never shown on the site:
+ * the form delivers to it through Web3Forms.
+ * - formKey: the public access key Web3Forms emails to Alberto. Safe to keep in the code.
+ * - booking: link to a scheduling page (Calendly, Google Calendar). Leave empty to hide the button.
+ * - linkedin: full profile URL. Leave empty to hide the link.
+ */
 export const contact = {
-  // TODO(Alberto): confirm which email and LinkedIn URL to publish.
-  email: '',
+  formKey: '',
+  booking: '',
   linkedin: '',
 };

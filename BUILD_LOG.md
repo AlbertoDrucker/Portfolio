@@ -64,3 +64,9 @@ A running record of how this site was built with Claude Code. It becomes the pub
 
 **What broke**
 - Teal and magenta chart colors failed contrast as legend text on white. Both darkened.
+
+**Later in session 3**
+- Two full systems added under "Systems I built": a rental operations demo (approvals queue, maintenance triage, rent and late fees, renewals) and a networking CRM visitors can use with their own contacts, saved only in their browser.
+- Three more business tools: promotion ROI, order channels and launch planner.
+- Contact form in the footer of every page, delivered by Web3Forms so the email address never appears on the site. It needs the access key in `src/content/site.ts` before it sends.
+- Positioning: roles first, projects second.

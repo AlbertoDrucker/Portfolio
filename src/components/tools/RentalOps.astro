@@ -1,0 +1,48 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { rentalOps } from '../../content/tools/rental-ops';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = rentalOps[lang];
+---
+
+<div class="tool app" data-tool="rental-ops" data-lang={lang} data-copy={JSON.stringify(c)} data-own-state>
+  <div data-app>
+    <div class="app-body">
+      <h2>{c.approveTitle}</h2>
+      <p class="app-sub">{c.approveLead}</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initTools } from '../../scripts/tools/util';
+  import { setupRentalOps } from '../../scripts/tools/rental-ops';
+  initTools('[data-tool="rental-ops"]', setupRentalOps);
+</script>
+
+<style is:global>
+  .rops-dl {
+    margin: 0;
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  .rops-dl dt {
+    font-size: 0.78rem;
+    color: var(--stone);
+    margin-top: 0.5rem;
+  }
+
+  .rops-dl dd {
+    margin: 0;
+  }
+
+  .rops-payout {
+    max-width: 30rem;
+  }
+</style>

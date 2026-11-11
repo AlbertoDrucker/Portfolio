@@ -22,10 +22,20 @@ const c = about[lang];
       {c.paragraphs.map((p) => <p>{p}</p>)}
     </div>
     <div class="focus">
-      <h2 class="focus-title">{c.focusTitle}</h2>
-      <ul>
-        {c.focus.map((f) => <li>{f}</li>)}
+      <h2 class="focus-title">{c.pathTitle}</h2>
+      <ol class="path">
+        {c.path.map((x) => <li><strong>{x.title}</strong><span>{x.text}</span></li>)}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2 class="section-title">{c.focusTitle}</h2>
+      <ul class="pillars">
+        {c.focus.map((f) => <li><strong>{f.title}</strong><span>{f.text}</span></li>)}
       </ul>
+      <p class="about-cta"><a class="cta-pill" href="#contact">{c.cta}</a></p>
     </div>
   </section>
 </Base>
@@ -57,7 +67,7 @@ const c = about[lang];
     display: grid;
     gap: 3rem;
     padding-top: clamp(1rem, 3vw, 2rem);
-    padding-bottom: clamp(4rem, 9vw, 7rem);
+    padding-bottom: clamp(3rem, 7vw, 5rem);
   }
 
   .about-prose {
@@ -78,18 +88,94 @@ const c = about[lang];
     line-height: 1.4;
   }
 
-  .focus ul {
+  .path {
     list-style: none;
     margin: 1rem 0 0;
     padding: 0;
     display: grid;
-    gap: 0.7rem;
+    gap: 1.1rem;
+    counter-reset: path;
   }
 
-  .focus li {
-    padding-left: 0.9rem;
-    border-left: 2px solid var(--rule-strong);
-    line-height: 1.4;
+  .path li {
+    counter-increment: path;
+    display: grid;
+    gap: 0.2rem;
+    padding-left: 2.4rem;
+    position: relative;
+    line-height: 1.45;
+  }
+
+  .path li::before {
+    content: counter(path);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1.7rem;
+    height: 1.7rem;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--ai);
+    color: #fff;
+    font: 600 0.85rem var(--sans);
+  }
+
+  .path strong,
+  .pillars strong {
+    font-family: var(--sans);
+    font-weight: 600;
+  }
+
+  .path span {
+    color: var(--stone);
+    font-size: 1rem;
+  }
+
+  .pillars {
+    list-style: none;
+    margin: clamp(1.5rem, 4vw, 2.5rem) 0 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  @media (min-width: 720px) {
+    .pillars {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .pillars li {
+    display: grid;
+    gap: 0.4rem;
+    padding: 1.4rem 1.5rem;
+    border-radius: 16px;
+    background: var(--ink-sunk);
+    border: 1px solid var(--rule);
+    line-height: 1.5;
+  }
+
+  .pillars span {
+    color: var(--stone);
+  }
+
+  .about-cta {
+    margin-top: 2.5rem;
+  }
+
+  .cta-pill {
+    display: inline-block;
+    font: 600 1rem var(--sans);
+    color: #fff;
+    background: var(--ai);
+    border-radius: 999px;
+    padding: 0.8rem 1.6rem;
+    text-decoration: none;
+  }
+
+  .cta-pill:hover {
+    background: var(--paper);
   }
 
   @media (min-width: 960px) {

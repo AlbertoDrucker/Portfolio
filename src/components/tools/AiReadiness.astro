@@ -11,18 +11,18 @@ const c = aiReadiness[lang];
 ---
 
 <div class="tool" data-tool="ai-readiness" data-lang={lang} data-copy={JSON.stringify(c.dyn)}>
-  <div class="tool-grid ar-grid">
-    <div class="tool-inputs ar-questions">
-      <p class="ar-intro">{c.intro}</p>
+  <div class="tool-grid quiz-grid">
+    <div class="tool-inputs quiz-questions">
+      <p class="quiz-intro">{c.intro}</p>
       {
         readinessQuestions.map((item, i) => (
-          <fieldset class="ar-q" data-dim={item.dim}>
+          <fieldset class="quiz-q" data-dim={item.dim}>
             <legend>
-              <span class="ar-n">{i + 1}</span>
+              <span class="quiz-n">{i + 1}</span>
               {item.text[lang].q}
             </legend>
             {item.text[lang].options.map((opt, v) => (
-              <label class="ar-opt">
+              <label class="quiz-opt">
                 <input type="radio" name={item.id} value={v} />
                 <span>{opt}</span>
               </label>
@@ -33,21 +33,21 @@ const c = aiReadiness[lang];
     </div>
 
     <div class="tool-outputs">
-      <div class="ar-result" aria-live="polite">
+      <div class="quiz-result" aria-live="polite">
         <p class="tool-hint" data-out="progress"></p>
         <div class="stats">
           <div class="stat"><span class="stat-label">{c.score}</span><span class="stat-value" data-out="score">0</span></div>
-          <div class="stat"><span class="stat-label">{c.level}</span><span class="stat-value ar-level" data-out="level"></span></div>
+          <div class="stat"><span class="stat-label">{c.level}</span><span class="stat-value quiz-level" data-out="level"></span></div>
         </div>
         <p class="verdict" data-verdict></p>
         <div>
           <p class="tool-section-title">{c.byArea}</p>
-          <div class="ar-dims" data-dims></div>
+          <div class="quiz-dims" data-dims></div>
         </div>
         <div data-next hidden>
           <p class="tool-section-title">{c.nextTitle}</p>
-          <p class="ar-weakest" data-out="weakest"></p>
-          <ol class="ar-steps" data-steps></ol>
+          <p class="quiz-weakest" data-out="weakest"></p>
+          <ol class="quiz-steps" data-steps></ol>
         </div>
         <button type="button" class="btn btn-quiet" data-reset>{c.reset}</button>
       </div>
@@ -60,143 +60,3 @@ const c = aiReadiness[lang];
   import { setupAiReadiness } from '../../scripts/tools/ai-readiness';
   initTools('[data-tool="ai-readiness"]', setupAiReadiness);
 </script>
-
-<style>
-  @media (min-width: 980px) {
-    .ar-grid {
-      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-    }
-
-    .ar-result {
-      position: sticky;
-      top: 1.5rem;
-    }
-  }
-
-  .ar-result {
-    display: grid;
-    gap: 1.25rem;
-    justify-items: start;
-  }
-
-  .ar-result > * {
-    width: 100%;
-  }
-
-  .ar-result > .btn {
-    width: auto;
-  }
-
-  .ar-intro {
-    font-family: var(--serif);
-    font-size: 1.1rem;
-    line-height: 1.5;
-  }
-
-  .ar-q {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    display: grid;
-    gap: 0.4rem;
-  }
-
-  .ar-q legend {
-    padding: 0;
-    margin-bottom: 0.55rem;
-    font-weight: 600;
-    font-size: 1rem;
-    line-height: 1.35;
-  }
-
-  .ar-n {
-    display: inline-block;
-    min-width: 1.5rem;
-    color: var(--ai);
-    font-variant-numeric: tabular-nums;
-  }
-
-  .ar-opt {
-    display: flex;
-    gap: 0.6rem;
-    align-items: baseline;
-    padding: 0.55rem 0.75rem;
-    border: 1px solid var(--rule);
-    border-radius: 10px;
-    background: var(--ink-raised);
-    cursor: pointer;
-  }
-
-  .ar-opt:hover {
-    border-color: var(--rule-strong);
-  }
-
-  .ar-opt:has(input:checked) {
-    border-color: var(--ai);
-    background: var(--ai-soft);
-  }
-
-  .ar-opt input {
-    accent-color: var(--ai);
-    margin: 0;
-    translate: 0 1px;
-  }
-
-  .ar-level {
-    font-size: 1.35rem;
-  }
-
-  .ar-dims {
-    display: grid;
-    gap: 0.8rem;
-    margin-top: 0.9rem;
-  }
-
-  :global(.ar-dim) {
-    display: grid;
-    grid-template-columns: 6.5rem minmax(0, 1fr) 2.5rem;
-    gap: 0.75rem;
-    align-items: center;
-  }
-
-  :global(.ar-dim .ar-track) {
-    height: 12px;
-    border-radius: 999px;
-    background: var(--ink);
-    border: 1px solid var(--rule);
-    overflow: hidden;
-  }
-
-  :global(.ar-dim .ar-track i) {
-    display: block;
-    height: 100%;
-    border-radius: 999px;
-    background: var(--c3);
-  }
-
-  :global(.ar-dim.is-low .ar-track i) {
-    background: var(--c2);
-  }
-
-  :global(.ar-dim .ar-v) {
-    text-align: right;
-    color: var(--stone);
-    font-variant-numeric: tabular-nums;
-  }
-
-  .ar-weakest {
-    margin-top: 0.6rem;
-    font-family: var(--serif);
-    font-size: 1.12rem;
-    line-height: 1.5;
-  }
-
-  .ar-steps {
-    margin: 0.9rem 0 0;
-    padding-left: 1.25rem;
-    display: grid;
-    gap: 0.6rem;
-    font-size: 1rem;
-    line-height: 1.5;
-  }
-</style>

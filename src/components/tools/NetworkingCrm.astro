@@ -1,0 +1,57 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { networkingCrm } from '../../content/tools/networking-crm';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = networkingCrm[lang];
+---
+
+<div class="tool app" data-tool="networking-crm" data-lang={lang} data-copy={JSON.stringify(c)} data-own-state>
+  <div data-app>
+    <div class="app-body">
+      <h2>{c.thisWeek}</h2>
+      <p class="app-sub">{c.privacy}</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initTools } from '../../scripts/tools/util';
+  import { setupNetworkingCrm } from '../../scripts/tools/networking-crm';
+  initTools('[data-tool="networking-crm"]', setupNetworkingCrm);
+</script>
+
+<style is:global>
+  .crm-hero-name,
+  .crm-name {
+    display: block;
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 1.9rem;
+    line-height: 1.15;
+  }
+
+  .crm-fact {
+    font-size: 1.25rem;
+  }
+
+  .crm-search {
+    flex: 1 1 14rem;
+    width: auto !important;
+  }
+
+  .crm-board {
+    --cols: 5;
+    min-width: 0;
+  }
+
+  @media (min-width: 860px) {
+    .crm-board {
+      min-width: 980px;
+    }
+  }
+</style>

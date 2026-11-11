@@ -15,6 +15,8 @@ const project = findProject(slug)!;
 const c = labPage[lang];
 const p = project.copy[lang];
 const Tool = toolComponents[slug];
+/** The two systems keep their own data and have their own export, so they skip the shared toolbar. */
+const ownState = project.category === 'systems';
 ---
 
 <Base lang={lang} slug={`lab/${slug}`} title={`${p.title} | Alberto Drucker`} description={p.summary}>
@@ -30,6 +32,18 @@ const Tool = toolComponents[slug];
 
   <section class="wrap tool-stage" aria-label={p.title}>
     {Tool ? <Tool lang={lang} /> : null}
+    {
+      !ownState && (
+        <div class="tool-bar" data-toolbar data-copied={c.bar.copied}>
+          <div class="tool-bar-actions">
+            <button type="button" class="btn btn-quiet sm" data-share>{c.bar.share}</button>
+            <button type="button" class="btn btn-quiet sm" data-print>{c.bar.print}</button>
+            <button type="button" class="btn btn-quiet sm" data-reset-inputs>{c.bar.reset}</button>
+          </div>
+          <p class="tool-bar-note" data-toolbar-status role="status">{c.bar.note}</p>
+        </div>
+      )
+    }
     <p class="tool-disclaimer">{c.disclaimer}</p>
   </section>
 
@@ -61,7 +75,42 @@ const Tool = toolComponents[slug];
   </section>
 </Base>
 
+<script>
+  import { initPersist } from '../scripts/tools/persist';
+  initPersist();
+</script>
+
 <style>
+  .tool-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem 1.5rem;
+    margin-top: 1rem;
+    font-family: var(--sans);
+  }
+
+  .tool-bar-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tool-bar-note {
+    font-size: 0.85rem;
+    color: var(--stone);
+    overflow-wrap: anywhere;
+  }
+
+  @media print {
+    .tool-bar,
+    .tool-cta,
+    .crumbs {
+      display: none !important;
+    }
+  }
+
   .tool-cta {
     display: grid;
     gap: 1.25rem;

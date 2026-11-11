@@ -83,16 +83,44 @@ const nav: { slug: PageSlug; label: string }[] = [
           <h2 class="footer-title">{t.footer.contactTitle}</h2>
           <p class="footer-lead">{t.footer.contactLead}</p>
           <p class="footer-links">
-            {contact.email && <a href={`mailto:${contact.email}`}>{contact.email}</a>}
-            {contact.linkedin && <a href={contact.linkedin} rel="me noopener">LinkedIn</a>}
+            {contact.booking && <a class="footer-btn" href={contact.booking} rel="noopener">{t.footer.form.book}</a>}
+            {contact.linkedin && <a class="footer-btn quiet" href={contact.linkedin} rel="me noopener">{t.footer.form.linkedin}</a>}
           </p>
         </div>
+        <form
+          class="contact-form"
+          data-contact
+          data-key={contact.formKey}
+          data-sending={t.footer.form.sending}
+          data-success={t.footer.form.success}
+          data-error={t.footer.form.error}
+          data-pending={t.footer.form.pending}
+        >
+          <div class="cf-row">
+            <label class="cf-field"><span>{t.footer.form.name}</span><input type="text" name="name" autocomplete="name" required /></label>
+            <label class="cf-field"><span>{t.footer.form.email}</span><input type="email" name="email" autocomplete="email" required /></label>
+          </div>
+          <label class="cf-field">
+            <span>{t.footer.form.topic}</span>
+            <select name="topic">{t.footer.form.topics.map((x) => <option>{x}</option>)}</select>
+          </label>
+          <label class="cf-field"><span>{t.footer.form.message}</span><textarea name="message" rows="4" required></textarea></label>
+          <input type="checkbox" name="botcheck" class="cf-hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <div class="cf-actions">
+            <button type="submit" class="footer-btn">{t.footer.form.send}</button>
+            <p class="cf-status" data-status role="status">{t.footer.form.privacy}</p>
+          </div>
+        </form>
         <div class="footer-meta">
           <p>{t.footer.location}</p>
           <p>{t.footer.built}</p>
         </div>
       </div>
     </footer>
+    <script>
+      import { initContact } from '../scripts/contact';
+      initContact();
+    </script>
   </body>
 </html>
 
@@ -202,6 +230,99 @@ const nav: { slug: PageSlug; label: string }[] = [
     margin-top: 1.5rem;
     font-family: var(--sans);
     font-size: 1.05rem;
+  }
+
+  .footer-btn {
+    display: inline-block;
+    font: 600 1rem var(--sans);
+    color: var(--ai);
+    background: #fff;
+    border: 1px solid #fff;
+    border-radius: 999px;
+    padding: 0.7rem 1.4rem;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .footer-btn:hover {
+    background: var(--judgment-mark);
+    border-color: var(--judgment-mark);
+    color: var(--paper);
+  }
+
+  .footer-btn.quiet {
+    background: transparent;
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.55);
+  }
+
+  .contact-form {
+    display: grid;
+    gap: 0.9rem;
+    font-family: var(--sans);
+    max-width: 34rem;
+  }
+
+  .cf-row {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  @media (min-width: 560px) {
+    .cf-row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .cf-field {
+    display: grid;
+    gap: 0.3rem;
+    font-size: 0.85rem;
+  }
+
+  .cf-field input,
+  .cf-field select,
+  .cf-field textarea {
+    width: 100%;
+    font: 1rem var(--sans);
+    color: var(--paper);
+    background: #fff;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    padding: 0.65rem 0.8rem;
+  }
+
+  .cf-field textarea {
+    resize: vertical;
+    line-height: 1.45;
+  }
+
+  .cf-hp {
+    display: none;
+  }
+
+  .cf-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.25rem;
+  }
+
+  .cf-status {
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 30ch;
+  }
+
+  @media (min-width: 900px) {
+    .footer-inner {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+      column-gap: 4rem;
+    }
+
+    .footer-meta {
+      grid-column: 1 / -1;
+    }
   }
 
   .footer-meta {

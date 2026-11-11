@@ -1,0 +1,105 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { promoRoi } from '../../content/tools/promo-roi';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = promoRoi[lang];
+---
+
+<div class="tool" data-tool="promo-roi" data-lang={lang} data-copy={JSON.stringify(c.dyn)}>
+  <div class="tool-grid">
+    <div class="tool-inputs">
+      <div class="field">
+        <span class="field-label">{c.currency}</span>
+        <div class="seg" data-currency>
+          <button type="button" data-cur="MXN" aria-pressed="true">MXN</button>
+          <button type="button" data-cur="USD" aria-pressed="false">USD</button>
+        </div>
+      </div>
+      <label class="field"><span class="field-label">{c.base}</span><input type="number" name="base" min="0" step="100" value="12000" inputmode="decimal" /></label>
+      <label class="field"><span class="field-label">{c.weeks}</span><input type="number" name="weeks" min="1" max="12" step="1" value="2" inputmode="decimal" /></label>
+      <label class="field"><span class="field-label">{c.price}</span><input type="number" name="price" min="0" step="1" value="32" inputmode="decimal" /></label>
+      <label class="field"><span class="field-label">{c.cost}</span><input type="number" name="cost" min="0" step="1" value="14" inputmode="decimal" /></label>
+      <label class="field">
+        <span class="field-label">{c.discount}<span class="field-value" data-out="discount"></span></span>
+        <input type="range" name="discount" min="0" max="50" step="1" value="15" />
+      </label>
+      <label class="field">
+        <span class="field-label">{c.uplift}<span class="field-value" data-out="uplift"></span></span>
+        <input type="range" name="uplift" min="0" max="200" step="5" value="90" />
+        <span class="tool-hint">{c.upliftHint}</span>
+      </label>
+      <label class="field">
+        <span class="field-label">{c.cannibal}<span class="field-value" data-out="cannibal"></span></span>
+        <input type="range" name="cannibal" min="0" max="60" step="5" value="20" />
+        <span class="tool-hint">{c.cannibalHint}</span>
+      </label>
+      <label class="field">
+        <span class="field-label">{c.forward}<span class="field-value" data-out="forward"></span></span>
+        <input type="range" name="forward" min="0" max="60" step="5" value="15" />
+        <span class="tool-hint">{c.forwardHint}</span>
+      </label>
+      <label class="field">
+        <span class="field-label">{c.fixed}</span>
+        <input type="number" name="fixed" min="0" step="1000" value="25000" inputmode="decimal" />
+        <span class="tool-hint">{c.fixedHint}</span>
+      </label>
+    </div>
+
+    <div class="tool-outputs">
+      <div class="stats">
+        <div class="stat"><span class="stat-label">{c.profit}</span><span class="stat-value" data-out="profit">0</span></div>
+        <div class="stat"><span class="stat-label">{c.roi}</span><span class="stat-value" data-out="roi">0</span></div>
+        <div class="stat"><span class="stat-label">{c.breakeven}</span><span class="stat-value" data-out="breakeven">0</span></div>
+        <div class="stat"><span class="stat-label">{c.trueUnits}</span><span class="stat-value" data-out="trueUnits">0</span></div>
+      </div>
+      <p class="verdict" data-verdict></p>
+      <p class="pr-note" data-out="trap"></p>
+      <figure class="pr-fig">
+        <figcaption class="tool-section-title">{c.chart}</figcaption>
+        <svg class="chart" data-chart></svg>
+      </figure>
+      <div>
+        <p class="tool-section-title">{c.bridgeTitle}</p>
+        <table class="tool-table pr-bridge"><tbody data-bridge></tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initTools } from '../../scripts/tools/util';
+  import { setupPromoRoi } from '../../scripts/tools/promo-roi';
+  initTools('[data-tool="promo-roi"]', setupPromoRoi);
+</script>
+
+<style>
+  .pr-fig {
+    margin: 0;
+  }
+
+  .pr-note {
+    font-family: var(--serif);
+    font-size: 1.12rem;
+    line-height: 1.5;
+    max-width: 58ch;
+  }
+
+  .pr-bridge {
+    margin-top: 0.6rem;
+  }
+
+  .pr-bridge :global(td:last-child) {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .pr-bridge :global(tr:last-child td) {
+    font-weight: 600;
+  }
+</style>

@@ -1,0 +1,160 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { channelDefaults, orderChannels, type Channel } from '../../content/tools/order-channels';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = orderChannels[lang];
+const keys = Object.keys(channelDefaults) as Channel[];
+const colors = ['var(--c1)', 'var(--c4)', 'var(--c2)', 'var(--c3)'];
+const payload = { ...c.dyn, channels: c.channels, colors };
+---
+
+<div class="tool" data-tool="order-channels" data-lang={lang} data-copy={JSON.stringify(payload)}>
+  <div class="tool-grid">
+    <div class="tool-inputs">
+      <div class="field">
+        <span class="field-label">{c.currency}</span>
+        <div class="seg" data-currency>
+          <button type="button" data-cur="MXN" aria-pressed="true">MXN</button>
+          <button type="button" data-cur="USD" aria-pressed="false">USD</button>
+        </div>
+      </div>
+      <label class="field"><span class="field-label">{c.orders}</span><input type="number" name="orders" min="0" step="500" value="18000" inputmode="decimal" /></label>
+      <label class="field">
+        <span class="field-label">{c.errorCost}</span>
+        <input type="number" name="errorCost" min="0" step="50" value="850" inputmode="decimal" />
+        <span class="tool-hint">{c.errorCostHint}</span>
+      </label>
+      <div class="field">
+        <span class="tool-section-title">{c.mixTitle}</span>
+        <span class="tool-hint">{c.mixHint}</span>
+      </div>
+      {
+        keys.map((k, i) => (
+          <label class="field">
+            <span class="field-label">
+              <span><i class="oc-dot" style={`background:${colors[i]}`} />{c.channels[k]}</span>
+              <span class="field-value" data-out={`share-${k}`} />
+            </span>
+            <input type="range" name={`share-${k}`} min="0" max="100" step="1" value={channelDefaults[k].share} />
+          </label>
+        ))
+      }
+      <label class="field">
+        <span class="field-label">{c.target}<span class="field-value" data-out="target"></span></span>
+        <input type="range" name="target" min="0" max="90" step="1" value="45" />
+        <span class="tool-hint">{c.targetHint}</span>
+      </label>
+      <details class="oc-details">
+        <summary>{c.assumptions}</summary>
+        <table class="tool-table">
+          <thead><tr><th scope="col">{c.th.channel}</th><th scope="col">{c.costPer}</th><th scope="col">{c.errorRate}</th></tr></thead>
+          <tbody>
+            {
+              keys.map((k) => (
+                <tr>
+                  <td>{c.channels[k]}</td>
+                  <td><input type="number" name={`cost-${k}`} min="0" step="1" value={channelDefaults[k].cost} aria-label={`${c.costPer}: ${c.channels[k]}`} /></td>
+                  <td><input type="number" name={`error-${k}`} min="0" max="100" step="0.5" value={channelDefaults[k].error} aria-label={`${c.errorRate}: ${c.channels[k]}`} /></td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </details>
+    </div>
+
+    <div class="tool-outputs">
+      <div class="stats">
+        <div class="stat"><span class="stat-label">{c.costToday}</span><span class="stat-value" data-out="costToday">0</span></div>
+        <div class="stat"><span class="stat-label">{c.costTarget}</span><span class="stat-value" data-out="costTarget">0</span></div>
+        <div class="stat"><span class="stat-label">{c.saving}</span><span class="stat-value" data-out="saving">0</span></div>
+        <div class="stat"><span class="stat-label">{c.errors}</span><span class="stat-value" data-out="errors">0</span></div>
+      </div>
+      <p class="verdict" data-verdict></p>
+      <p class="oc-note" data-out="biggest"></p>
+      <div>
+        <p class="tool-section-title">{c.barsTitle}</p>
+        <div class="oc-bars" data-bars></div>
+      </div>
+      <div>
+        <p class="tool-section-title">{c.tableTitle}</p>
+        <table class="tool-table">
+          <thead><tr><th scope="col">{c.th.channel}</th><th scope="col">{c.th.today}</th><th scope="col">{c.th.target}</th><th scope="col">{c.th.cost}</th><th scope="col">{c.th.errors}</th></tr></thead>
+          <tbody data-rows></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initTools } from '../../scripts/tools/util';
+  import { setupOrderChannels } from '../../scripts/tools/order-channels';
+  initTools('[data-tool="order-channels"]', setupOrderChannels);
+</script>
+
+<style>
+  .oc-dot {
+    display: inline-block;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    margin-right: 0.45rem;
+  }
+
+  .oc-details summary {
+    cursor: pointer;
+    color: var(--stone);
+  }
+
+  .oc-details table {
+    margin-top: 0.75rem;
+  }
+
+  .oc-details input {
+    max-width: 5.5rem;
+  }
+
+  .oc-note {
+    font-family: var(--serif);
+    font-size: 1.12rem;
+    line-height: 1.5;
+    max-width: 58ch;
+  }
+
+  .oc-bars {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: 0.9rem;
+  }
+
+  .oc-bars :global(.oc-bar-row) {
+    display: grid;
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .oc-bars :global(.oc-bar) {
+    display: flex;
+    height: 30px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--ink);
+  }
+
+  .oc-bars :global(.oc-bar span) {
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 600;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+</style>

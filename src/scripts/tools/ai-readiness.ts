@@ -46,16 +46,16 @@ export function setupAiReadiness(root: HTMLElement) {
     dimsEl.replaceChildren();
     (['data', 'process', 'people', 'direction'] as Dim[]).forEach((d) => {
       const row = document.createElement('div');
-      row.className = `ar-dim${done && d === weakest ? ' is-low' : ''}`;
+      row.className = `quiz-dim${done && d === weakest ? ' is-low' : ''}`;
       const name = document.createElement('span');
       name.textContent = copy.dims[d];
       const track = document.createElement('span');
-      track.className = 'ar-track';
+      track.className = 'quiz-track';
       const bar = document.createElement('i');
       bar.style.width = `${(sums[d] / 6) * 100}%`;
       track.append(bar);
       const v = document.createElement('span');
-      v.className = 'ar-v';
+      v.className = 'quiz-v';
       v.textContent = `${sums[d]} / 6`;
       row.append(name, track, v);
       dimsEl.append(row);

@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
-import type { Lang } from '../i18n/ui';
-import { work } from '../content/site';
+import { localePath, type Lang } from '../i18n/ui';
+import { home, work } from '../content/site';
 
 interface Props {
   lang: Lang;
@@ -9,6 +9,7 @@ interface Props {
 
 const { lang } = Astro.props;
 const c = work[lang];
+const demoLabel = home[lang].openDemo;
 ---
 
 <Base lang={lang} slug="work" title={c.metaTitle} description={c.metaDescription}>
@@ -30,6 +31,11 @@ const c = work[lang];
                 <p>{p}</p>
               ))}
             </div>
+            {story.demo && (
+              <p class="story-demo">
+                <a class="text-link" href={localePath(lang, `lab/${story.demo}`)}>{demoLabel}</a>
+              </p>
+            )}
           </div>
         </article>
       ))
@@ -95,6 +101,10 @@ const c = work[lang];
     line-height: 1.45;
     color: var(--stone);
     max-width: 48ch;
+  }
+
+  .story-demo {
+    margin-top: 1.25rem;
   }
 
   .story-body {

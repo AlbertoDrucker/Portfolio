@@ -10,6 +10,11 @@ import PitStrategy from './PitStrategy.astro';
 import PricingBreakeven from './PricingBreakeven.astro';
 import FunnelLeak from './FunnelLeak.astro';
 import AiReadiness from './AiReadiness.astro';
+import RentalOps from './RentalOps.astro';
+import NetworkingCrm from './NetworkingCrm.astro';
+import PromoRoi from './PromoRoi.astro';
+import OrderChannels from './OrderChannels.astro';
+import LaunchPlanner from './LaunchPlanner.astro';
 
 /** Maps a Lab slug to its tool component. Every slug in content/lab.ts needs an entry. */
 export const toolComponents: Record<string, any> = {
@@ -25,4 +30,9 @@ export const toolComponents: Record<string, any> = {
   'pricing-breakeven': PricingBreakeven,
   'funnel-leak': FunnelLeak,
   'ai-readiness': AiReadiness,
+  'rental-ops': RentalOps,
+  'networking-crm': NetworkingCrm,
+  'promo-roi': PromoRoi,
+  'order-channels': OrderChannels,
+  'launch-planner': LaunchPlanner,
 };
