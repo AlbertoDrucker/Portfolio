@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import Engine from '../components/Engine.astro';
 import { findProject, labPage, labProjects } from '../content/lab';
 import { localePath, type Lang } from '../i18n/ui';
-import { home, work } from '../content/site';
+import { contact, home, work } from '../content/site';
 import { scenarios } from '../content/engine';
 
 interface Props {
@@ -27,6 +27,7 @@ const featured = c.featured.map((slug) => findProject(slug)!);
     <p class="hero-actions">
       <a class="hero-btn" href="#systems">{c.ctaBuilt}</a>
       <a class="hero-btn quiet" href="#contact">{c.ctaContact}</a>
+      <a class="hero-btn quiet" href={contact.linkedin} rel="me noopener" target="_blank">LinkedIn</a>
     </p>
     <p class="hero-note">
       <svg viewBox="0 0 64 40" width="56" height="35" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">

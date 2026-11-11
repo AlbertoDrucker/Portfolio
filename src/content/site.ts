@@ -373,7 +373,7 @@ export const about: Localized<{
  * - linkedin: full profile URL. Leave empty to hide the link.
  */
 export const contact = {
-  formKey: '',
+  formKey: 'edc0bc55-4b10-445c-873b-cad962a335e8',
   booking: '',
-  linkedin: '',
+  linkedin: 'https://www.linkedin.com/in/albertodrucker/',
 };
