@@ -1,0 +1,280 @@
+---
+import Base from '../layouts/Base.astro';
+import type { Lang } from '../i18n/ui';
+import { built } from '../content/built';
+import { labProjects } from '../content/lab';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = built[lang];
+/** Site pages per language: home, lab, how I work, work, about, this page, plus one per Lab project. */
+const pages = (6 + labProjects.length) * 2;
+const stats = [
+  { v: pages, l: c.stats.pages },
+  { v: labProjects.length, l: c.stats.tools },
+  { v: 2, l: c.stats.languages },
+  { v: 0, l: c.stats.aiCalls },
+];
+---
+
+<Base lang={lang} slug="built" title={c.metaTitle} description={c.metaDescription}>
+  <section class="wrap b-hero">
+    <h1 class="b-title">{c.title}</h1>
+    <p class="b-lead">{c.lead}</p>
+    <dl class="b-stats">
+      {stats.map((s) => (
+        <div>
+          <dd>{s.v}</dd>
+          <dt>{s.l}</dt>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2 class="section-title b-h">{c.splitTitle}</h2>
+      <div class="b-split">
+        {c.split.map((s, i) => (
+          <div class:list={['b-card', { me: i === 0, ai: i === 1 }]}>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2 class="section-title b-h">{c.timelineTitle}</h2>
+      <ol class="b-timeline">
+        {c.timeline.map((t) => (
+          <li>
+            <span class="b-when">{t.when}</span>
+            <div>
+              <h3>{t.title}</h3>
+              <p>{t.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title">{c.callsTitle}</h2>
+        <p class="section-lead">{c.callsLead}</p>
+      </div>
+      <div class="b-calls">
+        {c.calls.map((x) => (
+          <div class="b-call">
+            <h3>{x.title}</h3>
+            <p>{x.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title">{c.brokeTitle}</h2>
+        <p class="section-lead">{c.brokeLead}</p>
+      </div>
+      <ul class="b-broke">
+        {c.broke.map((x) => (
+          <li>
+            <p>{x.what}</p>
+            <p class="b-fix">{x.fix}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2 class="section-title b-h">{c.adviceTitle}</h2>
+      <ol class="b-advice">
+        {c.advice.map((a) => <li>{a}</li>)}
+      </ol>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .b-hero {
+    padding-top: clamp(3rem, 8vw, 6rem);
+    padding-bottom: clamp(3rem, 7vw, 5rem);
+  }
+
+  .b-title {
+    font-size: clamp(2.75rem, 7vw, 5.5rem);
+    letter-spacing: -0.025em;
+    line-height: 1;
+    font-variation-settings: 'opsz' 72;
+  }
+
+  .b-lead {
+    margin-top: 1.75rem;
+    max-width: 56ch;
+    font-size: clamp(1.15rem, 1.6vw, 1.35rem);
+    line-height: 1.55;
+  }
+
+  .b-stats {
+    margin: clamp(2rem, 5vw, 3.5rem) 0 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem 2rem;
+  }
+
+  @media (min-width: 800px) {
+    .b-stats {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .b-stats dd {
+    margin: 0;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1;
+    color: var(--ai);
+    font-variation-settings: 'opsz' 72;
+  }
+
+  .b-stats dt {
+    margin-top: 0.4rem;
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    color: var(--stone);
+  }
+
+  .b-h {
+    margin-bottom: clamp(1.75rem, 4vw, 3rem);
+  }
+
+  .b-split,
+  .b-calls {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 860px) {
+    .b-split {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .b-calls {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 3rem;
+      row-gap: 2rem;
+    }
+  }
+
+  .b-card {
+    padding: 1.4rem 1.5rem 1.6rem;
+    border-radius: 18px;
+    background: var(--ink-sunk);
+    border: 1px solid var(--rule);
+    border-top: 4px solid var(--rule-strong);
+    box-shadow: var(--lift);
+  }
+
+  .b-card.me {
+    border-top-color: var(--judgment-mark);
+  }
+
+  .b-card.ai {
+    border-top-color: var(--ai);
+  }
+
+  .b-card h3,
+  .b-call h3,
+  .b-timeline h3 {
+    font-size: var(--step-1);
+    line-height: 1.2;
+    font-variation-settings: 'opsz' 36;
+  }
+
+  .b-card p,
+  .b-call p,
+  .b-timeline p {
+    margin-top: 0.5rem;
+    color: var(--stone);
+  }
+
+  .b-call {
+    padding-left: 1.1rem;
+    border-left: 3px solid var(--judgment-mark);
+  }
+
+  .b-timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .b-timeline li {
+    display: grid;
+    gap: 0.4rem 2.5rem;
+    padding-block: 1.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  @media (min-width: 800px) {
+    .b-timeline li {
+      grid-template-columns: 11rem minmax(0, 1fr);
+    }
+  }
+
+  .b-when {
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    color: var(--ai);
+    font-weight: 600;
+  }
+
+  .b-timeline p {
+    max-width: 62ch;
+  }
+
+  .b-broke {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+    max-width: 70ch;
+  }
+
+  .b-broke li {
+    padding-left: 1.1rem;
+    border-left: 3px solid var(--bad);
+  }
+
+  .b-fix {
+    margin-top: 0.3rem;
+    color: var(--good);
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .b-advice {
+    margin: 0;
+    padding-left: 1.4rem;
+    display: grid;
+    gap: 1rem;
+    max-width: 64ch;
+    font-size: 1.15rem;
+  }
+</style>

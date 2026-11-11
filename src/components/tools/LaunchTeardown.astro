@@ -1,0 +1,245 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { launchTeardown } from '../../content/tools/launch-teardown';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = launchTeardown[lang];
+---
+
+<div class="tool td" data-tool="launch-teardown" data-own-state>
+  <header class="td-head">
+    <p class="td-product">{c.product}</p>
+    <p class="td-brief">{c.brief}</p>
+    <nav class="td-nav" aria-label={c.product}>
+      {c.sections.map((s, i) => <a href={`#td-${s.id}`}><span>{i + 1}</span>{s.title}</a>)}
+    </nav>
+  </header>
+
+  {
+    c.sections.map((s, i) => (
+      <section class="td-section" id={`td-${s.id}`}>
+        <div class="td-main">
+          <h2>
+            <span class="td-n">{i + 1}</span>
+            {s.title}
+          </h2>
+          <p class="td-lead">{s.lead}</p>
+          {s.rows && (
+            <dl class="td-rows">
+              {s.rows.map((r) => (
+                <div>
+                  <dt>{r.label}</dt>
+                  <dd>{r.text}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
+          {s.plans && (
+            <div class="td-scroll">
+              <table class="tool-table">
+                <thead>
+                  <tr>{c.planCols.map((col) => <th>{col}</th>)}</tr>
+                </thead>
+                <tbody>
+                  {s.plans.map((p) => (
+                    <tr>
+                      <td><strong>{p.name}</strong></td>
+                      <td>{p.price}</td>
+                      <td>{p.who}</td>
+                      <td>{p.includes}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+          {s.weeks && (
+            <ol class="td-weeks">
+              {s.weeks.map((w) => (
+                <li>
+                  <strong>{w.when}</strong>
+                  <span>{w.what}</span>
+                </li>
+              ))}
+            </ol>
+          )}
+        </div>
+        <div class="td-call" role="note" aria-label={c.callLabel}>
+          <p class="td-call-label">{c.callLabel}</p>
+          <p>{s.call}</p>
+        </div>
+      </section>
+    ))
+  }
+  <p class="td-fictional">{c.fictional}</p>
+</div>
+
+<style>
+  .td-head,
+  .td-section,
+  .td-fictional {
+    padding: var(--tool-pad);
+  }
+
+  .td-head {
+    display: grid;
+    gap: 1rem;
+    background: var(--ink-raised);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .td-product {
+    font-family: var(--serif);
+    font-size: var(--step-2);
+    line-height: 1.1;
+    font-variation-settings: 'opsz' 48;
+  }
+
+  .td-brief {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    line-height: 1.5;
+    max-width: 62ch;
+  }
+
+  .td-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .td-nav a {
+    display: inline-flex;
+    gap: 0.45rem;
+    padding: 0.3rem 0.8rem;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 0.86rem;
+    background: var(--ink-sunk);
+  }
+
+  .td-nav a:hover {
+    border-color: var(--ai);
+  }
+
+  .td-nav span,
+  .td-n {
+    color: var(--ai);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .td-section {
+    display: grid;
+    gap: 1.25rem 2.5rem;
+    border-bottom: 1px solid var(--rule);
+    scroll-margin-top: 1rem;
+  }
+
+  @media (min-width: 1040px) {
+    .td-section {
+      grid-template-columns: minmax(0, 1fr) minmax(240px, 320px);
+      align-items: start;
+    }
+  }
+
+  .td-main {
+    display: grid;
+    gap: 0.9rem;
+    min-width: 0;
+  }
+
+  .td-main h2 {
+    display: flex;
+    gap: 0.7rem;
+    align-items: baseline;
+    font-family: var(--serif);
+    font-size: 1.7rem;
+    font-variation-settings: 'opsz' 36;
+  }
+
+  .td-n {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+  }
+
+  .td-lead {
+    font-family: var(--serif);
+    font-size: 1.12rem;
+    line-height: 1.5;
+    max-width: 60ch;
+  }
+
+  .td-rows {
+    margin: 0;
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .td-rows dt {
+    font-size: 0.82rem;
+    color: var(--stone);
+  }
+
+  .td-rows dd {
+    margin: 0.1rem 0 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    max-width: 64ch;
+  }
+
+  .td-scroll {
+    overflow-x: auto;
+  }
+
+  .td-weeks {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .td-weeks li {
+    display: grid;
+    gap: 0.15rem 1.25rem;
+    padding-left: 0.9rem;
+    border-left: 2px solid var(--ai);
+    line-height: 1.5;
+  }
+
+  @media (min-width: 640px) {
+    .td-weeks li {
+      grid-template-columns: 8.5rem minmax(0, 1fr);
+    }
+  }
+
+  .td-call {
+    padding: 0.85rem 1rem 0.95rem;
+    border-left: 3px solid var(--judgment-mark);
+    border-radius: 0 12px 12px 0;
+    background: var(--judgment-soft);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.04rem;
+    line-height: 1.5;
+  }
+
+  .td-call-label {
+    font-family: var(--sans);
+    font-style: normal;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--judgment);
+    margin-bottom: 0.25rem;
+  }
+
+  .td-fictional {
+    font-size: 0.82rem;
+    color: var(--stone);
+  }
+</style>

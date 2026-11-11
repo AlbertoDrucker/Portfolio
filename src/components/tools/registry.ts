@@ -15,9 +15,21 @@ import NetworkingCrm from './NetworkingCrm.astro';
 import PromoRoi from './PromoRoi.astro';
 import OrderChannels from './OrderChannels.astro';
 import LaunchPlanner from './LaunchPlanner.astro';
+import First90Days from './First90Days.astro';
+import LaunchTeardown from './LaunchTeardown.astro';
+import PlanOnAPage from './PlanOnAPage.astro';
+import InnovationPortfolio from './InnovationPortfolio.astro';
+import JourneyMapper from './JourneyMapper.astro';
+import SubscriptionEconomics from './SubscriptionEconomics.astro';
 
 /** Maps a Lab slug to its tool component. Every slug in content/lab.ts needs an entry. */
 export const toolComponents: Record<string, any> = {
+  'first-90-days': First90Days,
+  'launch-teardown': LaunchTeardown,
+  'plan-on-a-page': PlanOnAPage,
+  'innovation-portfolio': InnovationPortfolio,
+  'journey-mapper': JourneyMapper,
+  'subscription-economics': SubscriptionEconomics,
   'market-sizing': MarketSizing,
   'customer-value': CustomerValue,
   'negotiation-planner': NegotiationPlanner,

@@ -1,0 +1,221 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { planOnAPage } from '../../content/tools/plan-on-a-page';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = planOnAPage[lang];
+const d = c.defaults;
+---
+
+<div class="tool" data-tool="plan-on-a-page" data-lang={lang} data-copy={JSON.stringify(c.dyn)}>
+  <div class="tool-grid pp-grid">
+    <div class="tool-inputs">
+      <label class="field">
+        <span class="field-label">{c.company}</span>
+        <input type="text" name="company" value={d.company} />
+      </label>
+      <label class="field">
+        <span class="field-label">{c.ambition}</span>
+        <textarea name="ambition" rows="3">{d.ambition}</textarea>
+        <span class="tool-hint">{c.ambitionHint}</span>
+      </label>
+      <label class="field">
+        <span class="field-label">{c.play}</span>
+        <textarea name="play" rows="3">{d.play}</textarea>
+        <span class="tool-hint">{c.playHint}</span>
+      </label>
+      {
+        [1, 2, 3].map((n) => (
+          <fieldset class="pp-choice">
+            <legend>{c.choice.replace('{n}', String(n))}</legend>
+            <input type="text" name={`c${n}t`} value={d[`c${n}t`]} aria-label={c.choiceTitle} placeholder={c.choiceTitle} />
+            <textarea name={`c${n}h`} rows="2" aria-label={c.choiceHow} placeholder={c.choiceHow}>{d[`c${n}h`]}</textarea>
+            <input type="text" name={`c${n}m`} value={d[`c${n}m`]} aria-label={c.choiceMeasure} placeholder={c.choiceMeasure} />
+          </fieldset>
+        ))
+      }
+      <label class="field">
+        <span class="field-label">{c.stop}</span>
+        <textarea name="stop" rows="4">{d.stop}</textarea>
+        <span class="tool-hint">{c.stopHint}</span>
+      </label>
+    </div>
+
+    <div class="tool-outputs">
+      <article class="pp-page">
+        <h2 class="pp-title" data-out="company"></h2>
+        <section>
+          <p class="pp-label">{c.pageAmbition}</p>
+          <p class="pp-ambition" data-out="ambition"></p>
+        </section>
+        <section>
+          <p class="pp-label">{c.pagePlay}</p>
+          <p data-out="play"></p>
+        </section>
+        <section>
+          <p class="pp-label">{c.pageChoices}</p>
+          <ol class="pp-choices" data-choices data-measure={c.pageMeasure}></ol>
+        </section>
+        <section class="pp-stop">
+          <p class="pp-label">{c.pageStop}</p>
+          <ul data-stop></ul>
+        </section>
+      </article>
+      <div class="pp-checks">
+        <p class="tool-section-title">{c.checksTitle} <span class="tool-hint" data-out="score"></span></p>
+        <ul data-checks></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initTools } from '../../scripts/tools/util';
+  import { setupPlanOnAPage } from '../../scripts/tools/plan-on-a-page';
+  initTools('[data-tool="plan-on-a-page"]', setupPlanOnAPage);
+</script>
+
+<style>
+  .pp-choice {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .pp-choice legend {
+    padding: 0;
+    margin-bottom: 0.4rem;
+    font-size: 0.875rem;
+    color: var(--stone);
+  }
+
+  .pp-page {
+    display: grid;
+    gap: 1.4rem;
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border: 1px solid var(--rule);
+    border-top: 4px solid var(--ai);
+    border-radius: 14px;
+    background: var(--ink-raised);
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
+
+  .pp-title {
+    font-size: var(--step-2);
+    font-variation-settings: 'opsz' 48;
+  }
+
+  .pp-label {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--ai);
+    margin-bottom: 0.3rem;
+  }
+
+  .pp-ambition {
+    font-size: 1.35rem;
+    line-height: 1.35;
+  }
+
+  .pp-choices {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  @media (min-width: 1180px) {
+    .pp-choices {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  :global(.pp-choices li) {
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    background: var(--ink-sunk);
+    display: grid;
+    gap: 0.4rem;
+    align-content: start;
+    font-size: 0.98rem;
+  }
+
+  :global(.pp-choices strong) {
+    font-family: var(--sans);
+    font-size: 1rem;
+  }
+
+  :global(.pp-choices small) {
+    font-family: var(--sans);
+    font-size: 0.82rem;
+    color: var(--stone);
+  }
+
+  .pp-stop {
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    background: var(--judgment-soft);
+  }
+
+  .pp-stop .pp-label {
+    color: var(--judgment);
+  }
+
+  .pp-stop ul,
+  .pp-checks ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  .pp-checks ul {
+    margin-top: 0.7rem;
+    list-style: none;
+    padding: 0;
+  }
+
+  :global(.pp-checks li) {
+    padding-left: 1.5rem;
+    position: relative;
+    color: var(--stone);
+  }
+
+  :global(.pp-checks li::before) {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.3em;
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    border: 1.5px solid var(--rule-strong);
+  }
+
+  :global(.pp-checks li.ok) {
+    color: var(--paper);
+  }
+
+  :global(.pp-checks li.ok::before) {
+    background: var(--good);
+    border-color: var(--good);
+  }
+
+  @media print {
+    .tool-inputs,
+    .pp-checks {
+      display: none;
+    }
+  }
+</style>

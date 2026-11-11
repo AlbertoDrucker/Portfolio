@@ -1,0 +1,141 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { journeyMapper } from '../../content/tools/journey-mapper';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = journeyMapper[lang];
+---
+
+<div class="tool" data-tool="journey-mapper" data-lang={lang} data-copy={JSON.stringify(c.dyn)}>
+  <div class="tool-grid jm-grid">
+    <div class="tool-inputs">
+      <label class="field">
+        <span class="field-label">{c.business}</span>
+        <input type="text" name="business" value={c.defaults.business} />
+      </label>
+      {
+        c.defaults.rows.map((r, i) => (
+          <fieldset class="jm-stage">
+            <legend>
+              <span class="quiz-n">{i + 1}</span>
+              {c.stages[i]}
+            </legend>
+            <input type="text" name={`does${i}`} value={r.does} aria-label={c.does} placeholder={c.does} />
+            <label class="field">
+              <span class="field-label">{c.feel}<span class="field-value" data-out={`feel${i}`} /></span>
+              <input type="range" name={`feel${i}`} min="1" max="5" step="1" value={r.feel} />
+            </label>
+            <input type="text" name={`pain${i}`} value={r.pain} aria-label={c.pain} placeholder={c.pain} />
+            <input type="text" name={`idea${i}`} value={r.idea} aria-label={c.idea} placeholder={c.idea} />
+          </fieldset>
+        ))
+      }
+      <p class="tool-hint">{c.feelHint}</p>
+    </div>
+
+    <div class="tool-outputs">
+      <div>
+        <p class="tool-section-title">{c.startTitle}</p>
+        <p class="jm-start" data-out="start"></p>
+      </div>
+      <figure class="jm-fig">
+        <figcaption class="tool-section-title">{c.chart}</figcaption>
+        <svg class="chart" data-chart></svg>
+      </figure>
+      <div>
+        <p class="tool-section-title">{c.mapTitle}: <span data-out="business"></span></p>
+        <div class="jm-map" data-map></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initTools } from '../../scripts/tools/util';
+  import { setupJourneyMapper } from '../../scripts/tools/journey-mapper';
+  initTools('[data-tool="journey-mapper"]', setupJourneyMapper);
+</script>
+
+<style>
+  @media (min-width: 980px) {
+    .jm-grid {
+      grid-template-columns: minmax(300px, 400px) minmax(0, 1fr);
+    }
+  }
+
+  .jm-stage {
+    margin: 0;
+    padding: 0 0 1rem;
+    border: 0;
+    border-bottom: 1px solid var(--rule);
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .jm-stage legend {
+    padding: 0;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+
+  .jm-fig {
+    margin: 0;
+  }
+
+  .jm-start {
+    margin-top: 0.5rem;
+    padding: 0.9rem 1.05rem;
+    border-left: 3px solid var(--judgment-mark);
+    border-radius: 0 12px 12px 0;
+    background: var(--judgment-soft);
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    line-height: 1.5;
+  }
+
+  .jm-map {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 0.9rem;
+  }
+
+  :global(.jm-card) {
+    display: grid;
+    gap: 0.5rem 1.25rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    background: var(--ink-raised);
+  }
+
+  :global(.jm-card.is-low) {
+    border-color: var(--judgment-mark);
+    box-shadow: inset 3px 0 0 var(--judgment-mark);
+  }
+
+  @media (min-width: 1100px) {
+    :global(.jm-card) {
+      grid-template-columns: 8.5rem repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  :global(.jm-card .jm-name) {
+    font-weight: 600;
+  }
+
+  :global(.jm-card small) {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--stone);
+  }
+
+  @media print {
+    .tool-inputs {
+      display: none;
+    }
+  }
+</style>

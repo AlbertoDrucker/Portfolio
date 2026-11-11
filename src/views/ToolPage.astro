@@ -16,7 +16,7 @@ const c = labPage[lang];
 const p = project.copy[lang];
 const Tool = toolComponents[slug];
 /** The two systems keep their own data and have their own export, so they skip the shared toolbar. */
-const ownState = project.category === 'systems';
+const ownState = project.category === 'systems' || slug === 'launch-teardown';
 ---
 
 <Base lang={lang} slug={`lab/${slug}`} title={`${p.title} | Alberto Drucker`} description={p.summary}>

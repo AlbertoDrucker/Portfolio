@@ -1,0 +1,102 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { subPresets, subscriptionEconomics } from '../../content/tools/subscription-economics';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = subscriptionEconomics[lang];
+const d = subPresets.gym;
+const payload = { ...c.dyn, presets: subPresets };
+---
+
+<div class="tool" data-tool="subscription-economics" data-lang={lang} data-copy={JSON.stringify(payload)}>
+  <div class="tool-grid">
+    <div class="tool-inputs">
+      <div class="field">
+        <span class="field-label">{c.preset}</span>
+        <div class="seg stack" data-presets>
+          {Object.entries(c.presets).map(([k, v]) => <button type="button" data-preset={k}>{v}</button>)}
+        </div>
+      </div>
+      <label class="field">
+        <span class="field-label">{c.currency}</span>
+        <select name="currency">
+          <option value="MXN" selected>MXN</option>
+          <option value="USD">USD</option>
+        </select>
+      </label>
+      <label class="field">
+        <span class="field-label">{c.price}</span>
+        <input type="number" name="price" min="0" step="10" value={d.price} inputmode="decimal" />
+      </label>
+      <label class="field">
+        <span class="field-label">{c.members}</span>
+        <input type="number" name="members" min="0" step="10" value={d.members} inputmode="decimal" />
+      </label>
+      <label class="field">
+        <span class="field-label">{c.joins}</span>
+        <input type="number" name="joins" min="0" step="1" value={d.joins} inputmode="decimal" />
+      </label>
+      <label class="field">
+        <span class="field-label">{c.churn}<span class="field-value" data-out="churn"></span></span>
+        <input type="range" name="churn" min="1" max="25" step="0.5" value={d.churn} />
+        <span class="tool-hint">{c.churnHint}</span>
+      </label>
+      <label class="field">
+        <span class="field-label">{c.cost}</span>
+        <input type="number" name="cost" min="0" step="10" value={d.cost} inputmode="decimal" />
+      </label>
+      <label class="field">
+        <span class="field-label">{c.fixed}</span>
+        <input type="number" name="fixed" min="0" step="1000" value={d.fixed} inputmode="decimal" />
+      </label>
+      <label class="field">
+        <span class="field-label">{c.cac}</span>
+        <input type="number" name="cac" min="0" step="10" value={d.cac} inputmode="decimal" />
+      </label>
+    </div>
+
+    <div class="tool-outputs">
+      <div class="stats">
+        <div class="stat"><span class="stat-label">{c.mrr}</span><span class="stat-value" data-out="mrr">0</span></div>
+        <div class="stat"><span class="stat-label">{c.life}</span><span class="stat-value" data-out="life">0</span></div>
+        <div class="stat"><span class="stat-label">{c.ceiling}</span><span class="stat-value" data-out="ceiling">0</span></div>
+      </div>
+      <div class="stats">
+        <div class="stat"><span class="stat-label">{c.ltv}</span><span class="stat-value se-ltv" data-out="ltv">0</span></div>
+      </div>
+      <p class="verdict" data-verdict></p>
+      <p class="se-lever" data-out="lever"></p>
+      <figure class="se-fig">
+        <figcaption class="tool-section-title">{c.chart}</figcaption>
+        <svg class="chart" data-chart></svg>
+      </figure>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initTools } from '../../scripts/tools/util';
+  import { setupSubscriptionEconomics } from '../../scripts/tools/subscription-economics';
+  initTools('[data-tool="subscription-economics"]', setupSubscriptionEconomics);
+</script>
+
+<style>
+  .se-fig {
+    margin: 0;
+  }
+
+  .se-ltv {
+    font-size: 1.5rem;
+  }
+
+  .se-lever {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    line-height: 1.5;
+    max-width: 58ch;
+  }
+</style>

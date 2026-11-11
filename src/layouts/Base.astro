@@ -113,7 +113,7 @@ const nav: { slug: PageSlug; label: string }[] = [
         </form>
         <div class="footer-meta">
           <p>{t.footer.location}</p>
-          <p>{t.footer.built}</p>
+          <p><a href={localePath(lang, 'built')}>{t.footer.built}</a></p>
         </div>
       </div>
     </footer>

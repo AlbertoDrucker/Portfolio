@@ -70,3 +70,20 @@ A running record of how this site was built with Claude Code. It becomes the pub
 - Three more business tools: promotion ROI, order channels and launch planner.
 - Contact form in the footer of every page, delivered by Web3Forms so the email address never appears on the site. It needs the access key in `src/content/site.ts` before it sends.
 - Positioning: roles first, projects second.
+
+## Session 4 · Nov 11, 2026
+
+**Decision:** no public resume. It goes by request through the contact form. Target roles: strategic planning, product marketing and innovation.
+
+**Built**
+- First 90 days plan generator (by role, situation and position).
+- Product launch teardown: a fictional product taken from insight to positioning, pricing, launch plan and measures.
+- Strategic plan on a page with checks and print.
+- Innovation portfolio board: effort across core, adjacent and new bets against a target mix.
+- Customer journey mapper with an emotional curve and a "where to start" call.
+- Membership and subscription calculator for B2C businesses.
+- This log became a public page at `/built/`, linked from the footer.
+
+**What broke**
+- The journey mapper lowercased "WhatsApp" when it placed text mid sentence. It now leaves brands and acronyms alone.
+- The portfolio board told a company with too little core work that "the future is underfunded". Core now has its own message.

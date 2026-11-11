@@ -1,0 +1,137 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { first90 } from '../../content/tools/first-90-days';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = first90[lang];
+const groups = [
+  { name: 'role', label: c.role, options: c.roles },
+  { name: 'situation', label: c.situation, options: c.situations },
+  { name: 'team', label: c.team, options: c.teams },
+];
+---
+
+<div class="tool" data-tool="first-90-days" data-lang={lang} data-copy={JSON.stringify(c.dyn)}>
+  <div class="tool-grid">
+    <div class="tool-inputs">
+      {
+        groups.map((g) => (
+          <fieldset class="quiz-q">
+            <legend>{g.label}</legend>
+            {Object.entries(g.options).map(([k, v], i) => (
+              <label class="quiz-opt">
+                <input type="radio" name={`f90-${g.name}`} value={k} checked={i === 0} />
+                <span>{v}</span>
+              </label>
+            ))}
+          </fieldset>
+        ))
+      }
+    </div>
+
+    <div class="tool-outputs">
+      <div class="f90-phases">
+        {
+          c.phases.map((p, i) => (
+            <section class="f90-phase">
+              <h2>{p}</h2>
+              <p class="f90-goal">{c.phaseGoals[i]}</p>
+              <ul data-phase={i} />
+            </section>
+          ))
+        }
+      </div>
+      <div class="f90-notes">
+        <div class="f90-note win">
+          <p class="tool-section-title">{c.winTitle}</p>
+          <p data-out="win"></p>
+        </div>
+        <div class="f90-note">
+          <p class="tool-section-title">{c.riskTitle}</p>
+          <p data-out="risk"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initTools } from '../../scripts/tools/util';
+  import { setupFirst90 } from '../../scripts/tools/first-90-days';
+  initTools('[data-tool="first-90-days"]', setupFirst90);
+</script>
+
+<style>
+  .f90-phases {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 1180px) {
+    .f90-phases {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .f90-phase {
+    padding: 1.1rem 1.2rem 1.25rem;
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--ai);
+    border-radius: 14px;
+    background: var(--ink-raised);
+  }
+
+  .f90-phase h2 {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    font-variation-settings: 'opsz' 36;
+  }
+
+  .f90-goal {
+    margin-top: 0.2rem;
+    color: var(--stone);
+    font-size: 0.88rem;
+  }
+
+  .f90-phase ul {
+    margin: 0.9rem 0 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.6rem;
+    line-height: 1.45;
+  }
+
+  .f90-notes {
+    display: grid;
+    gap: 1rem;
+  }
+
+  @media (min-width: 760px) {
+    .f90-notes {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .f90-note {
+    padding: 1rem 1.1rem;
+    border-radius: 14px;
+    border: 1px solid var(--rule);
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .f90-note.win {
+    background: var(--judgment-soft);
+    border-color: rgba(255, 192, 46, 0.6);
+  }
+
+  .f90-note p:last-child {
+    font-family: var(--serif);
+    font-size: 1.08rem;
+    line-height: 1.5;
+  }
+</style>

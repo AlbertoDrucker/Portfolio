@@ -1,0 +1,149 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { innovationPortfolio, portfolioTargets } from '../../content/tools/innovation-portfolio';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = innovationPortfolio[lang];
+const payload = { ...c.dyn, targets: portfolioTargets };
+---
+
+<div class="tool" data-tool="innovation-portfolio" data-lang={lang} data-copy={JSON.stringify(payload)}>
+  <div class="tool-grid ip-grid">
+    <div class="tool-inputs">
+      <label class="field">
+        <span class="field-label">{c.stance}</span>
+        <select name="stance">
+          {Object.entries(c.stances).map(([k, v]) => <option value={k} selected={k === 'balanced'}>{v}</option>)}
+        </select>
+        <span class="tool-hint">{c.stanceHint}</span>
+      </label>
+      <div class="ip-ideas">
+        <p class="tool-section-title">{c.ideasTitle}</p>
+        {
+          c.defaults.map((d, i) => (
+            <div class="ip-row">
+              <input type="text" name={`n${i}`} value={d.n} aria-label={`${c.ideaName} ${i + 1}`} placeholder={`${c.ideaName} ${i + 1}`} />
+              <select name={`t${i}`} aria-label={c.ideaType}>
+                {Object.entries(c.types).map(([k, v]) => <option value={k} selected={k === d.t}>{v}</option>)}
+              </select>
+              <select name={`s${i}`} aria-label={c.ideaSize}>
+                {Object.entries(c.sizes).map(([k, v]) => <option value={k} selected={k === d.s}>{v}</option>)}
+              </select>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="tool-outputs">
+      <div class="stats">
+        <div class="stat"><span class="stat-label">{c.countTitle}</span><span class="stat-value" data-out="count"></span></div>
+        <div class="stat"><span class="stat-label">&nbsp;</span><span class="stat-value ip-largest" data-out="largest"></span></div>
+      </div>
+      <p class="verdict" data-verdict></p>
+      <div>
+        <p class="tool-section-title">{c.mixTitle}</p>
+        <div class="ip-mix" data-mix></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initTools } from '../../scripts/tools/util';
+  import { setupInnovationPortfolio } from '../../scripts/tools/innovation-portfolio';
+  initTools('[data-tool="innovation-portfolio"]', setupInnovationPortfolio);
+</script>
+
+<style>
+  @media (min-width: 980px) {
+    .ip-grid {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    }
+  }
+
+  .ip-ideas {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .ip-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.4rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  @media (min-width: 560px) {
+    .ip-row {
+      grid-template-columns: minmax(0, 1fr) 7.5rem 7rem;
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  .ip-largest {
+    font-size: 1.1rem;
+    line-height: 1.3;
+  }
+
+  .ip-mix {
+    display: grid;
+    gap: 1.3rem;
+    margin-top: 1rem;
+  }
+
+  :global(.ip-type) {
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  :global(.ip-type .ip-head) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.2rem 1rem;
+  }
+
+  :global(.ip-type .ip-name) {
+    font-weight: 600;
+  }
+
+  :global(.ip-type .ip-hint),
+  :global(.ip-type .ip-legend) {
+    font-size: 0.82rem;
+    color: var(--stone);
+  }
+
+  :global(.ip-bar) {
+    position: relative;
+    height: 16px;
+    border-radius: 999px;
+    background: var(--ink);
+    border: 1px solid var(--rule);
+  }
+
+  :global(.ip-bar i) {
+    position: absolute;
+    inset: 0 auto 0 0;
+    border-radius: 999px;
+    background: var(--c4);
+  }
+
+  :global(.ip-type.is-off .ip-bar i) {
+    background: var(--c2);
+  }
+
+  :global(.ip-bar b) {
+    position: absolute;
+    top: -5px;
+    bottom: -5px;
+    width: 2px;
+    background: var(--paper);
+  }
+</style>

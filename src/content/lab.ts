@@ -147,6 +147,156 @@ export const labProjects: LabProject[] = [
     },
   },
   {
+    slug: 'first-90-days',
+    category: 'strategy',
+    status: 'live',
+    copy: {
+      en: {
+        title: 'First 90 days plan',
+        summary: 'Pick a role and the situation I would walk into, and see how I would spend my first 90 days.',
+        why: [
+          'The first question in any hiring conversation is some version of: what would you actually do here? This is my answer, adjusted to the role and to the state of the business.',
+          'It follows one rule I trust: learn before changing anything, align on a few choices, then deliver one result people can see.',
+        ],
+        next: ['A version for commercial and general management roles.', 'A printable plan with the measures for each phase.'],
+      },
+      es: {
+        title: 'Plan de los primeros 90 días',
+        summary: 'Elige un puesto y la situación a la que llegaría, y mira cómo usaría mis primeros 90 días.',
+        why: [
+          'La primera pregunta en cualquier conversación de contratación es alguna versión de: ¿qué harías aquí en concreto? Esta es mi respuesta, ajustada al puesto y al estado del negocio.',
+          'Sigue una regla en la que confío: aprender antes de cambiar algo, alinear unas cuantas decisiones y después entregar un resultado que la gente pueda ver.',
+        ],
+        next: ['Una versión para puestos comerciales y de dirección general.', 'Un plan imprimible con las métricas de cada fase.'],
+      },
+    },
+  },
+  {
+    slug: 'launch-teardown',
+    category: 'strategy',
+    status: 'live',
+    copy: {
+      en: {
+        title: 'Product launch, start to finish',
+        summary: 'A fictional product taken from customer insight to positioning, pricing, launch plan and measures, with the call I would make at each step.',
+        why: [
+          'Product marketing is a chain of decisions, and each one limits the next. Showing one framework at a time hides that. This case shows the whole chain on one product.',
+          'The product is invented so I can show the reasoning without borrowing anyone’s real numbers.',
+        ],
+        next: ['A second case for a consumer product sold through retail.', 'The sales battlecard and the launch email that would go with this plan.'],
+      },
+      es: {
+        title: 'Lanzamiento de producto, de principio a fin',
+        summary: 'Un producto ficticio llevado del insight del cliente al posicionamiento, el precio, el plan de lanzamiento y las métricas, con la decisión que tomaría en cada paso.',
+        why: [
+          'El product marketing es una cadena de decisiones, y cada una limita a la siguiente. Mostrar un marco a la vez esconde eso. Este caso muestra la cadena completa en un solo producto.',
+          'El producto es inventado para poder mostrar el razonamiento sin usar los números reales de nadie.',
+        ],
+        next: ['Un segundo caso para un producto de consumo vendido en retail.', 'El battlecard de ventas y el correo de lanzamiento que acompañarían este plan.'],
+      },
+    },
+  },
+  {
+    slug: 'plan-on-a-page',
+    category: 'strategy',
+    status: 'live',
+    copy: {
+      en: {
+        title: 'Strategic plan on a page',
+        summary: 'Write your ambition, three choices, their measures and what you will stop. Get one page you can print and a check on whether it is a real plan.',
+        why: [
+          'Most strategic plans are long because nobody chose. One page forces the choice: a clear ambition, three things you will do and the things you will stop.',
+          'The checks are the questions I ask of any plan. Is there a number and a date? Does every choice have a measure? Is anything being given up?',
+        ],
+        next: ['Owners and dates for each choice.', 'A quarterly review view that tracks each measure.'],
+      },
+      es: {
+        title: 'Plan estratégico en una página',
+        summary: 'Escribe tu ambición, tres decisiones, sus métricas y lo que vas a dejar de hacer. Obtén una página para imprimir y una revisión de si es un plan de verdad.',
+        why: [
+          'La mayoría de los planes estratégicos son largos porque nadie eligió. Una página obliga a elegir: una ambición clara, tres cosas que vas a hacer y las que vas a dejar.',
+          'Las revisiones son las preguntas que le hago a cualquier plan. ¿Hay un número y una fecha? ¿Cada decisión tiene una métrica? ¿Se está renunciando a algo?',
+        ],
+        next: ['Responsables y fechas para cada decisión.', 'Una vista de revisión trimestral que dé seguimiento a cada métrica.'],
+      },
+    },
+  },
+  {
+    slug: 'innovation-portfolio',
+    category: 'strategy',
+    status: 'live',
+    copy: {
+      en: {
+        title: 'Innovation portfolio board',
+        summary: 'List your initiatives, mark each as core, adjacent or new, and see whether your effort matches what the business needs.',
+        why: [
+          'When I led innovation, the hard part was never finding ideas. It was seeing that almost all the effort went to small improvements while the future had no budget.',
+          'This makes the mix visible in one minute and compares it with a target, so the conversation moves from which idea is best to where the effort should go.',
+        ],
+        next: ['Risk and expected return for each bet.', 'A stage for each initiative, from idea to scaled.'],
+      },
+      es: {
+        title: 'Tablero de portafolio de innovación',
+        summary: 'Lista tus iniciativas, marca cada una como negocio actual, cercana o nueva, y mira si tu esfuerzo corresponde a lo que el negocio necesita.',
+        why: [
+          'Cuando lideré innovación, lo difícil nunca fue encontrar ideas. Fue ver que casi todo el esfuerzo se iba a mejoras pequeñas mientras el futuro no tenía presupuesto.',
+          'Esto hace visible la mezcla en un minuto y la compara con un objetivo, para que la conversación pase de cuál idea es mejor a dónde debe ir el esfuerzo.',
+        ],
+        next: ['Riesgo y retorno esperado de cada apuesta.', 'Una etapa para cada iniciativa, de idea a escalada.'],
+      },
+    },
+  },
+  {
+    slug: 'journey-mapper',
+    category: 'strategy',
+    status: 'live',
+    copy: {
+      en: {
+        title: 'Customer journey mapper',
+        summary: 'Map five stages of your customer’s experience, score how each one feels and find the moment that deserves your attention first.',
+        why: [
+          'Businesses usually improve the part of the experience they see most, which is rarely the part that hurts the customer most.',
+          'Scoring each stage draws the emotional curve. The lowest point is where a small fix changes how the whole experience is remembered.',
+        ],
+        next: ['More stages and several customer types side by side.', 'Space for real customer quotes at each stage.'],
+      },
+      es: {
+        title: 'Mapa del recorrido del cliente',
+        summary: 'Mapea cinco etapas de la experiencia de tu cliente, califica cómo se siente cada una y encuentra el momento que merece tu atención primero.',
+        why: [
+          'Los negocios suelen mejorar la parte de la experiencia que más ven, que rara vez es la que más le duele al cliente.',
+          'Calificar cada etapa dibuja la curva emocional. El punto más bajo es donde un arreglo pequeño cambia cómo se recuerda toda la experiencia.',
+        ],
+        next: ['Más etapas y varios tipos de cliente lado a lado.', 'Espacio para frases reales de clientes en cada etapa.'],
+      },
+    },
+  },
+  {
+    slug: 'subscription-economics',
+    category: 'strategy',
+    status: 'live',
+    copy: {
+      en: {
+        title: 'Membership and subscription calculator',
+        summary: 'For gyms, clinics, schools and any business with monthly members: see what each member is worth and where your membership will level off.',
+        why: [
+          'Membership businesses often feel like they are growing while standing still, because cancellations quietly cancel out the new members.',
+          'This shows the ceiling: the number of members where the two balance. It also shows that keeping members usually beats finding new ones.',
+        ],
+        next: ['Annual plans and their effect on cancellations.', 'Cancellation rates that change with how long a member has stayed.'],
+      },
+      es: {
+        title: 'Calculadora de membresías y suscripciones',
+        summary: 'Para gimnasios, clínicas, escuelas y cualquier negocio con miembros mensuales: mira cuánto vale cada miembro y dónde se va a estabilizar tu membresía.',
+        why: [
+          'Los negocios de membresía muchas veces sienten que crecen cuando en realidad están en el mismo lugar, porque las cancelaciones anulan en silencio a los miembros nuevos.',
+          'Esto muestra el techo: el número de miembros donde ambas cosas se equilibran. También muestra que retener miembros casi siempre le gana a conseguir nuevos.',
+        ],
+        next: ['Planes anuales y su efecto en las cancelaciones.', 'Tasas de cancelación que cambian según la antigüedad del miembro.'],
+      },
+    },
+  },
+  {
     slug: 'promo-roi',
     category: 'strategy',
     status: 'live',
