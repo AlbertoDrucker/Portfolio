@@ -46,7 +46,7 @@ const strings = {
     switchLang: 'Español',
     switchLangLabel: 'Ver este sitio en español',
     footer: {
-      built: 'Designed and built with Claude Code.',
+      built: '© 2026 Alberto Drucker',
       location: 'Monterrey, Mexico',
       contactTitle: 'Let’s talk',
       contactLead: 'I’m open to strategy, marketing and applied AI roles in Mexico. If you have a project where one of these tools could help, I’d like to hear about that too.',
@@ -107,7 +107,7 @@ const strings = {
     switchLang: 'English',
     switchLangLabel: 'View this site in English',
     footer: {
-      built: 'Diseñado y construido con Claude Code.',
+      built: '© 2026 Alberto Drucker',
       location: 'Monterrey, México',
       contactTitle: 'Platiquemos',
       contactLead: 'Estoy abierto a roles de estrategia, marketing e IA aplicada en México. Si tienes un proyecto donde alguna de estas herramientas pueda ayudar, también me interesa escucharlo.',

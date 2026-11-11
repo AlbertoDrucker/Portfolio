@@ -340,7 +340,7 @@ const BriefTag = scenarios.length > 1 ? 'div' : 'article';
   .step-body {
     min-width: 0;
     padding-left: 1rem;
-    border-left: 1px solid rgba(43, 71, 245, 0.3);
+    border-left: 1px solid rgba(91, 61, 245, 0.3);
     display: grid;
     gap: 0.9rem;
     max-width: 66ch;
@@ -414,7 +414,7 @@ const BriefTag = scenarios.length > 1 ? 'div' : 'article';
   }
 
   .option.recommended {
-    border-color: rgba(43, 71, 245, 0.5);
+    border-color: rgba(91, 61, 245, 0.5);
     background: var(--ai-soft);
   }
 
@@ -480,17 +480,22 @@ const BriefTag = scenarios.length > 1 ? 'div' : 'article';
     padding-left: 1rem;
   }
 
+  /* Handwritten on a highlighter stroke: these are the personal part of the page. */
   .note {
     position: relative;
-    padding: 0.6rem 0.85rem 0.65rem 0.95rem;
-    border-left: 3px solid var(--judgment-mark);
-    border-radius: 0 10px 10px 0;
-    background: var(--judgment-soft);
+    justify-self: start;
+    padding: 0.35rem 0.8rem 0.45rem;
+    border-radius: 4px 10px 6px 12px;
+    background: var(--judgment-mark);
     color: var(--paper);
-    font-style: italic;
-    font-size: 1.02rem;
-    line-height: 1.5;
-    font-variation-settings: 'opsz' 18;
+    font-family: var(--hand);
+    font-size: 1.32rem;
+    line-height: 1.22;
+    rotate: -0.6deg;
+  }
+
+  .note:nth-child(even) {
+    rotate: 0.5deg;
   }
 
   .fictional {

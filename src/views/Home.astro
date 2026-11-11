@@ -28,6 +28,13 @@ const featured = c.featured.map((slug) => findProject(slug)!);
       <a class="hero-btn" href="#systems">{c.ctaBuilt}</a>
       <a class="hero-btn quiet" href="#contact">{c.ctaContact}</a>
     </p>
+    <p class="hero-note">
+      <svg viewBox="0 0 64 40" width="56" height="35" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M60 6C44 2 22 8 8 30" />
+        <path d="M6 16l2 14 13-4" />
+      </svg>
+      <span>{c.heroNote}</span>
+    </p>
   </section>
 
   <section class="section" id="systems">
@@ -121,6 +128,53 @@ const featured = c.featured.map((slug) => findProject(slug)!);
 </Base>
 
 <style>
+  /* A handwritten aside by the first buttons: the one personal mark in the hero. */
+  .hero-note {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+    margin-top: 1.4rem;
+    font-family: var(--hand);
+    font-size: 1.55rem;
+    line-height: 1.1;
+    color: var(--paper);
+  }
+
+  .hero-note span {
+    padding: 0.15rem 0.6rem 0.25rem;
+    border-radius: 4px 10px 6px 12px;
+    background: var(--judgment-mark);
+    rotate: -1.2deg;
+  }
+
+  .hero-note svg {
+    flex: none;
+    translate: 0 -0.35rem;
+  }
+
+  @media (min-width: 900px) {
+    .hero-note {
+      margin-left: calc(var(--step-hero) * 1.2 + 1rem);
+    }
+  }
+
+  /* The first system card is the dark one, so the pair reads as two objects and not a grid of twins. */
+  .system-card:first-child {
+    background: var(--paper);
+    border-color: var(--paper);
+    color: #fff;
+  }
+
+  .system-card:first-child .system-summary {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .system-card:first-child .system-open {
+    background: var(--judgment-mark);
+    border-color: var(--judgment-mark);
+    color: var(--paper);
+  }
+
   .hero {
     padding-top: clamp(3.5rem, 10vw, 8.5rem);
     padding-bottom: clamp(2.5rem, 6vw, 4.5rem);

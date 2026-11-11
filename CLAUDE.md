@@ -37,22 +37,21 @@ Audience: hiring managers and recruiters for corporate strategy and marketing ro
 - Tools aimed at business owners come first in each category: Pricing and break even calculator, Sales funnel leak finder, WhatsApp follow up builder, AI readiness check. Every tool page carries a "Want this built around your business?" band linking to the contact block (`#contact` in the footer).
 - Role tools (target roles: strategic planning, product marketing, innovation): First 90 days plan, Product launch teardown (fictional product Mesa Lista), Strategic plan on a page, Innovation portfolio board, Customer journey mapper, Membership and subscription calculator.
 - Systems I built: Rental operations system and Networking CRM (own state, own export). Contact is a Web3Forms form in the footer (`contact.formKey` in `src/content/site.ts`); the email address is never shown. No public resume: it goes by request.
-- `/built/` is the public "Built in public" page, written from BUILD_LOG.md.
 - Other tools: Market sizing builder, Customer value calculator, Negotiation planner, Positioning builder, Marketing mix optimizer (beta), AI Opportunity Map, Automation ROI simulator, AI workflow builder (beta), Pit strategy simulator. Avoid trademarked names (no "F1").
 
-## Design system: editorial, light, confident color
-The memorable idea is the annotated brief: the AI draft runs in the main column and Alberto's judgment appears as marigold highlighted margin notes, like an editor marking up a manuscript.
+## Design system: personal, crafted, confident color
+The memorable idea is the annotated page: Alberto's own notes appear handwritten on a lime highlighter stroke, in the hero, in the Strategy Engine margin and on "My call" notes. Nothing on the site says or implies that AI built it (no "built with" lines, no build log page). "How I work with AI" describes his method, which is fine.
 
-Color tokens (`src/styles/global.css`). Variable names date from the dark first version: `--ink` is the page, `--paper` is the text.
-- `--ink` #f3f4fb page background (cool porcelain), `--ink-sunk` #ffffff panels (with `--lift` shadow, 18px radius), `--ink-raised` #f7f8fd fields
-- `--paper` #15173b text (deep indigo), `--stone` #5a5f7d secondary text, `--rule` #dcdfec hairlines
-- `--ai` #2b47f5 electric blue: AI drafted content, primary buttons, the contact block
-- `--judgment-mark` #ffc02e marigold and `--judgment-soft`: Alberto's judgment and the "work with me" band. `--judgment` #a85400 for judgment text
-- Charts: `--c1` indigo, `--c2` magenta, `--c3` teal, `--c4` violet. `--good` and `--bad` only for verdicts.
-Color carries meaning: blue means AI, marigold means human judgment. All text colors must pass AA on white.
+Color tokens (`src/styles/global.css`). Variable names date from the first version: `--ink` is the page, `--paper` is the text.
+- `--ink` #f3f5ef page (cool chalk), `--ink-sunk` #ffffff panels (with `--lift` shadow, 18px radius), `--ink-raised` #f7f9f3 fields
+- `--paper` #0f2a1f text and dark blocks (deep pine), `--stone` #52625a secondary text, `--rule` #d9dfd3 hairlines
+- `--ai` #5b3df5 violet: primary actions, links in focus, the second hero line
+- `--judgment-mark` #d4f56a lime: highlighter, handwritten notes, buttons on pine. `--judgment` #3f5200 for small labels on lime
+- Charts: `--c1` pine, `--c2` magenta, `--c3` teal, `--c4` violet. `--good` and `--bad` only for verdicts.
+All text colors must pass AA.
 
 Type:
-- Newsreader (variable, optical size) for headlines and reading text.
+- Bricolage Grotesque (variable) for every heading, weight 500, tight tracking. Newsreader for reading text. Caveat for handwritten notes only.
 - Archivo (variable) for interface: navigation, step titles, controls, small labels.
 - Sentence case everywhere. No all caps labels, no monospace labels, no middle dot separators, no arrows appended to links.
 - Body 18px+, line length under 70 characters.
@@ -82,5 +81,5 @@ Quality floor: responsive to 360px, visible keyboard focus, AA contrast, works w
 - `src/components/` Astro components; `src/views/` full page bodies shared by both locales; `src/pages/` thin routes.
 
 ## Workflow
-- Plan before each phase. Keep `BUILD_LOG.md` updated with what was built, key decisions and what broke; it becomes the public "Built with Claude Code" page later.
+- Plan before each phase. Keep `BUILD_LOG.md` updated with what was built, key decisions and what broke. It is an internal file and is never published on the site.
 - Before committing: `npm run build` must pass, then check every page in both locales at 390px and 1440px.

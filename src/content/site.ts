@@ -11,6 +11,7 @@ export const home: Localized<{
   heroIntro: string;
   ctaBuilt: string;
   ctaContact: string;
+  heroNote: string;
   systemsTitle: string;
   systemsLead: string;
   systems: { slug: string; points: string[] }[];
@@ -38,6 +39,7 @@ export const home: Localized<{
       'I’m a strategist from Monterrey with an engineer’s training and a designer’s habits. I turn messy business questions into clear decisions, and then into systems people actually use. AI gets me there faster. The judgment stays mine.',
     ctaBuilt: 'See what I have built',
     ctaContact: 'Get in touch',
+    heroNote: 'Everything on this site works. Go ahead, try it.',
     systemsTitle: 'Systems I built',
     systemsLead: 'Two working products, not slides. Open them and use them.',
     systems: [
@@ -70,6 +72,7 @@ export const home: Localized<{
       'Soy estratega, regiomontano, con formación de ingeniero y hábitos de diseñador. Convierto preguntas de negocio complejas en decisiones claras, y luego en sistemas que la gente sí usa. La IA me ayuda a llegar más rápido. El criterio sigue siendo mío.',
     ctaBuilt: 'Mira lo que he construido',
     ctaContact: 'Contáctame',
+    heroNote: 'Todo en este sitio funciona. Pruébalo.',
     systemsTitle: 'Sistemas que construí',
     systemsLead: 'Dos productos que funcionan, no presentaciones. Ábrelos y úsalos.',
     systems: [
@@ -151,7 +154,7 @@ export const howIWork: Localized<{
     ],
     builtTitle: 'This site',
     builtText:
-      'I designed and built this site with Claude Code, from the first idea to the deploy. The Strategy Engine, the Lab tools and both languages run on code written with AI under my direction.',
+      'Nothing here is a mockup. The Strategy Engine and every tool in the Lab work, in English and in Spanish. Open one and put your own numbers in.',
   },
   es: {
     metaTitle: 'Cómo trabajo con IA | Alberto Drucker',
@@ -183,7 +186,7 @@ export const howIWork: Localized<{
     ],
     builtTitle: 'Este sitio',
     builtText:
-      'Diseñé y construí este sitio con Claude Code, desde la primera idea hasta su publicación. El Strategy Engine, las herramientas del Lab y los dos idiomas corren con código escrito con IA bajo mi dirección.',
+      'Nada de lo que ves aquí es una maqueta. El Strategy Engine y cada herramienta del Lab funcionan, en español y en inglés. Abre una y mete tus propios números.',
   },
 };
 
@@ -312,7 +315,7 @@ export const about: Localized<{
     paragraphs: [
       'I grew up in Monterrey, a city that builds things, and trained as an engineer in innovation and development at Tec de Monterrey. That training never left me. I still start by understanding how a system works before deciding what to change.',
       'My work has moved between industry, creative work and strategy. I led innovation at a creative agency in Monterrey, where I learned that an idea is worth little until it reaches the people it was made for, and that a sharp insight beats a big budget.',
-      'Today I’m finishing an MBA at Indiana University’s Kelley School of Business, focused on marketing and strategy, and I lead AI and applied technology for the school’s tech club. I use AI every day as a working partner for research, analysis, writing and building. This site is one example: I built it with Claude Code.',
+      'Today I’m finishing an MBA at Indiana University’s Kelley School of Business, focused on marketing and strategy, and I lead AI and applied technology for the school’s tech club. I use AI every day as a working partner for research, analysis, writing and building.',
       'I’m moving back to Monterrey to do this work in Mexico. Off the clock, I’m learning to DJ.',
     ],
     focusTitle: 'Where I add the most value',
@@ -338,7 +341,7 @@ export const about: Localized<{
     paragraphs: [
       'Crecí en Monterrey, una ciudad que construye cosas, y estudié Ingeniería en Innovación y Desarrollo en el Tec de Monterrey. Esa formación nunca se fue. Todavía empiezo por entender cómo funciona un sistema antes de decidir qué cambiar.',
       'Mi trabajo se ha movido entre la industria, el trabajo creativo y la estrategia. Lideré innovación en una agencia creativa de Monterrey, donde aprendí que una idea vale poco hasta que llega a las personas para las que fue hecha, y que un buen insight le gana a un gran presupuesto.',
-      'Hoy estoy terminando un MBA en Kelley School of Business de Indiana University, enfocado en marketing y estrategia, y lidero IA y tecnología aplicada en el club de tecnología de la escuela. Uso IA todos los días como compañera de trabajo para investigar, analizar, escribir y construir. Este sitio es un ejemplo: lo construí con Claude Code.',
+      'Hoy estoy terminando un MBA en Kelley School of Business de Indiana University, enfocado en marketing y estrategia, y lidero IA y tecnología aplicada en el club de tecnología de la escuela. Uso IA todos los días como compañera de trabajo para investigar, analizar, escribir y construir.',
       'Estoy regresando a Monterrey para hacer este trabajo en México. Fuera de la oficina, estoy aprendiendo a ser DJ.',
     ],
     focusTitle: 'Donde más valor aporto',

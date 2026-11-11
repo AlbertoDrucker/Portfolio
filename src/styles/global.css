@@ -1,28 +1,30 @@
 /* Design tokens: see CLAUDE.md. Blue means AI, ochre means judgment. */
 :root {
   /* Names date from the dark first version: --ink is the page, --paper is the text. */
-  --ink: #f3f4fb;
-  --ink-raised: #f7f8fd;
+  --ink: #f3f5ef;
+  --ink-raised: #f7f9f3;
   --ink-sunk: #ffffff;
-  --lift: 0 1px 2px rgba(21, 23, 59, 0.05), 0 18px 48px -18px rgba(43, 71, 245, 0.22);
-  --rule: #dcdfec;
-  --rule-strong: #b4b9d0;
-  --paper: #15173b;
-  --stone: #5a5f7d;
-  --ai: #2b47f5;
-  --ai-soft: rgba(43, 71, 245, 0.08);
-  --judgment: #a85400;
-  --judgment-mark: #ffc02e;
-  --judgment-soft: rgba(255, 192, 46, 0.2);
+  --lift: 0 1px 2px rgba(15, 42, 31, 0.05), 0 18px 44px -20px rgba(15, 42, 31, 0.22);
+  --rule: #d9dfd3;
+  --rule-strong: #aab5a6;
+  --paper: #0f2a1f;
+  --stone: #52625a;
+  --ai: #5b3df5;
+  --ai-soft: rgba(91, 61, 245, 0.08);
+  --judgment: #3f5200;
+  --judgment-mark: #d4f56a;
+  --judgment-soft: rgba(212, 245, 106, 0.55);
   --good: #0f7350;
-  --bad: #cf3d4f;
-  --c1: #15173b;
-  --c2: #cc2b7c;
+  --bad: #c7334a;
+  --c1: #0f2a1f;
+  --c2: #c8327d;
   --c3: #0b7f78;
-  --c4: #8a4fd6;
+  --c4: #5b3df5;
 
   --serif: 'Newsreader Variable', 'Iowan Old Style', Georgia, serif;
   --sans: 'Archivo Variable', 'Helvetica Neue', Arial, sans-serif;
+  --display: 'Bricolage Grotesque Variable', 'Archivo Variable', 'Helvetica Neue', Arial, sans-serif;
+  --hand: 'Caveat', 'Segoe Script', cursive;
 
   /* Type scale (perfect fourth on 18px body) */
   --step--1: 0.875rem;
@@ -78,8 +80,10 @@ h2,
 h3,
 h4 {
   margin: 0;
-  font-weight: 400;
-  line-height: 1.1;
+  font-family: var(--display);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
   text-wrap: balance;
 }
 

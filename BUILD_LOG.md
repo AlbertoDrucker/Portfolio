@@ -88,3 +88,12 @@ A running record of how this site was built with Claude Code. It becomes the pub
 - The journey mapper lowercased "WhatsApp" when it placed text mid sentence. It now leaves brands and acronyms alone.
 - The portfolio board told a company with too little core work that "the future is underfunded". Core now has its own message.
 - WhatsApp follow up builder: four situations, two tones, three messages each with timing, a reason for every message and a button that opens WhatsApp with the text ready.
+
+## Session 5 · Nov 11, 2026
+
+**Decision:** the site should look personal and hand made, and should not say that AI built it. The Built in public page and the "built with" footer line are gone.
+
+**Built**
+- New identity: chalk page, deep pine text and dark blocks, violet for actions, lime highlighter. Bricolage Grotesque headings, Newsreader body, Caveat for handwritten notes.
+- Handwritten notes in the hero, the Strategy Engine margin, the launch case and the WhatsApp builder.
+- One dark system card on the home page and a pine contact block with a lime button.

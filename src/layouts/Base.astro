@@ -2,6 +2,8 @@
 import '@fontsource-variable/newsreader/opsz.css';
 import '@fontsource-variable/newsreader/opsz-italic.css';
 import '@fontsource-variable/archivo/wght.css';
+import '@fontsource-variable/bricolage-grotesque/index.css';
+import '@fontsource/caveat/500.css';
 import '../styles/global.css';
 import { localePath, otherLang, useStrings, type Lang, type PageSlug } from '../i18n/ui';
 import { contact } from '../content/site';
@@ -40,7 +42,7 @@ const nav: { slug: PageSlug; label: string }[] = [
     <link rel="alternate" hreflang={lang === 'es' ? 'es-MX' : 'en'} href={canonical} />
     <link rel="alternate" hreflang={alt === 'es' ? 'es-MX' : 'en'} href={altHref} />
     <link rel="alternate" hreflang="x-default" href={enHref} />
-    <meta name="theme-color" content="#f5f6fb" />
+    <meta name="theme-color" content="#f3f5ef" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -113,7 +115,7 @@ const nav: { slug: PageSlug; label: string }[] = [
         </form>
         <div class="footer-meta">
           <p>{t.footer.location}</p>
-          <p><a href={localePath(lang, 'built')}>{t.footer.built}</a></p>
+          <p>{t.footer.built}</p>
         </div>
       </div>
     </footer>
@@ -193,7 +195,7 @@ const nav: { slug: PageSlug; label: string }[] = [
   }
 
   .site-footer {
-    background: var(--ai);
+    background: var(--paper);
     color: #fff;
     padding-block: clamp(3.5rem, 8vw, 6rem) 2.5rem;
   }
@@ -235,9 +237,9 @@ const nav: { slug: PageSlug; label: string }[] = [
   .footer-btn {
     display: inline-block;
     font: 600 1rem var(--sans);
-    color: var(--ai);
-    background: #fff;
-    border: 1px solid #fff;
+    color: var(--paper);
+    background: var(--judgment-mark);
+    border: 1px solid var(--judgment-mark);
     border-radius: 999px;
     padding: 0.7rem 1.4rem;
     text-decoration: none;
@@ -245,8 +247,8 @@ const nav: { slug: PageSlug; label: string }[] = [
   }
 
   .footer-btn:hover {
-    background: var(--judgment-mark);
-    border-color: var(--judgment-mark);
+    background: #fff;
+    border-color: #fff;
     color: var(--paper);
   }
 
