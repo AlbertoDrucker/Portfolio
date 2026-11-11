@@ -397,6 +397,31 @@ export const labProjects: LabProject[] = [
     },
   },
   {
+    slug: 'whatsapp-followup',
+    category: 'strategy',
+    status: 'live',
+    copy: {
+      en: {
+        title: 'WhatsApp follow up builder',
+        summary: 'Pick the situation, add four details and get three messages with their timing, ready to copy or open in WhatsApp.',
+        why: [
+          'In Mexico most small businesses sell through WhatsApp, and most lost sales are not lost to a competitor. They are quotes that went out and never got a second message.',
+          'Following up feels pushy when you don’t know what to say. So this writes the sequence and explains the reason behind each message, which matters more than the wording.',
+        ],
+        next: ['Sequences by industry: clinics, contractors, schools, restaurants.', 'A simple tracker of who is on which day of the sequence.'],
+      },
+      es: {
+        title: 'Seguimiento por WhatsApp',
+        summary: 'Elige la situación, agrega cuatro datos y obtén tres mensajes con sus tiempos, listos para copiar o abrir en WhatsApp.',
+        why: [
+          'En México la mayoría de los negocios pequeños vende por WhatsApp, y la mayoría de las ventas perdidas no se pierden contra un competidor. Son cotizaciones que se mandaron y nunca tuvieron un segundo mensaje.',
+          'Dar seguimiento se siente insistente cuando no sabes qué decir. Por eso esto escribe la secuencia y explica la razón detrás de cada mensaje, que importa más que las palabras exactas.',
+        ],
+        next: ['Secuencias por giro: clínicas, contratistas, escuelas, restaurantes.', 'Un control sencillo de quién va en qué día de la secuencia.'],
+      },
+    },
+  },
+  {
     slug: 'funnel-leak',
     category: 'strategy',
     status: 'live',

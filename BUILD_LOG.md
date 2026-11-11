@@ -87,3 +87,4 @@ A running record of how this site was built with Claude Code. It becomes the pub
 **What broke**
 - The journey mapper lowercased "WhatsApp" when it placed text mid sentence. It now leaves brands and acronyms alone.
 - The portfolio board told a company with too little core work that "the future is underfunded". Core now has its own message.
+- WhatsApp follow up builder: four situations, two tones, three messages each with timing, a reason for every message and a button that opens WhatsApp with the text ready.

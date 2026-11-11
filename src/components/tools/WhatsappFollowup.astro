@@ -1,0 +1,162 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { whatsappFollowup } from '../../content/tools/whatsapp-followup';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = whatsappFollowup[lang];
+const d = c.defaults;
+---
+
+<div class="tool" data-tool="whatsapp-followup" data-lang={lang} data-copy={JSON.stringify(c.dyn)}>
+  <div class="tool-grid">
+    <div class="tool-inputs">
+      <label class="field">
+        <span class="field-label">{c.situation}</span>
+        <select name="situation">
+          {Object.entries(c.situations).map(([k, v], i) => <option value={k} selected={i === 0}>{v}</option>)}
+        </select>
+      </label>
+      <label class="field">
+        <span class="field-label">{c.tone}</span>
+        <select name="tone">
+          <option value="formal">{c.tones.formal}</option>
+          <option value="casual" selected>{c.tones.casual}</option>
+        </select>
+      </label>
+      <label class="field">
+        <span class="field-label">{c.name}</span>
+        <input type="text" name="name" value={d.name} />
+      </label>
+      <label class="field">
+        <span class="field-label">{c.offer}</span>
+        <input type="text" name="offer" value={d.offer} />
+        <span class="tool-hint">{c.offerHint}</span>
+      </label>
+      <label class="field">
+        <span class="field-label">{c.me}</span>
+        <input type="text" name="me" value={d.me} />
+      </label>
+      <label class="field">
+        <span class="field-label">{c.biz}</span>
+        <input type="text" name="biz" value={d.biz} />
+      </label>
+      <label class="field">
+        <span class="field-label">{c.reason}</span>
+        <input type="text" name="reason" value={d.reason} />
+        <span class="tool-hint">{c.reasonHint}</span>
+      </label>
+    </div>
+
+    <div class="tool-outputs">
+      <div>
+        <p class="tool-section-title">{c.sequenceTitle}</p>
+        <ol class="wa-seq" data-seq></ol>
+      </div>
+      <div class="wa-rules">
+        <p class="tool-section-title">{c.rulesTitle}</p>
+        <ul>
+          {c.rules.map((r) => <li>{r}</li>)}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initTools } from '../../scripts/tools/util';
+  import { setupWhatsappFollowup } from '../../scripts/tools/whatsapp-followup';
+  initTools('[data-tool="whatsapp-followup"]', setupWhatsappFollowup);
+</script>
+
+<style>
+  .wa-seq {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  :global(.wa-step) {
+    display: grid;
+    gap: 0.75rem 1.5rem;
+  }
+
+  @media (min-width: 1100px) {
+    :global(.wa-step) {
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+
+  :global(.wa-msg) {
+    display: grid;
+    gap: 0.6rem;
+    min-width: 0;
+  }
+
+  :global(.wa-day) {
+    font-weight: 600;
+    color: var(--ai);
+    font-size: 0.86rem;
+  }
+
+  /* A chat bubble: the one place this tool borrows the look of the channel it writes for. */
+  :global(.wa-bubble) {
+    padding: 0.8rem 1rem;
+    border-radius: 16px 16px 4px 16px;
+    background: #e3f6e8;
+    border: 1px solid #bfe5c9;
+    color: var(--paper);
+    font-size: 1rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  :global(.wa-actions) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  :global(.wa-actions a.btn) {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  :global(.wa-why) {
+    padding: 0.75rem 0.95rem;
+    border-left: 3px solid var(--judgment-mark);
+    border-radius: 0 12px 12px 0;
+    background: var(--judgment-soft);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  :global(.wa-why small) {
+    display: block;
+    font-family: var(--sans);
+    font-style: normal;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: var(--judgment);
+    margin-bottom: 0.2rem;
+  }
+
+  .wa-rules ul {
+    margin: 0.7rem 0 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.45rem;
+    max-width: 62ch;
+    line-height: 1.5;
+  }
+</style>

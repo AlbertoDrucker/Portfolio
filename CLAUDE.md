@@ -34,7 +34,7 @@ Audience: hiring managers and recruiters for corporate strategy and marketing ro
 - Sections: Home, Lab, How I work with AI, Selected work (anonymized), About.
 - The Lab is the center of the site: working tools mixing work, interests and things still in development. No live AI: every tool runs in the browser, free, no keys.
 - Every Lab project has a page with the tool, "Why I built it" and "What's next". Tagged Strategy, Applied AI or Just for fun, and marked Live or Beta. A Beta tool still has to work. No "coming soon" cards.
-- Tools aimed at business owners come first in each category: Pricing and break even calculator, Sales funnel leak finder, AI readiness check. Every tool page carries a "Want this built around your business?" band linking to the contact block (`#contact` in the footer).
+- Tools aimed at business owners come first in each category: Pricing and break even calculator, Sales funnel leak finder, WhatsApp follow up builder, AI readiness check. Every tool page carries a "Want this built around your business?" band linking to the contact block (`#contact` in the footer).
 - Role tools (target roles: strategic planning, product marketing, innovation): First 90 days plan, Product launch teardown (fictional product Mesa Lista), Strategic plan on a page, Innovation portfolio board, Customer journey mapper, Membership and subscription calculator.
 - Systems I built: Rental operations system and Networking CRM (own state, own export). Contact is a Web3Forms form in the footer (`contact.formKey` in `src/content/site.ts`); the email address is never shown. No public resume: it goes by request.
 - `/built/` is the public "Built in public" page, written from BUILD_LOG.md.
