@@ -32,7 +32,7 @@ const SC_LAPS = 4;
 const CLIFF_PENALTY = 0.45;
 const FUEL_GAIN = 0.03;
 const COLORS = ['s-c1', 's-c3', 's-c4'];
-const SWATCH = ['#e9e4d8', '#c9a2d6', '#8cc7b0'];
+const SWATCH = ['#15173b', '#8a4fd6', '#0b7f78'];
 const COMPOUNDS: Compound[] = ['S', 'M', 'H'];
 
 export function simulate(def: StrategyDef, race: Race, tyres: Copy['tyres']) {

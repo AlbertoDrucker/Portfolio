@@ -169,7 +169,8 @@ const BriefTag = scenarios.length > 1 ? 'div' : 'article';
     --pad: clamp(1rem, 3vw, 2.25rem);
     background: var(--ink-sunk);
     border: 1px solid var(--rule);
-    border-radius: 6px;
+    border-radius: 18px;
+    box-shadow: var(--lift);
     overflow: hidden;
   }
 
@@ -339,7 +340,7 @@ const BriefTag = scenarios.length > 1 ? 'div' : 'article';
   .step-body {
     min-width: 0;
     padding-left: 1rem;
-    border-left: 1px solid rgba(143, 176, 216, 0.35);
+    border-left: 1px solid rgba(43, 71, 245, 0.3);
     display: grid;
     gap: 0.9rem;
     max-width: 66ch;
@@ -413,7 +414,7 @@ const BriefTag = scenarios.length > 1 ? 'div' : 'article';
   }
 
   .option.recommended {
-    border-color: rgba(143, 176, 216, 0.55);
+    border-color: rgba(43, 71, 245, 0.5);
     background: var(--ai-soft);
   }
 
@@ -481,9 +482,11 @@ const BriefTag = scenarios.length > 1 ? 'div' : 'article';
 
   .note {
     position: relative;
-    padding-left: 0.95rem;
-    border-left: 2px solid var(--judgment);
-    color: var(--judgment);
+    padding: 0.6rem 0.85rem 0.65rem 0.95rem;
+    border-left: 3px solid var(--judgment-mark);
+    border-radius: 0 10px 10px 0;
+    background: var(--judgment-soft);
+    color: var(--paper);
     font-style: italic;
     font-size: 1.02rem;
     line-height: 1.5;
@@ -530,7 +533,7 @@ const BriefTag = scenarios.length > 1 ? 'div' : 'article';
   }
 
   .key-judgment {
-    background: var(--judgment);
+    background: var(--judgment-mark);
     margin-left: 0.9rem;
   }
 

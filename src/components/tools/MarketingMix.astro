@@ -8,7 +8,7 @@ interface Props {
 
 const { lang } = Astro.props;
 const c = marketingMix[lang];
-const colors = ['var(--paper)', '#d9a58c', '#c9a2d6', '#8cc7b0'];
+const colors = ['var(--c1)', 'var(--c2)', 'var(--c4)', 'var(--c3)'];
 ---
 
 <div class="tool" data-tool="marketing-mix" data-lang={lang} data-copy={JSON.stringify({ ...c.dyn, channels: c.channels })}>

@@ -49,7 +49,7 @@ const strings = {
       built: 'Designed and built with Claude Code.',
       location: 'Monterrey, Mexico',
       contactTitle: 'Let’s talk',
-      contactLead: 'Strategy, marketing and applied AI roles in Mexico.',
+      contactLead: 'Open to strategy, marketing and applied AI roles in Mexico, and to projects where one of these tools could help your business.',
     },
     engine: {
       name: 'Strategy Engine',
@@ -95,7 +95,7 @@ const strings = {
       built: 'Diseñado y construido con Claude Code.',
       location: 'Monterrey, México',
       contactTitle: 'Platiquemos',
-      contactLead: 'Roles de estrategia, marketing e IA aplicada en México.',
+      contactLead: 'Abierto a roles de estrategia, marketing e IA aplicada en México, y a proyectos donde alguna de estas herramientas le sirva a tu negocio.',
     },
     engine: {
       name: 'Strategy Engine',

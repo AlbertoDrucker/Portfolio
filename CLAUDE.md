@@ -34,20 +34,19 @@ Audience: hiring managers and recruiters for corporate strategy and marketing ro
 - Sections: Home, Lab, How I work with AI, Selected work (anonymized), About.
 - The Lab is the center of the site: working tools mixing work, interests and things still in development. No live AI: every tool runs in the browser, free, no keys.
 - Every Lab project has a page with the tool, "Why I built it" and "What's next". Tagged Strategy, Applied AI or Just for fun, and marked Live or Beta. A Beta tool still has to work. No "coming soon" cards.
-- Current tools: Market sizing builder, Customer value calculator, Negotiation planner, Positioning builder, Marketing mix optimizer (beta), AI Opportunity Map, Automation ROI simulator, AI workflow builder (beta), Pit strategy simulator. Avoid trademarked names (no "F1").
+- Tools aimed at business owners come first in each category: Pricing and break even calculator, Sales funnel leak finder, AI readiness check. Every tool page carries a "Want this built around your business?" band linking to the contact block (`#contact` in the footer).
+- Other tools: Market sizing builder, Customer value calculator, Negotiation planner, Positioning builder, Marketing mix optimizer (beta), AI Opportunity Map, Automation ROI simulator, AI workflow builder (beta), Pit strategy simulator. Avoid trademarked names (no "F1").
 
-## Design system: editorial minimal, dark
-The memorable idea is the annotated brief: the AI draft runs in the main column and Alberto's judgment appears as ochre margin notes, like an editor marking up a manuscript. Spend boldness there; keep everything else quiet.
+## Design system: editorial, light, confident color
+The memorable idea is the annotated brief: the AI draft runs in the main column and Alberto's judgment appears as marigold highlighted margin notes, like an editor marking up a manuscript.
 
-Color tokens (`src/styles/tokens.css`):
-- `--ink` #131821 page background (deep ink blue, not neutral black)
-- `--ink-raised` #1a202b raised surfaces
-- `--rule` #2b3240 hairlines
-- `--paper` #ece7dd primary text
-- `--stone` #9097a3 secondary text
-- `--ai` #8fb0d8 marks AI drafted content
-- `--judgment` #e0b25a marks Alberto's judgment (margin notes)
-Color carries meaning: blue means AI, ochre means human judgment. Never use them decoratively. Charts use paper, sand (#d9a58c), lilac (#c9a2d6) and mint (#8cc7b0) for neutral series; green and coral only for good and bad verdicts.
+Color tokens (`src/styles/global.css`). Variable names date from the dark first version: `--ink` is the page, `--paper` is the text.
+- `--ink` #f3f4fb page background (cool porcelain), `--ink-sunk` #ffffff panels (with `--lift` shadow, 18px radius), `--ink-raised` #f7f8fd fields
+- `--paper` #15173b text (deep indigo), `--stone` #5a5f7d secondary text, `--rule` #dcdfec hairlines
+- `--ai` #2b47f5 electric blue: AI drafted content, primary buttons, the contact block
+- `--judgment-mark` #ffc02e marigold and `--judgment-soft`: Alberto's judgment and the "work with me" band. `--judgment` #a85400 for judgment text
+- Charts: `--c1` indigo, `--c2` magenta, `--c3` teal, `--c4` violet. `--good` and `--bad` only for verdicts.
+Color carries meaning: blue means AI, marigold means human judgment. All text colors must pass AA on white.
 
 Type:
 - Newsreader (variable, optical size) for headlines and reading text.

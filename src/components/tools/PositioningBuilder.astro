@@ -73,7 +73,7 @@ const examples = Object.fromEntries(c.fields.map((f) => [f.name, f.example]));
   }
 
   :global(.pb-statement .pb-missing) {
-    color: #687080;
+    color: #8a8fa8;
     border-bottom: 1px dashed var(--rule-strong);
   }
 
@@ -111,7 +111,7 @@ const examples = Object.fromEntries(c.fields.map((f) => [f.name, f.example]));
     height: 0.7rem;
     margin-top: 0.35rem;
     border-radius: 50%;
-    background: #7fbf9a;
+    background: var(--good);
   }
 
   :global(.pb-checks li.fail::before) {

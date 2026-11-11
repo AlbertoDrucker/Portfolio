@@ -32,6 +32,9 @@ export const labPage: Localized<{
   nextTitle: string;
   back: string;
   disclaimer: string;
+  ctaTitle: string;
+  ctaText: string;
+  ctaLink: string;
 }> = {
   en: {
     metaTitle: 'Lab | Alberto Drucker',
@@ -48,6 +51,9 @@ export const labPage: Localized<{
     nextTitle: 'What’s next',
     back: 'All Lab tools',
     disclaimer: 'Illustrative models built to support thinking, not to replace your own data.',
+    ctaTitle: 'Want this built around your business?',
+    ctaText: 'Every tool here started as a real question. I can adapt this one to your numbers, your process and your team, or build the one you need.',
+    ctaLink: 'Let’s talk',
   },
   es: {
     metaTitle: 'Lab | Alberto Drucker',
@@ -64,10 +70,88 @@ export const labPage: Localized<{
     nextTitle: 'Lo que sigue',
     back: 'Todas las herramientas',
     disclaimer: 'Modelos ilustrativos para apoyar el pensamiento, no para sustituir tus propios datos.',
+    ctaTitle: '¿Quieres esto hecho a la medida de tu negocio?',
+    ctaText: 'Cada herramienta de este sitio empezó como una pregunta real. Puedo adaptar esta a tus números, tu proceso y tu equipo, o construir la que necesitas.',
+    ctaLink: 'Platiquemos',
   },
 };
 
 export const labProjects: LabProject[] = [
+  {
+    slug: 'pricing-breakeven',
+    category: 'strategy',
+    status: 'live',
+    copy: {
+      en: {
+        title: 'Pricing and break even calculator',
+        summary: 'See your break even point, your room for error and how much volume you can lose after a price increase and still earn the same.',
+        why: [
+          'Most owners I talk to know their sales by heart and guess their break even. And almost everyone is afraid to raise prices because they picture customers leaving.',
+          'This puts a number on that fear. A 10 percent increase usually lets you lose far more volume than you would expect before you are worse off. Seeing it changes the conversation.',
+        ],
+        next: ['Several products with different margins in one view.', 'A discount planner that shows what a promotion really costs.'],
+      },
+      es: {
+        title: 'Calculadora de precio y punto de equilibrio',
+        summary: 'Conoce tu punto de equilibrio, tu margen de error y cuánto volumen puedes perder después de subir precios y seguir ganando lo mismo.',
+        why: [
+          'La mayoría de los dueños con los que platico se saben sus ventas de memoria y adivinan su punto de equilibrio. Y casi todos temen subir precios porque imaginan que los clientes se van.',
+          'Esto le pone número a ese miedo. Un aumento de 10 por ciento normalmente te permite perder mucho más volumen del que esperarías antes de salir perdiendo. Verlo cambia la conversación.',
+        ],
+        next: ['Varios productos con márgenes distintos en una sola vista.', 'Un planeador de descuentos que muestre lo que realmente cuesta una promoción.'],
+      },
+    },
+  },
+  {
+    slug: 'funnel-leak',
+    category: 'strategy',
+    status: 'live',
+    copy: {
+      en: {
+        title: 'Sales funnel leak finder',
+        summary: 'Enter four numbers about your sales and see which stage is costing you the most revenue, with a first move to fix it.',
+        why: [
+          'When sales are slow, the reflex is to spend more on advertising. Often the problem is further down: people show interest and nobody follows up, or customers buy once and never hear from you again.',
+          'This compares each stage of your funnel with a typical rate for your type of business and tells you where one fix is worth the most money.',
+        ],
+        next: ['Reference rates by industry, built from real data.', 'A stage for quotes sent, since many service businesses lose sales there.'],
+      },
+      es: {
+        title: 'Detector de fugas en tu embudo de ventas',
+        summary: 'Captura cuatro números de tus ventas y descubre qué etapa te está costando más ingreso, con un primer paso para corregirla.',
+        why: [
+          'Cuando las ventas van lentas, el reflejo es gastar más en publicidad. Muchas veces el problema está más abajo: la gente muestra interés y nadie da seguimiento, o los clientes compran una vez y no vuelven a saber de ti.',
+          'Esto compara cada etapa de tu embudo con una tasa típica para tu tipo de negocio y te dice dónde un solo arreglo vale más dinero.',
+        ],
+        next: ['Tasas de referencia por industria, construidas con datos reales.', 'Una etapa de cotizaciones enviadas, porque muchos negocios de servicios pierden ventas ahí.'],
+      },
+    },
+  },
+  {
+    slug: 'ai-readiness',
+    category: 'ai',
+    status: 'live',
+    copy: {
+      en: {
+        title: 'AI readiness check',
+        summary: 'Eight questions to find out if your company is ready for AI, where it is weakest and the three steps to take next.',
+        why: [
+          'Most companies ask which AI tool to buy. The better first question is whether the company is ready to get value from any of them.',
+          'In my experience AI projects rarely fail because of the technology. They fail because the data is scattered, the process was never written down or nobody owns the result. This check finds which of those is your real starting point.',
+        ],
+        next: ['A version by department, since sales and operations are rarely at the same level.', 'A one page summary you can download and share with your team.'],
+      },
+      es: {
+        title: 'Diagnóstico de preparación para IA',
+        summary: 'Ocho preguntas para saber si tu empresa está lista para la IA, dónde está más débil y los tres pasos que siguen.',
+        why: [
+          'La mayoría de las empresas pregunta qué herramienta de IA comprar. La mejor primera pregunta es si la empresa está lista para sacarle valor a cualquiera.',
+          'En mi experiencia, los proyectos de IA rara vez fallan por la tecnología. Fallan porque los datos están dispersos, el proceso nunca se escribió o nadie es dueño del resultado. Este diagnóstico encuentra cuál de esos es tu verdadero punto de partida.',
+        ],
+        next: ['Una versión por área, porque ventas y operaciones rara vez están al mismo nivel.', 'Un resumen de una página para descargar y compartir con tu equipo.'],
+      },
+    },
+  },
   {
     slug: 'market-sizing',
     category: 'strategy',

@@ -40,7 +40,7 @@ const nav: { slug: PageSlug; label: string }[] = [
     <link rel="alternate" hreflang={lang === 'es' ? 'es-MX' : 'en'} href={canonical} />
     <link rel="alternate" hreflang={alt === 'es' ? 'es-MX' : 'en'} href={altHref} />
     <link rel="alternate" hreflang="x-default" href={enHref} />
-    <meta name="theme-color" content="#131821" />
+    <meta name="theme-color" content="#f5f6fb" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -77,7 +77,7 @@ const nav: { slug: PageSlug; label: string }[] = [
       <slot />
     </main>
 
-    <footer class="site-footer">
+    <footer class="site-footer" id="contact">
       <div class="wrap footer-inner">
         <div class="footer-contact">
           <h2 class="footer-title">{t.footer.contactTitle}</h2>
@@ -165,8 +165,17 @@ const nav: { slug: PageSlug; label: string }[] = [
   }
 
   .site-footer {
-    border-top: 1px solid var(--rule);
+    background: var(--ai);
+    color: #fff;
     padding-block: clamp(3.5rem, 8vw, 6rem) 2.5rem;
+  }
+
+  .site-footer :global(a) {
+    text-decoration-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .site-footer :global(:focus-visible) {
+    outline-color: #fff;
   }
 
   .footer-inner {
@@ -182,7 +191,7 @@ const nav: { slug: PageSlug; label: string }[] = [
 
   .footer-lead {
     margin-top: 0.75rem;
-    color: var(--stone);
+    color: rgba(255, 255, 255, 0.86);
     max-width: 44ch;
   }
 
@@ -202,9 +211,9 @@ const nav: { slug: PageSlug; label: string }[] = [
     gap: 0.5rem 2rem;
     font-family: var(--sans);
     font-size: 0.875rem;
-    color: var(--stone);
+    color: rgba(255, 255, 255, 0.86);
     padding-top: 1.5rem;
-    border-top: 1px solid var(--rule);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
   }
 
   @media print {

@@ -1,0 +1,155 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { funnelLeak, funnelRefs } from '../../content/tools/funnel-leak';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = funnelLeak[lang];
+const payload = { ...c.dyn, refs: funnelRefs };
+---
+
+<div class="tool" data-tool="funnel-leak" data-lang={lang} data-copy={JSON.stringify(payload)}>
+  <div class="tool-grid">
+    <div class="tool-inputs">
+      <label class="field">
+        <span class="field-label">{c.type}</span>
+        <select name="type">
+          {Object.entries(c.types).map(([k, v], i) => <option value={k} selected={i === 0}>{v}</option>)}
+        </select>
+      </label>
+      <div class="field">
+        <span class="field-label">{c.currency}</span>
+        <div class="seg" data-currency>
+          <button type="button" data-cur="MXN" aria-pressed="true">MXN</button>
+          <button type="button" data-cur="USD" aria-pressed="false">USD</button>
+        </div>
+      </div>
+      <label class="field">
+        <span class="field-label">{c.visitors}</span>
+        <input type="number" name="visitors" min="0" step="100" value="4000" inputmode="decimal" />
+        <span class="tool-hint">{c.visitorsHint}</span>
+      </label>
+      <label class="field">
+        <span class="field-label">{c.lead}<span class="field-value" data-out="lead"></span></span>
+        <input type="range" name="lead" min="0.5" max="30" step="0.5" value="2" />
+        <span class="tool-hint">{c.leadHint}</span>
+      </label>
+      <label class="field">
+        <span class="field-label">{c.close}<span class="field-value" data-out="close"></span></span>
+        <input type="range" name="close" min="1" max="80" step="1" value="12" />
+      </label>
+      <label class="field">
+        <span class="field-label">{c.repeat}<span class="field-value" data-out="repeat"></span></span>
+        <input type="range" name="repeat" min="0" max="95" step="1" value="40" />
+        <span class="tool-hint">{c.repeatHint}</span>
+      </label>
+      <label class="field">
+        <span class="field-label">{c.ticket}</span>
+        <input type="number" name="ticket" min="0" step="500" value="45000" inputmode="decimal" />
+      </label>
+    </div>
+
+    <div class="tool-outputs">
+      <div class="stats">
+        <div class="stat"><span class="stat-label">{c.revenue}</span><span class="stat-value" data-out="revenue">0</span></div>
+        <div class="stat"><span class="stat-label">{c.customers}</span><span class="stat-value" data-out="customers">0</span></div>
+        <div class="stat"><span class="stat-label">{c.upside}</span><span class="stat-value" data-out="upside">0</span></div>
+      </div>
+      <p class="verdict" data-verdict></p>
+      <p class="fl-move" data-out="move"></p>
+      <div>
+        <p class="tool-section-title">{c.stagesTitle}</p>
+        <div class="fl-stages" data-stages></div>
+        <p class="tool-hint fl-note">{c.refNote}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initTools } from '../../scripts/tools/util';
+  import { setupFunnelLeak } from '../../scripts/tools/funnel-leak';
+  initTools('[data-tool="funnel-leak"]', setupFunnelLeak);
+</script>
+
+<style>
+  .fl-move {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    line-height: 1.5;
+    max-width: 56ch;
+  }
+
+  .fl-stages {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 1rem;
+  }
+
+  .fl-note {
+    margin-top: 1.25rem;
+    max-width: 62ch;
+  }
+
+  :global(.fl-stage) {
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  :global(.fl-stage .fl-head) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+  }
+
+  :global(.fl-stage .fl-name) {
+    font-weight: 600;
+  }
+
+  :global(.fl-stage .fl-gain) {
+    color: var(--stone);
+  }
+
+  :global(.fl-stage.is-leak .fl-gain) {
+    color: var(--bad);
+    font-weight: 600;
+  }
+
+  :global(.fl-bar) {
+    position: relative;
+    height: 14px;
+    border-radius: 999px;
+    background: var(--ink);
+    border: 1px solid var(--rule);
+  }
+
+  :global(.fl-bar i) {
+    position: absolute;
+    inset: 0 auto 0 0;
+    border-radius: 999px;
+    background: var(--c3);
+  }
+
+  :global(.fl-stage.is-leak .fl-bar i) {
+    background: var(--bad);
+  }
+
+  :global(.fl-bar b) {
+    position: absolute;
+    top: -5px;
+    bottom: -5px;
+    width: 2px;
+    background: var(--paper);
+  }
+
+  :global(.fl-stage .fl-legend) {
+    display: flex;
+    gap: 1.25rem;
+    font-size: 0.82rem;
+    color: var(--stone);
+  }
+</style>

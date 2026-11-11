@@ -52,3 +52,15 @@ A running record of how this site was built with Claude Code. It becomes the pub
 - The Automation ROI steps table made the page 614px wide on a phone. Each step is now a small card with labeled fields on narrow screens.
 - The accessibility scan flagged unlabeled inputs in that table (one label was hardcoded in English), a tab panel on an `article`, margin notes marked up as nested landmarks, a skipped heading level and a map announced as an image while holding buttons. All fixed.
 - Page titles used middle dots and the marketing mix showed a range with an en dash. Both replaced.
+
+## Session 3 · Nov 11, 2026
+
+**Decision:** the site moves from dark to light, with more color, and leans toward business owners who might inquire or hire.
+
+**Built**
+- New palette: cool porcelain page, white panels with depth, deep indigo text, electric blue for AI and actions, marigold for judgment. The headline's AI line is blue and the contact block is a full blue band.
+- Three tools for business owners: Pricing and break even calculator, Sales funnel leak finder and AI readiness check.
+- A "Want this built around your business?" band on every tool page that leads to the contact block.
+
+**What broke**
+- Teal and magenta chart colors failed contrast as legend text on white. Both darkened.

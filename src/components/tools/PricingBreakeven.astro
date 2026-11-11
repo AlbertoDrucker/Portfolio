@@ -1,0 +1,85 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { pricingBreakeven } from '../../content/tools/pricing-breakeven';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = pricingBreakeven[lang];
+---
+
+<div class="tool" data-tool="pricing-breakeven" data-lang={lang} data-copy={JSON.stringify(c.dyn)}>
+  <div class="tool-grid">
+    <div class="tool-inputs">
+      <div class="field">
+        <span class="field-label">{c.currency}</span>
+        <div class="seg" data-currency>
+          <button type="button" data-cur="MXN" aria-pressed="true">MXN</button>
+          <button type="button" data-cur="USD" aria-pressed="false">USD</button>
+        </div>
+      </div>
+      <label class="field">
+        <span class="field-label">{c.price}</span>
+        <input type="number" name="price" min="0" step="10" value="450" inputmode="decimal" />
+      </label>
+      <label class="field">
+        <span class="field-label">{c.cost}</span>
+        <input type="number" name="cost" min="0" step="10" value="270" inputmode="decimal" />
+        <span class="tool-hint">{c.costHint}</span>
+      </label>
+      <label class="field">
+        <span class="field-label">{c.fixed}</span>
+        <input type="number" name="fixed" min="0" step="1000" value="120000" inputmode="decimal" />
+      </label>
+      <label class="field">
+        <span class="field-label">{c.units}</span>
+        <input type="number" name="units" min="0" step="10" value="900" inputmode="decimal" />
+      </label>
+      <label class="field">
+        <span class="field-label">{c.change}<span class="field-value" data-out="change"></span></span>
+        <input type="range" name="change" min="-30" max="30" step="1" value="0" />
+        <span class="tool-hint">{c.changeHint}</span>
+      </label>
+    </div>
+
+    <div class="tool-outputs">
+      <div class="stats">
+        <div class="stat"><span class="stat-label">{c.margin}</span><span class="stat-value" data-out="margin">0</span></div>
+        <div class="stat"><span class="stat-label">{c.breakeven}</span><span class="stat-value" data-out="breakeven">0</span></div>
+        <div class="stat"><span class="stat-label">{c.profit}</span><span class="stat-value" data-out="profit">0</span></div>
+      </div>
+      <p class="verdict" data-verdict></p>
+      <p class="pb-change" data-out="changeText"></p>
+
+      <figure class="pb-fig">
+        <figcaption class="tool-section-title">{c.chart}</figcaption>
+        <svg class="chart" data-chart></svg>
+        <p class="legend-row">
+          <span style="color: var(--c1)"><i></i>{c.legendNow}</span>
+          <span style="color: var(--c2)" data-legend-new hidden><i></i>{c.legendNew}</span>
+        </p>
+      </figure>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initTools } from '../../scripts/tools/util';
+  import { setupPricingBreakeven } from '../../scripts/tools/pricing-breakeven';
+  initTools('[data-tool="pricing-breakeven"]', setupPricingBreakeven);
+</script>
+
+<style>
+  .pb-fig {
+    margin: 0;
+  }
+
+  .pb-change {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    line-height: 1.5;
+    max-width: 56ch;
+  }
+</style>

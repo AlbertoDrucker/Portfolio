@@ -1,16 +1,25 @@
 /* Design tokens: see CLAUDE.md. Blue means AI, ochre means judgment. */
 :root {
-  --ink: #131821;
-  --ink-raised: #1a202b;
-  --ink-sunk: #10141b;
-  --rule: #2b3240;
-  --rule-strong: #3a4252;
-  --paper: #ece7dd;
-  --stone: #9097a3;
-  --ai: #8fb0d8;
-  --ai-soft: rgba(143, 176, 216, 0.12);
-  --judgment: #e0b25a;
-  --judgment-soft: rgba(224, 178, 90, 0.1);
+  /* Names date from the dark first version: --ink is the page, --paper is the text. */
+  --ink: #f3f4fb;
+  --ink-raised: #f7f8fd;
+  --ink-sunk: #ffffff;
+  --lift: 0 1px 2px rgba(21, 23, 59, 0.05), 0 18px 48px -18px rgba(43, 71, 245, 0.22);
+  --rule: #dcdfec;
+  --rule-strong: #b4b9d0;
+  --paper: #15173b;
+  --stone: #5a5f7d;
+  --ai: #2b47f5;
+  --ai-soft: rgba(43, 71, 245, 0.08);
+  --judgment: #a85400;
+  --judgment-mark: #ffc02e;
+  --judgment-soft: rgba(255, 192, 46, 0.2);
+  --good: #12805a;
+  --bad: #cf3d4f;
+  --c1: #15173b;
+  --c2: #cc2b7c;
+  --c3: #0b7f78;
+  --c4: #8a4fd6;
 
   --serif: 'Newsreader Variable', 'Iowan Old Style', Georgia, serif;
   --sans: 'Archivo Variable', 'Helvetica Neue', Arial, sans-serif;
@@ -27,7 +36,7 @@
   --max: 1320px;
   --measure: 64ch;
 
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 *,
@@ -99,8 +108,8 @@ a:hover {
 }
 
 ::selection {
-  background: var(--judgment);
-  color: var(--ink);
+  background: var(--judgment-mark);
+  color: var(--paper);
 }
 
 .wrap {

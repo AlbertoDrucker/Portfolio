@@ -93,6 +93,11 @@ const lab = labPage[lang];
     display: block;
   }
 
+  /* The headline follows the site's color code: the AI line is blue. */
+  .hero-line + .hero-line {
+    color: var(--ai);
+  }
+
   @media (min-width: 900px) {
     .hero-line + .hero-line {
       padding-left: 1.2em;

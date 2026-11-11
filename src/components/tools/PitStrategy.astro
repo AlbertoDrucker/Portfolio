@@ -135,17 +135,17 @@ const names = ['A', 'B', 'C'];
 
   :global(.ps-opt) {
     font-size: 0.8rem;
-    color: #8cc7b0;
+    color: var(--good);
     margin-top: -0.3rem;
   }
 
   :global(.ps-strat .ps-warn) {
     font-size: 0.8rem;
-    color: #d9786a;
+    color: var(--bad);
   }
 
   :global(.ps-strat.is-opt) {
-    border-color: rgba(140, 199, 176, 0.7);
+    border-color: var(--good);
   }
 
   :global(.ps-table td) {
@@ -171,15 +171,15 @@ const names = ['A', 'B', 'C'];
   }
 
   :global(.ps-tyre.S) {
-    color: #e5706a;
+    color: #d9364a;
   }
 
   :global(.ps-tyre.M) {
-    color: #e8cf5f;
+    color: #c98a00;
   }
 
   :global(.ps-tyre.H) {
-    color: #e9e4d8;
+    color: #6b7090;
   }
 
   .ps-fig {

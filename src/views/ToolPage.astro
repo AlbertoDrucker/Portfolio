@@ -33,6 +33,16 @@ const Tool = toolComponents[slug];
     <p class="tool-disclaimer">{c.disclaimer}</p>
   </section>
 
+  <section class="wrap">
+    <div class="tool-cta">
+      <div>
+        <h2 class="cta-title">{c.ctaTitle}</h2>
+        <p class="cta-text">{c.ctaText}</p>
+      </div>
+      <a class="cta-btn" href="#contact">{c.ctaLink}</a>
+    </div>
+  </section>
+
   <section class="section">
     <div class="wrap tool-story">
       <div>
@@ -52,6 +62,52 @@ const Tool = toolComponents[slug];
 </Base>
 
 <style>
+  .tool-cta {
+    display: grid;
+    gap: 1.25rem;
+    align-items: center;
+    margin-block: clamp(2rem, 5vw, 3.5rem);
+    padding: clamp(1.5rem, 3.5vw, 2.5rem);
+    border-radius: 18px;
+    background: var(--judgment-soft);
+    border: 1px solid rgba(255, 192, 46, 0.6);
+  }
+
+  @media (min-width: 800px) {
+    .tool-cta {
+      grid-template-columns: minmax(0, 1fr) auto;
+      column-gap: 2.5rem;
+    }
+  }
+
+  .cta-title {
+    font-size: var(--step-2);
+    letter-spacing: -0.01em;
+    font-variation-settings: 'opsz' 48;
+  }
+
+  .cta-text {
+    margin-top: 0.6rem;
+    max-width: 58ch;
+  }
+
+  .cta-btn {
+    justify-self: start;
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    color: #fff;
+    background: var(--paper);
+    border-radius: 999px;
+    padding: 0.8rem 1.5rem;
+    transition: background 150ms ease;
+  }
+
+  .cta-btn:hover {
+    background: var(--ai);
+  }
+
   .tool-hero {
     padding-top: clamp(2.5rem, 7vw, 5rem);
     padding-bottom: clamp(1.75rem, 4vw, 2.75rem);
