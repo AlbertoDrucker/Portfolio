@@ -51,6 +51,11 @@ function setup(root: HTMLElement): void {
       const on = t.dataset.tab === id;
       t.setAttribute('aria-selected', String(on));
       t.tabIndex = on ? 0 : -1;
+      // On narrow screens the tabs scroll sideways; keep the chosen one in view.
+      const row = t.parentElement;
+      if (on && row && row.scrollWidth > row.clientWidth) {
+        row.scrollTo({ left: t.offsetLeft - (row.clientWidth - t.offsetWidth) / 2 });
+      }
     });
     active = briefs.find((b) => b.dataset.brief === id) ?? briefs[0];
     body.scrollTop = 0;

@@ -35,3 +35,12 @@ A running record of how this site was built with Claude Code. It becomes the pub
 - The marketing mix optimizer first showed a 0.4% gain because the default split was already near optimal. Retuned the curves and started from a realistic events heavy split, so the optimizer has something to fix.
 - Hidden form fields still showed because `.field` set `display: grid`. Added a global `[hidden]` rule.
 - Blue was briefly used for a chart series. Blue is reserved for AI, so the palette changed.
+
+## Session 2 · Nov 10, 2026
+
+**Built**
+- Four more Strategy Engine scenarios in English and Spanish: AI adoption (an industrial distributor), market launch (a countertop water purifier), process redesign (custom packaging lead time) and strategic planning (a hardware chain's three year plan). All fictional, all through the same seven steps.
+- With five scenarios the Engine shows tabs. On phones the tabs sit in one row that scrolls sideways, and the selected tab stays in view.
+
+**What broke**
+- Five Spanish tab labels wrapped onto four lines on a phone and pushed the brief below the fold. Fixed with the sideways scrolling row.

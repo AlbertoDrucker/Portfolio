@@ -225,6 +225,29 @@ const letters = ['A', 'B', 'C', 'D'];
     gap: 0.25rem;
   }
 
+  /* Narrow screens: one row that scrolls sideways instead of a stack of wrapped tabs. */
+  @media (max-width: 899px) {
+    .engine-tabs {
+      position: relative;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scrollbar-width: none;
+      width: calc(100% + 2 * var(--pad));
+      margin-inline: calc(-1 * var(--pad));
+      padding-inline: var(--pad);
+      scroll-padding-inline: var(--pad);
+    }
+
+    .engine-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .engine-tabs button {
+      flex: none;
+      white-space: nowrap;
+    }
+  }
+
   .engine-tabs button {
     font: inherit;
     font-size: 0.875rem;
