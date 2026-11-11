@@ -1,6 +1,7 @@
 ---
 import type { Lang } from '../../i18n/ui';
 import { rentalOps } from '../../content/tools/rental-ops';
+import { rentalExt } from '../../content/tools/rental-ext';
 
 interface Props {
   lang: Lang;
@@ -10,7 +11,7 @@ const { lang } = Astro.props;
 const c = rentalOps[lang];
 ---
 
-<div class="tool app" data-tool="rental-ops" data-lang={lang} data-copy={JSON.stringify(c)} data-own-state>
+<div class="tool app" data-tool="rental-ops" data-lang={lang} data-copy={JSON.stringify({ ...c, ext: rentalExt[lang] })} data-own-state>
   <div data-app>
     <div class="app-body">
       <h2>{c.approveTitle}</h2>
@@ -42,7 +43,55 @@ const c = rentalOps[lang];
     margin: 0;
   }
 
-  .rops-payout {
-    max-width: 30rem;
+  .rops-apps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding: 0.75rem var(--tool-pad) 0;
+  }
+
+  .rops-apps button {
+    font: 500 0.9rem var(--sans);
+    color: var(--paper);
+    background: var(--ink-raised);
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    padding: 0.45rem 1rem;
+    cursor: pointer;
+  }
+
+  .rops-apps button[aria-pressed='true'] {
+    background: var(--paper);
+    border-color: var(--paper);
+    color: #fff;
+  }
+
+  .rops-hello {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+  }
+
+  .rops-big {
+    font-family: var(--display);
+    font-size: 2.4rem;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .rops-statement {
+    max-width: 62ch;
+    padding: 1rem 1.2rem;
+    border-radius: 14px;
+    background: var(--judgment-soft);
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    line-height: 1.5;
+  }
+
+  .rops-agree {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
   }
 </style>

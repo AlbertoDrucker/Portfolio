@@ -1,4 +1,5 @@
 import type { RentalCopy } from '../../content/tools/rental-ops';
+import type { RentalExt } from '../../content/tools/rental-ext';
 import { fill, formatters, h, langOf, readCopy, storage, uid } from './util';
 
 type Level = 'emergency' | 'urgent' | 'normal';
@@ -32,7 +33,7 @@ interface Draft {
 }
 interface Approval {
   id: string;
-  kind: 'request' | 'late' | 'renew';
+  kind: 'request' | 'late' | 'renew' | 'payout';
   ref: string;
   drafts: Draft[];
 }
@@ -43,11 +44,23 @@ interface State {
   approvals: Approval[];
   log: string[];
   lateAsked: boolean;
+  /** owner ids paid this month, bill indexes paid, request ids the owner approved */
+  paidOwners: string[];
+  paidBills: number[];
+  ownerOk: string[];
 }
 
 const START_DAY = 5;
 const DAILY_FEE = 25;
 const MGMT_FEE = 0.08;
+const RESERVE = 125;
+const PAYOUT_DAY = 10;
+const RENTER_UNIT = 'u3';
+const OWNER_ME = 'okafor';
+/** Who owns which home, and the repair limit written into each management agreement. */
+const OWNER_OF: Record<string, string> = { u1: 'okafor', u2: 'okafor', u4: 'okafor', u5: 'okafor', u6: 'okafor', u3: 'hollis', u7: 'hollis', u8: 'hollis', u9: 'hollis', u10: 'hollis' };
+const LIMIT: Record<string, number> = { okafor: 200, hollis: 500 };
+const SQFT = [1100, 1150, 1650, 820, 840, 700, 1900, 1050, 1080, 1500];
 const VENDORS: Record<Cat, string> = {
   plumbing: 'Riverbend Plumbing',
   heating: 'Northside Heating & Air',
@@ -101,13 +114,18 @@ const seedUnits = (): Unit[] =>
   ).map(([addr, rent, tenant, leaseIn, paid], i) => ({ id: `u${i + 1}`, addr, rent, tenant, leaseIn, paid, fee: false, renew: 'none' as Renew }));
 
 export function setupRentalOps(root: HTMLElement) {
-  const c = readCopy<RentalCopy>(root);
+  const c = readCopy<RentalCopy & { ext: RentalExt }>(root);
+  const x = c.ext;
   const lang = langOf(root);
   const f = formatters(lang);
   const money = (v: number) => f.money(v, 'USD');
-  const KEY = `ad-rental-ops-${lang}-v1`;
+  const KEY = `ad-rental-ops-${lang}-v2`;
   const mount = root.querySelector<HTMLElement>('[data-app]')!;
-  let tab: keyof RentalCopy['tabs'] = 'today';
+  type Tab = keyof RentalCopy['tabs'] | keyof RentalExt['moreTabs'];
+  let tab: Tab = 'today';
+  let app: 'team' | 'renter' | 'owner' = 'team';
+  let valUnit = 'u7';
+  const valPicks: Record<string, number> = {};
   let lastTriage: Req | null = null;
   let toast = '';
 
@@ -117,6 +135,20 @@ export function setupRentalOps(root: HTMLElement) {
   const balance = (S: State, u: Unit) => (u.paid || !u.tenant ? 0 : u.rent + (u.fee ? Math.max(0, S.day - 1) * DAILY_FEE : 0));
   const leaseLeft = (S: State, u: Unit) => u.leaseIn - (S.day - START_DAY);
   const suggested = (u: Unit) => Math.round((u.rent * 1.03) / 5) * 5;
+  const ownerName = (id: string) => x.owners[id] ?? id;
+  const costOf = (r: Req) => REPAIR_COST[r.cat];
+  /** Emergencies never wait for an owner; anything else above the agreed limit does. */
+  const needsOwner = (S: State, r: Req) => r.level !== 'emergency' && costOf(r) > LIMIT[OWNER_OF[r.unitId]] && !S.ownerOk.includes(r.id);
+  const month = new Date(2026, 9, 1).toLocaleDateString(lang === 'es' ? 'es-MX' : 'en-US', { month: 'long' });
+  function statementOf(S: State, owner: string) {
+    const units = S.units.filter((u) => OWNER_OF[u.id] === owner);
+    const collected = units.filter((u) => u.tenant && u.paid).reduce((a, u) => a + u.rent, 0);
+    const fee = Math.round(collected * MGMT_FEE);
+    const repairs = S.reqs.filter((r) => OWNER_OF[r.unitId] === owner && r.status !== 'approval').reduce((a, r) => a + costOf(r), 0);
+    const payout = Math.max(0, collected - fee - repairs - RESERVE);
+    const sentence = fill(x.statement, { month, collected: money(collected), fee: money(fee), repairs: money(repairs), reserve: money(RESERVE), payout: money(payout) });
+    return { units, collected, fee, repairs, payout, sentence };
+  }
 
   const requestDrafts = (S: State, r: Req): Draft[] => {
     const u = unitOf(S, r.unitId);
@@ -139,18 +171,23 @@ export function setupRentalOps(root: HTMLElement) {
   });
 
   const seed = (): State => {
-    const S: State = { day: START_DAY, units: seedUnits(), reqs: [], approvals: [], log: [], lateAsked: true };
+    const S: State = { day: START_DAY, units: seedUnits(), reqs: [], approvals: [], log: [], lateAsked: true, paidOwners: [], paidBills: [], ownerOk: [] };
     const mk = (unitId: string, text: string, status: Req['status']): Req => ({ id: uid('r'), unitId, text, ...triage(text), status });
     const pending = mk('u4', c.examples[1], 'approval');
-    S.reqs = [pending, mk('u8', c.examples[3], 'scheduled'), mk('u2', c.examples[4], 'done')];
-    S.approvals = [{ id: uid('ap'), kind: 'request', ref: pending.id, drafts: requestDrafts(S, pending) }, lateApproval(S)];
+    const outlet = mk('u5', c.ext.seedOutlet, 'approval');
+    S.reqs = [pending, outlet, mk('u8', c.examples[3], 'scheduled'), mk('u2', c.examples[4], 'done')];
+    S.approvals = [
+      { id: uid('ap'), kind: 'request', ref: pending.id, drafts: requestDrafts(S, pending) },
+      { id: uid('ap'), kind: 'request', ref: outlet.id, drafts: requestDrafts(S, outlet) },
+      lateApproval(S),
+    ];
     return S;
   };
 
   let S: State = storage.get<State>(KEY) ?? seed();
   const save = () => storage.set(KEY, S);
   const log = (text: string) => S.log.unshift(text);
-  const go = (t: typeof tab) => {
+  const go = (t: Tab) => {
     tab = t;
     render();
   };
@@ -162,8 +199,12 @@ export function setupRentalOps(root: HTMLElement) {
 
   /* ---------- actions ---------- */
   function approve(a: Approval) {
-    if (a.kind === 'request') {
+    if (a.kind === 'payout') {
+      S.paidOwners.push(a.ref);
+      log(fill(x.payoutDone, { amount: money(statementOf(S, a.ref).payout), owner: ownerName(a.ref) }));
+    } else if (a.kind === 'request') {
       const r = S.reqs.find((x) => x.id === a.ref);
+      if (r && needsOwner(S, r)) return;
       if (r) {
         r.status = 'scheduled';
         log(fill(c.log.approvedRequest, { vendor: VENDORS[r.cat], name: unitOf(S, r.unitId).tenant ?? '' }));
@@ -244,11 +285,23 @@ export function setupRentalOps(root: HTMLElement) {
   const levelPill = (level: Level) => h('span', { class: `pill ${level === 'emergency' ? 'crit' : level === 'urgent' ? 'warn' : ''}` }, c.levels[level]);
 
   function approvalMeta(a: Approval): { title: string; why: string[] } {
+    if (a.kind === 'payout') {
+      const st = statementOf(S, a.ref);
+      return {
+        title: fill(x.payoutTitle, { owner: ownerName(a.ref), amount: money(st.payout) }),
+        why: x.payoutWhy.map((w) => fill(w, { n: String(st.units.filter((u) => u.tenant && u.paid).length), reserve: money(RESERVE) })),
+      };
+    }
     if (a.kind === 'request') {
       const r = S.reqs.find((x) => x.id === a.ref)!;
       const u = unitOf(S, r.unitId);
       const map = { level: c.levels[r.level], unit: u.addr, text: r.text, cat: c.cats[r.cat], why: c.whys[r.why], vendor: VENDORS[r.cat] };
-      return { title: fill(c.ap.requestTitle, map), why: c.ap.requestWhy.map((w) => fill(w, map)) };
+      const why = c.ap.requestWhy.map((w) => fill(w, map));
+      if (r.level !== 'emergency' && costOf(r) > LIMIT[OWNER_OF[r.unitId]]) {
+        why.push(fill(x.overLimit, { cost: money(costOf(r)), owner: ownerName(OWNER_OF[r.unitId]), limit: money(LIMIT[OWNER_OF[r.unitId]]) }));
+        if (needsOwner(S, r)) why.push(x.waitsOwner);
+      }
+      return { title: fill(c.ap.requestTitle, map), why };
     }
     if (a.kind === 'late') {
       const map = { n: String(a.ref.split(',').length), fee: money(DAILY_FEE) };
@@ -284,7 +337,16 @@ export function setupRentalOps(root: HTMLElement) {
       h(
         'div',
         { class: 'app-actions' },
-        h('button', { type: 'button', class: 'btn', onclick: () => approve(a) }, c.approve),
+        h(
+          'button',
+          {
+            type: 'button',
+            class: 'btn',
+            disabled: a.kind === 'request' && (() => { const r = S.reqs.find((y) => y.id === a.ref); return !!r && needsOwner(S, r); })(),
+            onclick: () => approve(a),
+          },
+          c.approve,
+        ),
         h('button', { type: 'button', class: 'btn btn-quiet', onclick: () => skip(a, meta.title) }, c.skip),
       ),
     );
@@ -408,9 +470,6 @@ export function setupRentalOps(root: HTMLElement) {
 
   function rentView() {
     const occupied = S.units.filter((u) => u.tenant);
-    const collected = occupied.filter((u) => u.paid).reduce((s, u) => s + u.rent, 0);
-    const fee = collected * MGMT_FEE;
-    const repairs = S.reqs.filter((r) => r.status !== 'approval').reduce((s, r) => s + REPAIR_COST[r.cat], 0);
     const row = (u: Unit) => {
       const bal = balance(S, u);
       const status = !u.tenant
@@ -429,7 +488,6 @@ export function setupRentalOps(root: HTMLElement) {
         h('td', null, bal ? h('button', { type: 'button', class: 'btn btn-quiet sm', onclick: () => pay(u) }, c.recordPayment) : ''),
       );
     };
-    const line = (label: string, value: string, strong = false) => h('li', null, h('div', { class: 'app-row' }, h(strong ? 'strong' : 'span', null, label), h(strong ? 'strong' : 'span', null, value)));
     return [
       h('div', null, h('h2', null, c.rentTitle), h('p', { class: 'app-sub' }, c.rentLead)),
       h(
@@ -440,19 +498,6 @@ export function setupRentalOps(root: HTMLElement) {
           { class: 'tool-table' },
           h('thead', null, h('tr', null, [c.th.unit, c.th.renter, c.th.rent, c.th.status, c.th.balance, c.th.action].map((t) => h('th', { scope: 'col' }, t)))),
           h('tbody', null, S.units.map(row)),
-        ),
-      ),
-      h(
-        'section',
-        { class: 'app-col rops-payout' },
-        h('h2', null, c.ownerTitle),
-        h(
-          'ul',
-          { class: 'app-list' },
-          line(c.ownerRows.collected, money(collected)),
-          line(c.ownerRows.fee, `${money(-fee)}`),
-          line(c.ownerRows.repairs, `${money(-repairs)}`),
-          line(c.ownerRows.payout, money(collected - fee - repairs), true),
         ),
       ),
     ];
@@ -507,13 +552,335 @@ export function setupRentalOps(root: HTMLElement) {
     ];
   }
 
+  /* ---------- owner payouts ---------- */
+  function payoutsView() {
+    const owners = Object.keys(x.owners);
+    const pending = (o: string) => S.approvals.some((a) => a.kind === 'payout' && a.ref === o);
+    const prepare = () => {
+      owners
+        .filter((o) => !S.paidOwners.includes(o) && !pending(o))
+        .forEach((o) => {
+          const st = statementOf(S, o);
+          S.approvals.unshift({
+            id: uid('ap'),
+            kind: 'payout',
+            ref: o,
+            drafts: [{ to: ownerName(o), who: 'renter', text: fill(x.payoutMsg, { first: first(ownerName(o)), month, sentence: st.sentence }) }],
+          });
+        });
+      commit();
+    };
+    const line = (label: string, value: string, strong = false) =>
+      h('li', null, h('div', { class: 'app-row' }, h(strong ? 'strong' : 'span', null, label), h(strong ? 'strong' : 'span', null, value)));
+    return [
+      h('div', null, h('h2', null, x.payoutsTitle), h('p', { class: 'app-sub' }, x.payoutsLead)),
+      h(
+        'div',
+        { class: 'app-actions' },
+        h('button', { type: 'button', class: 'btn', disabled: S.day < PAYOUT_DAY || owners.every((o) => S.paidOwners.includes(o) || pending(o)), onclick: prepare }, x.preparePayouts),
+        S.day < PAYOUT_DAY && h('span', { class: 'app-sub' }, x.payoutLocked),
+      ),
+      h(
+        'div',
+        { class: 'app-cols' },
+        owners.map((o) => {
+          const st = statementOf(S, o);
+          return h(
+            'section',
+            { class: 'app-col' },
+            h('h2', null, ownerName(o), S.paidOwners.includes(o) ? h('span', { class: 'pill good' }, x.payoutSent) : pending(o) ? h('span', { class: 'pill info' }, x.payoutWaiting) : null),
+            h(
+              'ul',
+              { class: 'app-list' },
+              line(x.payoutRows.collected, money(st.collected)),
+              line(x.payoutRows.fee, money(-st.fee)),
+              line(x.payoutRows.repairs, money(-st.repairs)),
+              line(x.payoutRows.reserve, money(-RESERVE)),
+              line(x.payoutRows.payout, money(st.payout), true),
+            ),
+            h('p', { class: 'app-sub' }, st.sentence),
+          );
+        }),
+      ),
+    ];
+  }
+
+  /* ---------- bills inbox ---------- */
+  function billsView() {
+    return [
+      h('div', null, h('h2', null, x.billsTitle), h('p', { class: 'app-sub' }, x.billsLead)),
+      h(
+        'div',
+        { class: 'app-cards' },
+        x.bills.map((b, i) => {
+          const paid = S.paidBills.includes(i);
+          const each = b.amount / b.units.length;
+          return h(
+            'article',
+            { class: `app-card${paid ? '' : ' is-ai'}` },
+            h('div', { class: 'app-card-head' }, h('strong', null, `${b.vendor}: ${b.job}`), paid ? h('span', { class: 'pill good' }, x.billPaid) : null),
+            h('span', { class: 'app-label' }, x.billRead),
+            h(
+              'dl',
+              { class: 'rops-dl' },
+              h('dt', null, x.billVendor),
+              h('dd', null, b.vendor),
+              h('dt', null, x.billAmount),
+              h('dd', null, money(b.amount)),
+              h('dt', null, x.billFor),
+              h('dd', null, b.units.map((id) => unitOf(S, id).addr).join(', '), b.units.length > 1 ? ` (${fill(x.billSplit, { amount: money(each) })})` : ''),
+              h('dt', null, x.billMatch),
+              h('dd', null, b.match),
+            ),
+            !paid &&
+              h(
+                'div',
+                { class: 'app-actions' },
+                h(
+                  'button',
+                  {
+                    type: 'button',
+                    class: 'btn',
+                    onclick: () => {
+                      S.paidBills.push(i);
+                      log(fill(x.billLog, { vendor: b.vendor, amount: money(b.amount), n: String(b.units.length) }));
+                      commit();
+                    },
+                  },
+                  x.recordPay,
+                ),
+              ),
+          );
+        }),
+      ),
+    ];
+  }
+
+  /* ---------- valuation ---------- */
+  function valuationView() {
+    const idx = S.units.findIndex((u) => u.id === valUnit);
+    const u = S.units[idx];
+    const sqft = SQFT[idx];
+    const comps = [0, 1, 2].map((k) => {
+      const cs = Math.round(sqft * (0.9 + k * 0.1));
+      const ppsf = 182 + ((idx * 7 + k * 13) % 30);
+      return { addr: `${120 + idx * 11 + k * 4} ${['Maple', 'Linden', 'Hawthorn'][k]} St`, sqft: cs, price: Math.round((cs * ppsf) / 1000) * 1000, ppsf };
+    });
+    const ppsfs = comps.map((cp) => cp.price / cp.sqft).sort((a, b) => a - b);
+    const base = Math.round((ppsfs[1] * sqft) / 1000) * 1000;
+    let value = base;
+    const reasons: string[] = [fill(x.valBase, { sqft: f.num(sqft) }) + `: ${money(base)}`];
+    x.checks.forEach((ch) => {
+      const pick = valPicks[ch.id] ?? 1;
+      const opt = ch.options[pick];
+      if (opt.effect) {
+        const d = Math.round((base * opt.effect) / 500) * 500;
+        value += d;
+        reasons.push(`${ch.label}, ${opt.label.toLowerCase()}: ${d > 0 ? '+' : ''}${money(d)}`);
+      }
+    });
+    const rent = Math.round((value * 0.0075) / 25) * 25;
+    const select = h(
+      'select',
+      { 'aria-label': x.valHome, onchange: (e: Event) => { valUnit = (e.target as HTMLSelectElement).value; render(); } },
+      S.units.map((v) => h('option', { value: v.id, selected: v.id === valUnit }, v.addr)),
+    );
+    return [
+      h('div', null, h('h2', null, x.valTitle), h('p', { class: 'app-sub' }, x.valLead)),
+      h(
+        'div',
+        { class: 'app-split' },
+        h(
+          'section',
+          { class: 'app-form' },
+          h('div', { class: 'app-field' }, h('span', { class: 'app-label' }, x.valHome), select),
+          h('h2', null, x.valComps),
+          h('ul', { class: 'app-log' }, comps.map((cp) => h('li', null, fill(x.valCompRow, { addr: cp.addr, price: money(cp.price), sqft: f.num(cp.sqft) })))),
+          h('h2', null, x.valWalk),
+          h('p', { class: 'app-sub' }, x.valWalkLead),
+          x.checks.map((ch) =>
+            h(
+              'div',
+              { class: 'app-field' },
+              h('span', { class: 'app-label' }, ch.label),
+              h(
+                'select',
+                {
+                  'aria-label': ch.label,
+                  onchange: (e: Event) => {
+                    valPicks[ch.id] = Number((e.target as HTMLSelectElement).value);
+                    render();
+                  },
+                },
+                ch.options.map((o, k) => h('option', { value: String(k), selected: (valPicks[ch.id] ?? 1) === k }, `${o.label}${o.effect ? ` (${o.effect > 0 ? '+' : ''}${Math.round(o.effect * 100)}%)` : ''}`)),
+              ),
+            ),
+          ),
+        ),
+        h(
+          'section',
+          { class: 'app-card is-ai', 'aria-live': 'polite' },
+          h('span', { class: 'app-label' }, u.addr),
+          h('div', { class: 'stats' }, h('div', { class: 'stat' }, h('span', { class: 'stat-label' }, x.valSale), h('span', { class: 'stat-value' }, money(value))), h('div', { class: 'stat' }, h('span', { class: 'stat-label' }, x.valRent), h('span', { class: 'stat-value' }, money(rent)))),
+          h('span', { class: 'app-label' }, x.valReasons),
+          h('ul', { class: 'app-why' }, reasons.map((r) => h('li', null, r))),
+        ),
+      ),
+    ];
+  }
+
+  /* ---------- renter portal ---------- */
+  function renterView() {
+    const u = unitOf(S, RENTER_UNIT);
+    const fees = u.fee && !u.paid ? Math.max(0, S.day - 1) * DAILY_FEE : 0;
+    const owe = u.paid ? 0 : u.rent / 2 + fees;
+    const area = h('textarea', { 'aria-label': c.describe, placeholder: c.describePlaceholder });
+    const mine = S.reqs.filter((r) => r.unitId === RENTER_UNIT);
+    const nameIn = h('input', { type: 'text', 'aria-label': x.typeName, placeholder: u.tenant ?? '' }) as HTMLInputElement;
+    const agree = h('input', { type: 'checkbox' }) as HTMLInputElement;
+    const signBtn = h('button', { type: 'button', class: 'btn', disabled: true }, x.sign) as HTMLButtonElement;
+    const check = () => (signBtn.disabled = !(agree.checked && nameIn.value.trim().toLowerCase() === (u.tenant ?? '').toLowerCase()));
+    nameIn.addEventListener('input', check);
+    agree.addEventListener('change', check);
+    signBtn.addEventListener('click', () => {
+      const rent = suggested(u);
+      settleRenewal(u, true);
+      S.log[0] = fill(x.signedLog, { name: u.tenant ?? '', unit: u.addr, rent: money(rent) });
+      commit(x.signed);
+    });
+    return [
+      h('div', null, h('h2', null, x.renterTitle), h('p', { class: 'app-sub' }, x.renterLead)),
+      h('p', { class: 'rops-hello' }, x.renterHello),
+      h(
+        'div',
+        { class: 'app-split' },
+        h(
+          'section',
+          { class: 'app-card' },
+          h('span', { class: 'app-label' }, x.owes),
+          h('strong', { class: 'rops-big' }, money(owe)),
+          owe
+            ? [
+                h('span', { class: 'app-sub' }, fill(x.yourShare, { rent: money(u.rent) })),
+                h('span', { class: 'app-sub' }, x.roommatePaid),
+                fees ? h('span', { class: 'app-sub' }, fill(x.feeIncluded, { fee: money(fees) })) : null,
+                h('div', null, h('button', { type: 'button', class: 'btn', onclick: () => pay(u) }, x.payShare)),
+              ]
+            : h('span', { class: 'app-sub' }, x.allPaid),
+        ),
+        h(
+          'section',
+          { class: 'app-card' },
+          h('h2', null, x.offerTitle),
+          u.renew === 'sent'
+            ? [
+                h('p', null, fill(x.offerText, { rent: money(suggested(u)) })),
+                h('details', null, h('summary', null, x.readLease), h('ul', { class: 'app-log' }, x.leaseSections.map((l) => h('li', null, l)))),
+                h('div', { class: 'app-field' }, h('span', { class: 'app-label' }, x.typeName), nameIn),
+                h('label', { class: 'rops-agree' }, agree, h('span', null, x.agree)),
+                h('div', null, signBtn),
+              ]
+            : u.renew === 'renewed'
+              ? h('p', { class: 'app-sub' }, x.signed)
+              : h('p', { class: 'app-sub' }, x.offerNone),
+        ),
+      ),
+      h(
+        'div',
+        { class: 'app-split' },
+        h(
+          'section',
+          { class: 'app-form' },
+          h('h2', null, x.renterRepair),
+          h('p', { class: 'app-sub' }, x.renterRepairLead),
+          area,
+          h('div', { class: 'app-actions' }, c.examples.slice(0, 3).map((ex) => h('button', { type: 'button', class: 'btn btn-quiet sm', onclick: () => ((area.value = ex), area.focus()) }, ex))),
+          h('div', null, h('button', { type: 'button', class: 'btn', onclick: () => area.value.trim() && submitRequest(RENTER_UNIT, area.value.trim()) }, c.submit)),
+        ),
+        h(
+          'section',
+          { class: 'app-col' },
+          h('h2', null, x.renterRequests),
+          mine.length
+            ? mine.map((r) =>
+                h('article', { class: 'app-card' }, h('div', { class: 'app-card-head' }, h('span', null, `“${r.text}”`), levelPill(r.level)), h('span', { class: 'app-sub' }, `${c.cols[r.status]}. ${c.window}: ${c.windows[r.level]}`)),
+              )
+            : h('p', { class: 'app-empty' }, x.renterNoRequests),
+        ),
+      ),
+    ];
+  }
+
+  /* ---------- owner portal ---------- */
+  function ownerView() {
+    const st = statementOf(S, OWNER_ME);
+    const repairs = S.reqs.filter((r) => OWNER_OF[r.unitId] === OWNER_ME && r.status !== 'done');
+    return [
+      h('div', null, h('h2', null, x.ownerPortalTitle), h('p', { class: 'app-sub' }, x.ownerHello)),
+      h('p', { class: 'rops-statement' }, st.sentence),
+      h(
+        'div',
+        { class: 'app-split' },
+        h(
+          'section',
+          { class: 'app-col' },
+          h('h2', null, x.ownerHomes),
+          h(
+            'ul',
+            { class: 'app-list' },
+            st.units.map((u) =>
+              h('li', null, h('div', { class: 'app-row' }, h('span', null, u.addr), h('span', { class: `pill ${!u.tenant ? '' : u.paid ? 'good' : 'crit'}` }, !u.tenant ? c.vacant : u.paid ? c.paid : c.unpaid))),
+            ),
+          ),
+        ),
+        h(
+          'section',
+          { class: 'app-col' },
+          h('h2', null, x.ownerRepairs),
+          h('p', { class: 'app-sub' }, fill(x.ownerReserve, { limit: money(LIMIT[OWNER_ME]) })),
+          repairs.length
+            ? repairs.map((r) =>
+                h(
+                  'article',
+                  { class: `app-card${needsOwner(S, r) ? ' is-ai' : ''}` },
+                  h('div', { class: 'app-card-head' }, h('strong', null, unitOf(S, r.unitId).addr), levelPill(r.level)),
+                  h('span', null, `“${r.text}”`),
+                  h('span', { class: 'app-sub' }, fill(x.repairCost, { cost: money(costOf(r)) })),
+                  needsOwner(S, r) &&
+                    h(
+                      'div',
+                      null,
+                      h(
+                        'button',
+                        {
+                          type: 'button',
+                          class: 'btn sm',
+                          onclick: () => {
+                            S.ownerOk.push(r.id);
+                            log(fill(x.ownerApproved, { owner: ownerName(OWNER_ME), unit: unitOf(S, r.unitId).addr }));
+                            commit();
+                          },
+                        },
+                        x.approveRepair,
+                      ),
+                    ),
+                ),
+              )
+            : h('p', { class: 'app-empty' }, x.ownerNoRepairs),
+        ),
+      ),
+    ];
+  }
+
   function render() {
-    const views = { today: todayView, requests: requestsView, rent: rentView, renewals: renewalsView };
-    const tabs = (Object.keys(c.tabs) as (keyof RentalCopy['tabs'])[]).map((k) =>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const views: Record<Tab, () => any> = { today: todayView, requests: requestsView, rent: rentView, payouts: payoutsView, bills: billsView, renewals: renewalsView, valuation: valuationView };
+    const labels: Record<Tab, string> = { today: c.tabs.today, requests: c.tabs.requests, rent: c.tabs.rent, payouts: x.moreTabs.payouts, bills: x.moreTabs.bills, renewals: c.tabs.renewals, valuation: x.moreTabs.valuation };
+    const tabs = (Object.keys(labels) as Tab[]).map((k) =>
       h(
         'button',
         { type: 'button', role: 'tab', 'aria-selected': String(tab === k), onclick: () => go(k) },
-        c.tabs[k],
+        labels[k],
         k === 'today' && S.approvals.length ? h('span', { class: 'count' }, String(S.approvals.length)) : null,
       ),
     );
@@ -543,8 +910,20 @@ export function setupRentalOps(root: HTMLElement) {
           ),
         ),
       ),
-      h('div', { class: 'app-tabs', role: 'tablist' }, tabs),
-      h('div', { class: 'app-body', role: 'tabpanel' }, views[tab](), toast ? h('p', { class: 'app-toast', role: 'status' }, toast) : null),
+      h(
+        'div',
+        { class: 'rops-apps', role: 'group', 'aria-label': x.appsLabel },
+        (['team', 'renter', 'owner'] as const).map((k) =>
+          h('button', { type: 'button', 'aria-pressed': String(app === k), onclick: () => { app = k; render(); } }, x.apps[k]),
+        ),
+      ),
+      app === 'team' ? h('div', { class: 'app-tabs', role: 'tablist' }, tabs) : '',
+      h(
+        'div',
+        { class: 'app-body', role: app === 'team' ? 'tabpanel' : null },
+        app === 'team' ? views[tab]() : app === 'renter' ? renterView() : ownerView(),
+        toast ? h('p', { class: 'app-toast', role: 'status' }, toast) : null,
+      ),
     );
     toast = '';
   }
