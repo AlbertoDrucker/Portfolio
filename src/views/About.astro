@@ -14,22 +14,29 @@ interface Props {
 
 const { lang } = Astro.props;
 const c = about[lang];
+const portrait = photo('portrait');
+const outside = c.outside.map((o) => ({ ...o, src: photo(o.key) })).filter((o) => o.src);
+const paragraphs = outside.length ? c.paragraphs : [...c.paragraphs.slice(0, -1), `${c.paragraphs[c.paragraphs.length - 1]} ${c.hobbies}`];
 ---
 
 <Base lang={lang} slug="about" title={c.metaTitle} description={c.metaDescription}>
-  <section class="page-hero wrap about-hero">
+  <section class={`page-hero wrap${portrait ? ' about-hero' : ''}`}>
     <div class="about-hero-text">
       <h1 class="page-title">{c.title}</h1>
       <p class="page-lead">{c.lead}</p>
     </div>
-    <figure class="portrait">
-      {photo('portrait') ? <img src={photo('portrait')} alt={c.portraitAlt} width="900" height="1125" /> : <span class="photo-empty">{c.photoSoon}</span>}
-    </figure>
+    {
+      portrait && (
+        <figure class="portrait">
+          <img src={portrait} alt={c.portraitAlt} width="900" height="1125" />
+        </figure>
+      )
+    }
   </section>
 
   <section class="wrap about-body">
     <div class="prose about-prose">
-      {c.paragraphs.map((p) => <p>{p}</p>)}
+      {paragraphs.map((p) => <p>{p}</p>)}
     </div>
     <div class="focus">
       <h2 class="focus-title">{c.pathTitle}</h2>
@@ -39,21 +46,25 @@ const c = about[lang];
     </div>
   </section>
 
-  <section class="wrap outside">
-    <h2 class="focus-title">{c.outsideTitle}</h2>
-    <ul class="outside-grid">
-      {
-        c.outside.map((o) => (
-          <li>
-            <figure>
-              <div class="outside-photo">{photo(o.key) ? <img src={photo(o.key)} alt={o.label} width="800" height="1000" loading="lazy" /> : <span class="photo-empty">{c.photoSoon}</span>}</div>
-              <figcaption>{o.label}</figcaption>
-            </figure>
-          </li>
-        ))
-      }
-    </ul>
-  </section>
+  {
+    outside.length > 0 && (
+      <section class="wrap outside">
+        <h2 class="focus-title">{c.outsideTitle}</h2>
+        <ul class="outside-grid">
+          {outside.map((o) => (
+            <li>
+              <figure>
+                <div class="outside-photo">
+                  <img src={o.src} alt={o.label} width="800" height="1000" loading="lazy" />
+                </div>
+                <figcaption>{o.label}</figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
 
   <section class="section">
     <div class="wrap">
@@ -100,16 +111,6 @@ const c = about[lang];
     height: 100%;
     object-fit: cover;
     display: block;
-  }
-
-  .photo-empty {
-    display: grid;
-    place-items: center;
-    height: 100%;
-    font: 600 0.95rem var(--sans);
-    color: var(--stone);
-    border: 2px dashed var(--rule);
-    border-radius: inherit;
   }
 
   .outside {

@@ -248,7 +248,8 @@ export const about: Localized<{
   portraitAlt: string;
   outsideTitle: string;
   outside: { key: string; label: string }[];
-  photoSoon: string;
+  /** Shown in the text only while there are no hobby photos. */
+  hobbies: string;
 }> = {
   en: {
     metaTitle: 'About | Alberto Drucker',
@@ -284,7 +285,7 @@ export const about: Localized<{
       { key: 'padel', label: 'Padel and pickleball' },
       { key: 'ski', label: 'Skiing' },
     ],
-    photoSoon: 'Photo',
+    hobbies: 'Outside work: drums for more than 15 years, tennis since I was a kid, padel, pickleball and skiing.',
   },
   es: {
     metaTitle: 'Sobre mí | Alberto Drucker',
@@ -320,7 +321,7 @@ export const about: Localized<{
       { key: 'padel', label: 'Pádel y pickleball' },
       { key: 'ski', label: 'Esquí' },
     ],
-    photoSoon: 'Foto',
+    hobbies: 'Fuera del trabajo: batería y percusiones desde hace más de 15 años, tenis desde niño, pádel, pickleball y esquí.',
   },
 };
 
