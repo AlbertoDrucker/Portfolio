@@ -54,6 +54,23 @@ const BriefTag = scenarios.length > 1 ? 'div' : 'article';
     }
   </header>
 
+  <nav class="engine-stepnav" data-stepnav aria-label={s.stepsNav}>
+    <button type="button" class="stepnav-arrow" data-prev aria-label={s.prev}>‹</button>
+    <ol class="stepnav-list">
+      {
+        scenarios[0].run[lang].steps.map((step, n) => (
+          <li>
+            <button type="button" class="stepnav-btn" data-goto={n} aria-label={`${n + 1}. ${s.steps[step.key]}`}>
+              <span class="stepnav-num">{n + 1}</span>
+              <span class="stepnav-title">{s.steps[step.key]}</span>
+            </button>
+          </li>
+        ))
+      }
+    </ol>
+    <button type="button" class="stepnav-arrow" data-next aria-label={s.next}>›</button>
+  </nav>
+
   <div class="engine-body" data-body tabindex="0" aria-label={s.brief}>
     {
       scenarios.map((sc) => {
@@ -283,6 +300,165 @@ const BriefTag = scenarios.length > 1 ? 'div' : 'article';
     scroll-behavior: auto;
     padding: var(--pad);
     scrollbar-color: var(--rule-strong) transparent;
+  }
+
+  /* Paged mode (JavaScript on): one step at a time, no inner scrolling. */
+  .engine-stepnav {
+    display: none;
+  }
+
+  :global(.engine.is-paged) .engine-stepnav {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem var(--pad);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  :global(.engine.is-paged) .engine-body {
+    max-height: none;
+    overflow: visible;
+    min-height: min(26rem, 60vh);
+  }
+
+  :global(.engine.is-paged) .step:not(.is-active) {
+    display: none;
+  }
+
+  :global(.engine.is-paged) .step {
+    border-bottom: 0;
+  }
+
+  :global(.engine.is-paged) .brief-intro {
+    padding-bottom: 1.1rem;
+  }
+
+  .stepnav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex: 1;
+    gap: 0.35rem;
+    min-width: 0;
+  }
+
+  .stepnav-list li {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .stepnav-btn,
+  .stepnav-arrow {
+    font: 500 0.82rem / 1.2 var(--sans);
+    color: var(--stone);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .stepnav-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.45rem 0.5rem;
+    text-align: left;
+  }
+
+  .stepnav-num {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    border: 1px solid var(--rule-strong);
+    font-weight: 600;
+  }
+
+  .stepnav-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .stepnav-btn.is-done .stepnav-num {
+    background: var(--ink-raised);
+    color: var(--paper);
+  }
+
+  .stepnav-btn[aria-current='step'] {
+    color: var(--paper);
+    background: var(--ink-raised);
+    border-color: var(--rule);
+  }
+
+  .stepnav-btn[aria-current='step'] .stepnav-num {
+    background: var(--paper);
+    border-color: var(--paper);
+    color: #fff;
+  }
+
+  .stepnav-arrow {
+    flex: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.4rem;
+    border-color: var(--rule);
+    color: var(--paper);
+  }
+
+  .stepnav-arrow:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+
+  /* After the first step the brief shrinks to two lines, so each step starts near the top. */
+  :global(.engine.is-paged.past-first) .brief-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 1.05rem;
+  }
+
+  @media (max-width: 760px) {
+    /* Options sit side by side and swipe, instead of stacking into a long column. */
+    :global(.engine.is-paged) .options {
+      grid-auto-flow: column;
+      grid-auto-columns: 86%;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 0.5rem;
+    }
+    :global(.engine.is-paged) .option {
+      scroll-snap-align: start;
+      align-content: start;
+    }
+    .tradeoffs div {
+      grid-template-columns: 1fr;
+      gap: 0.1rem;
+    }
+    .stepnav-arrow {
+      display: none;
+    }
+  }
+
+  @media (max-width: 1100px) {
+    .stepnav-title {
+      display: none;
+    }
+    .stepnav-list li {
+      flex: none;
+    }
+    .stepnav-list {
+      justify-content: center;
+    }
+    .stepnav-btn {
+      padding: 0.3rem;
+    }
   }
 
   .brief-intro {
@@ -632,8 +808,13 @@ const BriefTag = scenarios.length > 1 ? 'div' : 'article';
     }
 
     .engine-head,
-    .engine-foot {
-      display: none;
+    .engine-foot,
+    .engine-stepnav {
+      display: none !important;
+    }
+
+    .step {
+      display: grid !important;
     }
 
     .engine-body {

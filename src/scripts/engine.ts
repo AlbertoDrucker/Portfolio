@@ -2,12 +2,15 @@
  * Strategy Engine replay.
  * The full brief is server rendered. This script hides it and replays it step by step:
  * the AI draft types into the main column, then the judgment notes appear in the margin.
- * With reduced motion or without JavaScript, the full brief simply stays visible.
+ * It shows one step at a time, so the page never turns into a long scroll; the step bar jumps to any step.
+ * With reduced motion the steps are still paged, but appear complete. Without JavaScript, the full brief stays visible.
  */
 
 const CHARS_PER_FRAME = 3;
 const PAUSE_AFTER_STEP = 260;
 const PAUSE_BETWEEN_NOTES = 380;
+/** How long a finished step stays on screen before the replay moves to the next one. */
+const HOLD_STEP = 2600;
 
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const nextFrame = () => new Promise((r) => requestAnimationFrame(() => r(null)));
@@ -29,6 +32,10 @@ function setup(root: HTMLElement): void {
   const replayBtn = root.querySelector<HTMLButtonElement>('[data-replay]');
   const skipBtn = root.querySelector<HTMLButtonElement>('[data-skip]');
   const printBtn = root.querySelector<HTMLButtonElement>('[data-print]');
+  const gotoBtns = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-goto]'));
+  const prevBtn = root.querySelector<HTMLButtonElement>('[data-prev]');
+  const nextBtn = root.querySelector<HTMLButtonElement>('[data-next]');
+  root.classList.add('is-paged');
 
   // Remember every typed string once, so replays and skips can restore it.
   const originals = new Map<HTMLElement, string>();
@@ -38,6 +45,35 @@ function setup(root: HTMLElement): void {
   let runId = 0;
   let follow = true;
   let started = false;
+  let current = 0;
+
+  const stepsOf = (brief: HTMLElement) => Array.from(brief.querySelectorAll<HTMLElement>('[data-step]'));
+
+  /** Show one step. Steps before it count as done in the step bar. */
+  const goTo = (n: number) => {
+    const steps = stepsOf(active);
+    current = Math.max(0, Math.min(steps.length - 1, n));
+    steps.forEach((st, i) => st.classList.toggle('is-active', i === current));
+    gotoBtns.forEach((b, i) => {
+      if (i === current) b.setAttribute('aria-current', 'step');
+      else b.removeAttribute('aria-current');
+      b.classList.toggle('is-done', i < current);
+    });
+    root.classList.toggle('past-first', current > 0);
+    if (prevBtn) prevBtn.disabled = current === 0;
+    if (nextBtn) nextBtn.disabled = current === steps.length - 1;
+  };
+
+  /** Finish the step on screen, stop the replay, and keep the engine top in view. */
+  const jump = (n: number) => {
+    runId++;
+    restore(active);
+    root.classList.remove('is-playing');
+    setStatus('done');
+    goTo(n);
+    const top = root.getBoundingClientRect().top;
+    if (top < 0) root.scrollIntoView({ block: 'start' });
+  };
 
   const setStatus = (state: 'idle' | 'drafting' | 'annotating' | 'done') => {
     statusEl.textContent = root.dataset[`status${state[0].toUpperCase()}${state.slice(1)}`] ?? '';
@@ -59,6 +95,7 @@ function setup(root: HTMLElement): void {
     });
     active = briefs.find((b) => b.dataset.brief === id) ?? briefs[0];
     body.scrollTop = 0;
+    goTo(0);
   };
 
   const restore = (brief: HTMLElement) => {
@@ -70,19 +107,11 @@ function setup(root: HTMLElement): void {
     root.querySelectorAll('.engine-caret').forEach((c) => c.remove());
   };
 
-  const showAll = () => {
-    runId++;
-    restore(active);
-    root.classList.remove('is-playing');
-    setStatus('done');
-  };
+  const showAll = () => jump(current);
 
-  const keepInView = (el: HTMLElement) => {
-    if (!follow) return;
-    const elBox = el.getBoundingClientRect();
-    const box = body.getBoundingClientRect();
-    const overflow = elBox.bottom - (box.bottom - 48);
-    if (overflow > 0) body.scrollTop += overflow;
+  // Paged steps never overflow the box, so there is nothing to follow.
+  const keepInView = (_el: HTMLElement) => {
+    void follow;
   };
 
   const typeInto = async (el: HTMLElement, text: string, id: number) => {
@@ -116,8 +145,9 @@ function setup(root: HTMLElement): void {
     root.classList.add('is-playing');
     body.scrollTop = 0;
 
-    for (const step of steps) {
+    for (const [n, step] of steps.entries()) {
       if (id !== runId) return;
+      goTo(n);
       setStatus('drafting');
       step.classList.remove('is-pending');
       step.classList.add('is-current');
@@ -133,7 +163,7 @@ function setup(root: HTMLElement): void {
         keepInView(note);
       }
       step.classList.remove('is-current');
-      await wait(PAUSE_AFTER_STEP);
+      await wait(n === steps.length - 1 ? PAUSE_AFTER_STEP : HOLD_STEP);
     }
     if (id !== runId) return;
     root.classList.remove('is-playing');
@@ -157,6 +187,11 @@ function setup(root: HTMLElement): void {
   });
 
   if (briefs.length > 1) showBrief(briefs[0].dataset.brief!);
+  else goTo(0);
+
+  gotoBtns.forEach((b, i) => b.addEventListener('click', () => jump(i)));
+  prevBtn?.addEventListener('click', () => jump(current - 1));
+  nextBtn?.addEventListener('click', () => jump(current + 1));
 
   // Reading takes priority over following the cursor.
   ['wheel', 'touchstart', 'keydown'].forEach((evt) =>
