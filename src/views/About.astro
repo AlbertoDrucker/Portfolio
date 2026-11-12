@@ -2,6 +2,11 @@
 import Base from '../layouts/Base.astro';
 import type { Lang } from '../i18n/ui';
 import { about } from '../content/site';
+import fs from 'node:fs';
+import path from 'node:path';
+
+/** Photos live in public/about/<key>.webp. A missing file shows a marked empty frame. */
+const photo = (key: string) => (fs.existsSync(path.join(process.cwd(), 'public/about', `${key}.webp`)) ? `/about/${key}.webp` : null);
 
 interface Props {
   lang: Lang;
@@ -12,9 +17,14 @@ const c = about[lang];
 ---
 
 <Base lang={lang} slug="about" title={c.metaTitle} description={c.metaDescription}>
-  <section class="page-hero wrap">
-    <h1 class="page-title">{c.title}</h1>
-    <p class="page-lead">{c.lead}</p>
+  <section class="page-hero wrap about-hero">
+    <div class="about-hero-text">
+      <h1 class="page-title">{c.title}</h1>
+      <p class="page-lead">{c.lead}</p>
+    </div>
+    <figure class="portrait">
+      {photo('portrait') ? <img src={photo('portrait')} alt={c.portraitAlt} width="900" height="1125" /> : <span class="photo-empty">{c.photoSoon}</span>}
+    </figure>
   </section>
 
   <section class="wrap about-body">
@@ -29,6 +39,22 @@ const c = about[lang];
     </div>
   </section>
 
+  <section class="wrap outside">
+    <h2 class="focus-title">{c.outsideTitle}</h2>
+    <ul class="outside-grid">
+      {
+        c.outside.map((o) => (
+          <li>
+            <figure>
+              <div class="outside-photo">{photo(o.key) ? <img src={photo(o.key)} alt={o.label} width="800" height="1000" loading="lazy" /> : <span class="photo-empty">{c.photoSoon}</span>}</div>
+              <figcaption>{o.label}</figcaption>
+            </figure>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
   <section class="section">
     <div class="wrap">
       <h2 class="section-title">{c.focusTitle}</h2>
@@ -41,6 +67,88 @@ const c = about[lang];
 </Base>
 
 <style>
+  .about-hero {
+    align-items: end;
+  }
+
+  @media (min-width: 860px) {
+    .about-hero {
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 3rem;
+    }
+  }
+
+  .about-hero-text {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .portrait {
+    margin: 0;
+    aspect-ratio: 4 / 5;
+    max-width: 420px;
+    border-radius: 18px;
+    overflow: hidden;
+    background: var(--ink-raised);
+    box-shadow: var(--lift);
+    rotate: 1.2deg;
+  }
+
+  .portrait img,
+  .outside-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .photo-empty {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    font: 600 0.95rem var(--sans);
+    color: var(--stone);
+    border: 2px dashed var(--rule);
+    border-radius: inherit;
+  }
+
+  .outside {
+    padding-bottom: clamp(3rem, 7vw, 5rem);
+  }
+
+  .outside-grid {
+    list-style: none;
+    padding: 0;
+    margin: 1.25rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  @media (min-width: 860px) {
+    .outside-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  .outside-grid figure {
+    margin: 0;
+  }
+
+  .outside-photo {
+    aspect-ratio: 4 / 5;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--ink-raised);
+  }
+
+  .outside-grid figcaption {
+    font: 500 0.95rem / 1.35 var(--sans);
+    color: var(--stone);
+    margin-top: 0.6rem;
+  }
+
   .page-hero {
     padding-top: clamp(3.5rem, 9vw, 7rem);
     padding-bottom: clamp(2.5rem, 6vw, 4rem);

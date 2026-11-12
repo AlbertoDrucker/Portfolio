@@ -1,0 +1,329 @@
+---
+import Base from '../layouts/Base.astro';
+import CaseVisual from '../components/CaseVisual.astro';
+import { localePath, type Lang } from '../i18n/ui';
+import { caseStudies, caseLabels } from '../content/cases';
+import { caseExtras, factLabels } from '../content/case-extras';
+
+interface Props {
+  lang: Lang;
+  id: string;
+}
+
+const { lang, id } = Astro.props;
+const list = caseStudies[lang];
+const i = list.findIndex((s) => s.id === id);
+const s = list[i];
+const x = caseExtras[lang][id];
+const F = factLabels[lang];
+const L = caseLabels[lang];
+const next = list[(i + 1) % list.length];
+const nx = caseExtras[lang][next.id];
+const facts: [string, string][] = [
+  [F.role, x.facts.role],
+  [F.team, x.facts.team],
+  [F.when, x.facts.when],
+  [F.sector, x.facts.sector],
+];
+---
+
+<Base lang={lang} slug={`work/${id}`} title={`${s.title} | Alberto Drucker`} description={s.summary}>
+  <article class="case">
+    <header class="wrap case-head">
+      <p class="case-back"><a href={localePath(lang, 'work')}>{F.back}</a></p>
+      <p class="case-area">{s.area}</p>
+      <h1 class="case-title">{s.title}</h1>
+      <p class="case-lead">{s.summary}</p>
+      <dl class="case-facts">
+        {
+          facts.map(([k, val]) => (
+            <div>
+              <dt>{k}</dt>
+              <dd>{val}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </header>
+
+    <figure class="wrap case-hero">
+      {
+        x.shots ? (
+          <div class="case-shot">
+            <img src={x.shots[0].src} alt={x.shots[0].alt} width="1440" height="900" />
+          </div>
+        ) : (
+          <div class="case-visual">
+            <CaseVisual kind={x.visual} lang={lang} label={x.caption} />
+          </div>
+        )
+      }
+      <figcaption>{x.caption}</figcaption>
+    </figure>
+
+    {
+      s.stats && (
+        <dl class="wrap case-stats">
+          {s.stats.map((st) => (
+            <div>
+              <dd>{st.v}</dd>
+              <dt>{st.l}</dt>
+            </div>
+          ))}
+        </dl>
+      )
+    }
+
+    <div class="wrap"><div class="case-body">
+      <section>
+        <p class="case-kicker">{L.challenge}</p>
+        <h2>{x.heads.challenge}</h2>
+        <p>{s.challenge}</p>
+      </section>
+      <section>
+        <p class="case-kicker">{L.approach}</p>
+        <h2>{x.heads.approach}</h2>
+        <ul>
+          {s.approach.map((a) => <li>{a}</li>)}
+        </ul>
+      </section>
+      {
+        x.shots && (
+          <div class="case-gallery">
+            {x.shots.slice(1).map((sh) => (
+              <figure>
+                <div class="case-shot">
+                  <img src={sh.src} alt={sh.alt} width="1440" height="900" loading="lazy" />
+                </div>
+                <figcaption>{sh.caption}</figcaption>
+              </figure>
+            ))}
+          </div>
+        )
+      }
+      {
+        s.outcome && (
+          <section>
+            <p class="case-kicker">{L.outcome}</p>
+            <h2>{x.heads.outcome}</h2>
+            <p>{s.outcome}</p>
+          </section>
+        )
+      }
+      {
+        s.demo && (
+          <p class="case-demo">
+            <a class="case-btn" href={localePath(lang, `lab/${s.demo}`)}>{L.demo}</a>
+          </p>
+        )
+      }
+    </div></div>
+
+    <nav class="wrap case-next" aria-label={F.next}>
+      <a href={localePath(lang, `work/${next.id}`)}>
+        <span class="case-next-label">{F.next}</span>
+        <span class="case-next-title">{next.title}</span>
+        <span class="case-next-cover">{nx.cover}</span>
+      </a>
+    </nav>
+  </article>
+</Base>
+
+<style>
+  .case-head {
+    padding-top: clamp(2.5rem, 6vw, 5rem);
+    display: grid;
+    gap: 1rem;
+  }
+
+  .case-back a {
+    font: 500 0.95rem var(--sans);
+    color: var(--stone);
+  }
+
+  .case-area {
+    font: 600 0.95rem var(--sans);
+    color: var(--ai);
+    margin: 0.5rem 0 0;
+  }
+
+  .case-title {
+    font: 500 clamp(2.3rem, 5.4vw, 4.2rem) / 1.03 var(--display);
+    letter-spacing: -0.025em;
+    max-width: 20ch;
+    margin: 0;
+  }
+
+  .case-lead {
+    font-size: clamp(1.15rem, 1.8vw, 1.4rem);
+    line-height: 1.5;
+    max-width: 58ch;
+    margin: 0.4rem 0 0;
+  }
+
+  .case-facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem 2rem;
+    margin: 1.5rem 0 0;
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .case-facts dt {
+    font: 500 0.85rem var(--sans);
+    color: var(--stone);
+  }
+
+  .case-facts dd {
+    margin: 0.2rem 0 0;
+    font: 600 1rem / 1.35 var(--sans);
+  }
+
+  .case-hero {
+    margin-top: 2.5rem;
+  }
+
+  .case-visual,
+  .case-shot {
+    background: var(--ink-sunk);
+    border-radius: 18px;
+    box-shadow: var(--lift);
+    overflow: hidden;
+  }
+
+  .case-visual {
+    padding: clamp(1rem, 3vw, 2.5rem);
+  }
+
+  .case-shot img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  figcaption {
+    font: 500 0.95rem / 1.45 var(--sans);
+    color: var(--stone);
+    margin-top: 0.85rem;
+    max-width: 70ch;
+  }
+
+  .case-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    margin-top: 3rem;
+  }
+
+  .case-stats div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .case-stats dd {
+    margin: 0;
+    font: 500 clamp(2rem, 3.4vw, 2.8rem) / 1 var(--display);
+    letter-spacing: -0.02em;
+  }
+
+  .case-stats dt {
+    font: 500 0.95rem / 1.4 var(--sans);
+    color: var(--stone);
+  }
+
+  .case-body {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4rem);
+    margin-top: clamp(3rem, 6vw, 5rem);
+    max-width: 52rem;
+  }
+
+  .case-body section {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .case-kicker {
+    font: 600 0.9rem var(--sans);
+    color: var(--stone);
+    margin: 0;
+  }
+
+  .case-body h2 {
+    font: 500 clamp(1.6rem, 3vw, 2.2rem) / 1.12 var(--display);
+    letter-spacing: -0.015em;
+    margin: 0;
+  }
+
+  .case-body p,
+  .case-body li {
+    font-size: 1.15rem;
+    line-height: 1.6;
+  }
+
+  .case-body p {
+    margin: 0;
+  }
+
+  .case-body ul {
+    margin: 0;
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .case-gallery {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .case-btn {
+    display: inline-block;
+    font: 600 1rem var(--sans);
+    color: #fff;
+    background: var(--ai);
+    border-radius: 999px;
+    padding: 0.8rem 1.5rem;
+    text-decoration: none;
+  }
+
+  .case-next {
+    margin-top: clamp(4rem, 8vw, 6rem);
+    margin-bottom: clamp(3rem, 6vw, 5rem);
+  }
+
+  .case-next a {
+    display: grid;
+    gap: 0.5rem;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    background: var(--paper);
+    color: #fff;
+    border-radius: 18px;
+    text-decoration: none;
+  }
+
+  .case-next-label {
+    font: 600 0.95rem var(--sans);
+    color: var(--judgment-mark);
+  }
+
+  .case-next-title {
+    font: 500 clamp(1.5rem, 3vw, 2.2rem) / 1.1 var(--display);
+    max-width: 26ch;
+  }
+
+  .case-next-cover {
+    font: 500 1rem var(--sans);
+    color: #d6e0da;
+  }
+
+  .case-next a:hover .case-next-title,
+  .case-next a:focus-visible .case-next-title {
+    text-decoration: underline;
+    text-decoration-color: var(--judgment-mark);
+    text-underline-offset: 0.15em;
+  }
+</style>

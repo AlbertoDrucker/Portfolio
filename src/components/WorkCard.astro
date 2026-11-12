@@ -1,0 +1,92 @@
+---
+import CaseVisual from './CaseVisual.astro';
+import { localePath, type Lang } from '../i18n/ui';
+import type { CaseStudy } from '../content/cases';
+import { caseExtras } from '../content/case-extras';
+
+interface Props {
+  lang: Lang;
+  story: CaseStudy;
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { lang, story, headingLevel = 'h2' } = Astro.props;
+const x = caseExtras[lang][story.id];
+const H = headingLevel;
+---
+
+<a class="wcard" href={localePath(lang, `work/${story.id}`)}>
+  <div class="wcard-visual" aria-hidden="true">
+    {x.shots ? <img src={x.shots[0].src} alt="" width="1440" height="900" /> : <CaseVisual kind={x.visual} lang={lang} compact label="" />}
+  </div>
+  <div class="wcard-text">
+    <span class="wcard-area">{story.area}</span>
+    <H class="wcard-title">{story.title}</H>
+    <span class="wcard-cover">{x.cover}</span>
+  </div>
+</a>
+
+<style>
+  .wcard {
+    display: grid;
+    height: 100%;
+    grid-template-rows: auto 1fr;
+    background: var(--ink-sunk);
+    border-radius: 18px;
+    box-shadow: var(--lift);
+    overflow: hidden;
+    color: var(--paper);
+    text-decoration: none;
+  }
+
+  .wcard-visual {
+    background: var(--ink-raised);
+    border-bottom: 1px solid var(--rule);
+    aspect-ratio: 16 / 9;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+
+  .wcard-visual :global(svg) {
+    width: 86%;
+  }
+
+  .wcard-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top left;
+  }
+
+  .wcard-text {
+    display: grid;
+    align-content: start;
+    gap: 0.45rem;
+    padding: 1.25rem 1.4rem 1.5rem;
+  }
+
+  .wcard-area {
+    font: 600 0.9rem var(--sans);
+    color: var(--ai);
+  }
+
+  .wcard-title {
+    font: 500 clamp(1.3rem, 2.2vw, 1.6rem) / 1.15 var(--display);
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  .wcard-cover {
+    font: 500 0.98rem var(--sans);
+    color: var(--stone);
+  }
+
+  .wcard:hover .wcard-title,
+  .wcard:focus-visible .wcard-title {
+    text-decoration: underline;
+    text-decoration-color: var(--judgment-mark);
+    text-decoration-thickness: 0.12em;
+    text-underline-offset: 0.15em;
+  }
+</style>

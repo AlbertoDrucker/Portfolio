@@ -1,0 +1,12 @@
+---
+import CaseStudy from '../../../views/CaseStudy.astro';
+import { caseStudies } from '../../../content/cases';
+
+export function getStaticPaths() {
+  return caseStudies.es.map((s) => ({ params: { id: s.id } }));
+}
+
+const { id } = Astro.params;
+---
+
+<CaseStudy lang="es" id={id!} />

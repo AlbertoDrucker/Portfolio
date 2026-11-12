@@ -16,16 +16,12 @@ export interface CaseStudy {
   challenge: string;
   approach: string[];
   outcome?: string;
-  learned?: string;
 }
 
-export const caseLabels: Localized<{ challenge: string; approach: string; outcome: string; learned: string; demo: string }> = {
-  en: { challenge: 'The challenge', approach: 'What I did', outcome: 'What happened', learned: 'What I took from it', demo: 'Open the working demo' },
-  es: { challenge: 'El reto', approach: 'Lo que hice', outcome: 'Lo que pasó', learned: 'Lo que me llevo', demo: 'Abrir el demo funcionando' },
+export const caseLabels: Localized<{ challenge: string; approach: string; outcome: string; demo: string }> = {
+  en: { challenge: 'The challenge', approach: 'What I did', outcome: 'What happened', demo: 'Open the working demo' },
+  es: { challenge: 'El reto', approach: 'Lo que hice', outcome: 'Lo que pasó', demo: 'Abrir el demo funcionando' },
 };
-
-/** Off until Alberto approves the wording of each "What I took from it" line. */
-export const SHOW_LEARNED = false;
 
 export const caseStudies: Localized<CaseStudy[]> = {
   en: [
@@ -52,8 +48,6 @@ export const caseStudies: Localized<CaseStudy[]> = {
       ],
       outcome:
         'A working prototype built on their real forms, fees and listings, covering 31 steps of how they run the business, now heading into a pilot with the team. The version on this site uses an invented company, people and homes, so you can try it without seeing anyone’s data.',
-      learned:
-        'The hard part was not the software. It was writing down rules that lived in one person’s head, and deciding with her which ones a machine should never apply alone.',
     },
     {
       id: 'premium-launch',
@@ -76,7 +70,6 @@ export const caseStudies: Localized<CaseStudy[]> = {
       ],
       outcome:
         'The new brand increased revenue per client by 1,000% and paid back the full investment in eight months. A second store opened within a year, with plans for national expansion.',
-      learned: 'You can build a team and its method at the same time, as long as the first project proves the method works.',
     },
     {
       id: 'pitch',
@@ -99,7 +92,6 @@ export const caseStudies: Localized<CaseStudy[]> = {
       ],
       outcome:
         'All 14 brands won. The firm doubled its headcount in three months and recruited internationally for the first time. The processes we designed are still how it operates.',
-      learned: 'Influence without authority comes from rhythm: the same brief, the same review, every week, until everyone argues about the work and not about the process.',
     },
     {
       id: 'pipeline',
@@ -121,8 +113,7 @@ export const caseStudies: Localized<CaseStudy[]> = {
         'For the cheese brand, ran four focus groups and more than 20 consumer interviews, and designed a premium line of about eight products with two chefs and two sommeliers.',
       ],
       outcome:
-        'The roadmap took the cookie brand to six times as many products across four new categories, with the first launch in the second quarter of 2024. The cheese brand gained visibility on supermarket shelves and its premium category was set to launch.',
-      learned: 'The best innovation briefs start from a constraint. Spare plant capacity told us more than any trend report.',
+        'The roadmap took the cookie brand to seven times as many products across four new categories, with the first launch in the second quarter of 2024. The cheese brand gained visibility on supermarket shelves and its premium category was set to launch.',
     },
     {
       id: 'ai-ar',
@@ -145,7 +136,6 @@ export const caseStudies: Localized<CaseStudy[]> = {
       ],
       outcome:
         'The assistant launched in two countries, helped choose three frozen product flavors and shortened the product design process by 25%. The product it shaped became the brand’s top seller. The AR and CGI unit closed more than 50 projects in its first year, including a monthly retainer with an international agronomy company, and opened a capability relevant to 40% of the client base.',
-      learned: 'AI paid off when it answered a product question. It was never the product itself.',
     },
     {
       id: 'venture',
@@ -174,8 +164,8 @@ export const caseStudies: Localized<CaseStudy[]> = {
       area: 'Strategy',
       title: 'Finding the open space in independent film streaming',
       summary:
-        'A market report for an investor pitch: where a curated independent film service could win against paid arthouse platforms and free ad supported giants.',
-      context: 'MBA market analysis for a Series A pitch, 2026',
+        'A market report for our Series A pitch: where a curated independent film service could win against paid arthouse platforms and free ad supported giants.',
+      context: 'Market report for an independent film startup’s Series A pitch, 2026',
       stats: [
         { v: '14% vs 6%', l: 'growth of specialty streaming subscribers against the big platforms, first half of 2026' },
         { v: '88%', l: 'of niche subscriptions sold through three app storefronts' },
@@ -251,8 +241,6 @@ export const caseStudies: Localized<CaseStudy[]> = {
       ],
       outcome:
         'Un prototipo funcionando, construido sobre sus formatos, comisiones y casas reales, que cubre 31 pasos de cómo operan el negocio, y que va en camino a un piloto con el equipo. La versión de este sitio usa una empresa, personas y casas inventadas, para que puedas probarla sin ver datos de nadie.',
-      learned:
-        'Lo difícil no fue el software. Fue poner por escrito reglas que vivían en la cabeza de una persona y decidir con ella cuáles nunca debería aplicar una máquina sola.',
     },
     {
       id: 'premium-launch',
@@ -275,7 +263,6 @@ export const caseStudies: Localized<CaseStudy[]> = {
       ],
       outcome:
         'La nueva marca aumentó 1,000% el ingreso por cliente y recuperó toda la inversión en ocho meses. Se abrió una segunda tienda en menos de un año, con planes de expansión nacional.',
-      learned: 'Se puede construir un equipo y su método al mismo tiempo, siempre que el primer proyecto demuestre que el método funciona.',
     },
     {
       id: 'pitch',
@@ -298,7 +285,6 @@ export const caseStudies: Localized<CaseStudy[]> = {
       ],
       outcome:
         'Ganamos las 14 marcas. La firma duplicó su plantilla en tres meses y reclutó fuera del país por primera vez. Los procesos que diseñamos siguen siendo la forma en que opera.',
-      learned: 'Influir sin autoridad depende del ritmo: el mismo brief, la misma revisión, cada semana, hasta que todos discuten el trabajo y no el proceso.',
     },
     {
       id: 'pipeline',
@@ -320,8 +306,7 @@ export const caseStudies: Localized<CaseStudy[]> = {
         'Para la marca de quesos, hice cuatro sesiones de grupo y más de 20 entrevistas con consumidores, y diseñé una línea premium de unos ocho productos con dos chefs y dos sommeliers.',
       ],
       outcome:
-        'El roadmap llevó a la marca de galletas a tener seis veces más productos en cuatro categorías nuevas, con el primer lanzamiento en el segundo trimestre de 2024. La marca de quesos ganó presencia en los anaqueles del supermercado y su categoría premium quedó lista para lanzarse.',
-      learned: 'Los mejores briefs de innovación empiezan con una restricción. La capacidad sobrante de las plantas nos dijo más que cualquier reporte de tendencias.',
+        'El roadmap llevó a la marca de galletas a tener siete veces más productos en cuatro categorías nuevas, con el primer lanzamiento en el segundo trimestre de 2024. La marca de quesos ganó presencia en los anaqueles del supermercado y su categoría premium quedó lista para lanzarse.',
     },
     {
       id: 'ai-ar',
@@ -344,7 +329,6 @@ export const caseStudies: Localized<CaseStudy[]> = {
       ],
       outcome:
         'El asistente se lanzó en dos países, ayudó a elegir tres sabores de producto congelado y redujo 25% el proceso de diseño de producto. El producto que ayudó a definir se volvió el más vendido de la marca. La unidad de AR y CGI cerró más de 50 proyectos en su primer año, incluida una iguala mensual con una empresa agronómica internacional, y abrió una capacidad relevante para el 40% de la cartera de clientes.',
-      learned: 'La IA rindió cuando respondió una pregunta de producto. Nunca fue el producto en sí.',
     },
     {
       id: 'venture',
@@ -373,8 +357,8 @@ export const caseStudies: Localized<CaseStudy[]> = {
       area: 'Estrategia',
       title: 'Encontrar el espacio libre en el streaming de cine independiente',
       summary:
-        'Un reporte de mercado para presentar a inversionistas: dónde podría ganar un servicio curado de cine independiente frente a las plataformas de autor de pago y los gigantes gratuitos con anuncios.',
-      context: 'Análisis de mercado del MBA para una ronda Serie A, 2026',
+        'Un reporte de mercado para nuestra ronda Serie A: dónde podría ganar un servicio curado de cine independiente frente a las plataformas de autor de pago y los gigantes gratuitos con anuncios.',
+      context: 'Reporte de mercado para la ronda Serie A de una startup de cine independiente, 2026',
       stats: [
         { v: '14% vs 6%', l: 'crecimiento de suscriptores de streaming especializado contra las grandes plataformas, primer semestre de 2026' },
         { v: '88%', l: 'de las suscripciones de nicho se venden a través de tres tiendas de apps' },

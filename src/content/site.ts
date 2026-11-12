@@ -58,7 +58,7 @@ export const home: Localized<{
       'Below is a replay of how I work a strategy question with AI. The draft in the main column comes from my AI workflow. The notes in the margin are my judgment.',
     workTitle: 'Selected work',
     workLead: 'Real projects, told without client names.',
-    workLink: 'Read the stories',
+    workLink: 'See all work',
     aboutTitle: 'About',
     aboutTeaser:
       'Engineer, then the first hire of an innovation department I went on to lead for five years. I like building what does not exist yet, and I start every time with the customer.',
@@ -92,7 +92,7 @@ export const home: Localized<{
       'Abajo puedes ver cómo trabajo una pregunta estratégica con IA. El borrador de la columna principal sale de mi flujo de trabajo con IA. Las notas al margen son mi criterio.',
     workTitle: 'Proyectos',
     workLead: 'Proyectos reales, contados sin nombres de clientes.',
-    workLink: 'Leer los proyectos',
+    workLink: 'Ver todo el trabajo',
     aboutTitle: 'Sobre mí',
     aboutTeaser:
       'Ingeniero, luego la primera contratación de un área de innovación que dirigí durante cinco años. Me gusta construir lo que todavía no existe, y siempre empiezo por el cliente.',
@@ -245,6 +245,10 @@ export const about: Localized<{
   pathTitle: string;
   path: { title: string; text: string }[];
   cta: string;
+  portraitAlt: string;
+  outsideTitle: string;
+  outside: { key: string; label: string }[];
+  photoSoon: string;
 }> = {
   en: {
     metaTitle: 'About | Alberto Drucker',
@@ -254,9 +258,9 @@ export const about: Localized<{
     paragraphs: [
       'I was born in Mexico City and grew up in Monterrey. I studied Innovation and Development Engineering at Tec de Monterrey and started my career in manufacturing, designing buses and then redesigning the supply process for two of them.',
       'In 2020 I joined an innovation and marketing consulting firm as the first person in its new innovation department. Over five years I built that practice and then led it as head of innovation, with teams of more than 20 people working on new products, brand strategy, research and new business lines for 18+ brands in four countries.',
-      'Some of the work I’m proudest of: a premium brand that paid back its investment in eight months, a pitch where we won 14 of 14 brands, a five year roadmap that gave a kids’ brand six times as many products, and the strategy for a mental health and suicide prevention campaign that reached more than a million people.',
+      'Some of the work I’m proudest of: a premium brand that paid back its investment in eight months, a pitch where we won 14 of 14 brands, a five year roadmap that gave a kids’ brand seven times as many products, and the strategy for a mental health and suicide prevention campaign that reached more than a million people.',
       'Now I’m finishing an MBA in marketing at Indiana University’s Kelley School of Business, where I’m VP of AI and Applied Technology at the Tech Club. I build my own tools, like the systems on this site, because a working prototype settles a discussion faster than a deck.',
-      'I’m moving back to Monterrey to do this work in Mexico. Outside work: drums for more than 15 years, tennis since I was a kid, padel, pickleball and skiing.',
+      'I’m moving back to Monterrey to do this work in Mexico.',
     ],
     focusTitle: 'Where I add the most value',
     focus: [
@@ -272,6 +276,15 @@ export const about: Localized<{
       { title: 'MBA and builder', text: 'Marketing and strategy at Kelley, and the working systems you can try on this site.' },
     ],
     cta: 'Let’s talk',
+    portraitAlt: 'Alberto Drucker',
+    outsideTitle: 'Outside work',
+    outside: [
+      { key: 'drums', label: 'Drums, for more than 15 years' },
+      { key: 'tennis', label: 'Tennis, since I was a kid' },
+      { key: 'padel', label: 'Padel and pickleball' },
+      { key: 'ski', label: 'Skiing' },
+    ],
+    photoSoon: 'Photo',
   },
   es: {
     metaTitle: 'Sobre mí | Alberto Drucker',
@@ -281,9 +294,9 @@ export const about: Localized<{
     paragraphs: [
       'Nací en la Ciudad de México y crecí en Monterrey. Estudié Ingeniería en Innovación y Desarrollo en el Tec de Monterrey y empecé mi carrera en manufactura, diseñando autobuses y después rediseñando el proceso de abastecimiento de dos modelos.',
       'En 2020 entré a una consultora de innovación y marketing como la primera persona de su nueva área de innovación. En cinco años construí esa práctica y luego la dirigí como head of innovation, con equipos de más de 20 personas trabajando en nuevos productos, estrategia de marca, investigación y nuevas líneas de negocio para más de 18 marcas en cuatro países.',
-      'Algunos de los proyectos de los que más me enorgullezco: una marca premium que recuperó su inversión en ocho meses, un pitch en el que ganamos 14 de 14 marcas, un roadmap a cinco años que le dio a una marca infantil seis veces más productos y la estrategia de una campaña de salud mental y prevención del suicidio que llegó a más de un millón de personas.',
+      'Algunos de los proyectos de los que más me enorgullezco: una marca premium que recuperó su inversión en ocho meses, un pitch en el que ganamos 14 de 14 marcas, un roadmap a cinco años que le dio a una marca infantil siete veces más productos y la estrategia de una campaña de salud mental y prevención del suicidio que llegó a más de un millón de personas.',
       'Hoy estoy terminando un MBA en marketing en Kelley School of Business de Indiana University, donde soy VP de IA y Tecnología Aplicada del Tech Club. Construyo mis propias herramientas, como los sistemas de este sitio, porque un prototipo que funciona resuelve una discusión más rápido que una presentación.',
-      'Estoy regresando a Monterrey para hacer este trabajo en México. Fuera del trabajo: batería y percusiones desde hace más de 15 años, tenis desde niño, pádel, pickleball y esquí.',
+      'Estoy regresando a Monterrey para hacer este trabajo en México.',
     ],
     focusTitle: 'Donde más valor aporto',
     focus: [
@@ -299,6 +312,15 @@ export const about: Localized<{
       { title: 'MBA y constructor', text: 'Marketing y estrategia en Kelley, y los sistemas funcionando que puedes probar en este sitio.' },
     ],
     cta: 'Platiquemos',
+    portraitAlt: 'Alberto Drucker',
+    outsideTitle: 'Fuera del trabajo',
+    outside: [
+      { key: 'drums', label: 'Batería y percusiones, desde hace más de 15 años' },
+      { key: 'tennis', label: 'Tenis, desde niño' },
+      { key: 'padel', label: 'Pádel y pickleball' },
+      { key: 'ski', label: 'Esquí' },
+    ],
+    photoSoon: 'Foto',
   },
 };
 

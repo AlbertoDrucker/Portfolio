@@ -4,6 +4,7 @@ import Engine from '../components/Engine.astro';
 import { findProject, labPage, labProjects } from '../content/lab';
 import { localePath, type Lang } from '../i18n/ui';
 import { contact, home, work } from '../content/site';
+import WorkCard from '../components/WorkCard.astro';
 import { scenarios } from '../content/engine';
 
 interface Props {
@@ -101,19 +102,16 @@ const featured = c.featured.map((slug) => findProject(slug)!);
         <h2 class="section-title">{c.workTitle}</h2>
         <p class="section-lead">{c.workLead}</p>
       </div>
-      <ul class="work-list">
+      <ul class="home-cases">
         {
-          w.stories.map((story) => (
+          w.stories.slice(0, 3).map((story) => (
             <li>
-              <a class="work-row" href={`${localePath(lang, 'work')}#${story.id}`}>
-                <span class="work-area">{story.area}</span>
-                <span class="work-title">{story.title}</span>
-                <span class="work-summary">{story.summary}</span>
-              </a>
+              <WorkCard lang={lang} story={story} headingLevel="h3" />
             </li>
           ))
         }
       </ul>
+      <p class="engine-more"><a class="text-link" href={localePath(lang, 'work')}>{c.workLink}</a></p>
     </div>
   </section>
 
@@ -380,6 +378,20 @@ const featured = c.featured.map((slug) => findProject(slug)!);
 
   .lab-more {
     margin-top: 2rem;
+  }
+
+  .home-cases {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 900px) {
+    .home-cases {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 
   .work-list {

@@ -1,0 +1,203 @@
+---
+import type { Lang } from '../i18n/ui';
+import { visualCopy, type VisualKind } from '../content/case-extras';
+
+interface Props {
+  kind: VisualKind;
+  lang: Lang;
+  /** Small cover version: drops the secondary labels. */
+  compact?: boolean;
+  label: string;
+}
+
+const { kind, lang, compact = false, label } = Astro.props;
+const v = visualCopy[lang];
+const W = 800;
+const H = 450;
+
+// Journey: stage ratings from the team's map, 1 to 5.
+const walk = [4, 4, 2.5, 2, 2, 4.5, 4];
+const app = [3, 3, 4, 3, 4, 5, 2];
+const jx = (i: number) => 90 + i * 105;
+const jy = (r: number) => 380 - (r - 1) * 75;
+const line = (a: number[]) => a.map((r, i) => `${jx(i)},${jy(r)}`).join(' ');
+
+const vmax = 58;
+---
+
+<svg class={`cv cv-${kind}${compact ? ' is-compact' : ''}`} viewBox={`0 0 ${W} ${H}`} role="img" aria-label={label}>
+  {
+    kind === 'launch' && (
+      <g>
+        <line x1="70" y1="225" x2="730" y2="225" class="cv-rule" />
+        {v.launch.steps.map((s, i) => {
+          const x = 70 + i * 165;
+          const up = i % 2 === 0;
+          return (
+            <g>
+              <circle cx={x} cy="225" r={i === 3 ? 16 : 10} class={i === 3 ? 'cv-lime' : 'cv-pine'} />
+              <text x={x} y={up ? 175 : 285} class="cv-big" text-anchor={i === 0 ? 'start' : i === 4 ? 'end' : 'middle'}>{s.m}</text>
+              {!compact && <text x={x} y={up ? 140 : 318} class="cv-small" text-anchor={i === 0 ? 'start' : i === 4 ? 'end' : 'middle'}>{s.t}</text>}
+            </g>
+          );
+        })}
+      </g>
+    )
+  }
+  {
+    kind === 'pitch' && (
+      <g>
+        {Array.from({ length: 14 }, (_, i) => {
+          const col = i % 7;
+          const row = Math.floor(i / 7);
+          return <rect x={70 + col * 96} y={90 + row * 110} width="80" height="80" rx="14" class="cv-pine" />;
+        })}
+        <text x="70" y="390" class="cv-hero">14 / 14</text>
+        {!compact && <text x="440" y="384" class="cv-mid">{v.pitch.won}</text>}
+      </g>
+    )
+  }
+  {
+    kind === 'pipeline' && (
+      <g>
+        <rect x="90" y="300" width="44" height="60" rx="10" class="cv-pine" />
+        {Array.from({ length: 7 }, (_, i) => (
+          <rect x={330 + i * 56} y="300" width="44" height="60" rx="10" class={i === 0 ? 'cv-pine' : 'cv-lime'} />
+        ))}
+        <text x="90" y="400" class="cv-mid">{v.pipeline.before}</text>
+        <text x="330" y="400" class="cv-mid">{v.pipeline.after}</text>
+        <text x="90" y="200" class="cv-hero">7x</text>
+        {!compact && <text x="330" y="190" class="cv-small">{v.pipeline.cats}</text>}
+      </g>
+    )
+  }
+  {
+    kind === 'ai' && (
+      <g>
+        {v.ai.steps.map((s, i) => {
+          const y = 40 + i * 76;
+          return (
+            <g>
+              <rect x={70 + i * 40} y={y} width={compact ? 460 : 520} height="58" rx="14" class={i === 4 ? 'cv-lime' : i === 2 ? 'cv-violet' : 'cv-panel'} />
+              <text x={94 + i * 40} y={y + 37} class={i === 2 ? 'cv-label cv-on-dark' : 'cv-label'}>{s}</text>
+            </g>
+          );
+        })}
+      </g>
+    )
+  }
+  {
+    kind === 'venture' && (
+      <g>
+        {v.venture.rows.map((r, i) => {
+          const y = 70 + i * 110;
+          const w = (r.v / vmax) * 470;
+          return (
+            <g>
+              <text x="70" y={y - 12} class="cv-label">{r.l}</text>
+              <rect x="70" y={y} width={w} height="56" rx="12" class={i === 2 ? 'cv-lime' : i === 1 ? 'cv-teal' : 'cv-pine'} />
+              <text x={70 + w + 18} y={y + 42} class="cv-big">${r.v}</text>
+            </g>
+          );
+        })}
+        {!compact && <text x="70" y="420" class="cv-small">{v.venture.ltv}</text>}
+      </g>
+    )
+  }
+  {
+    kind === 'streaming' && (
+      <g>
+        <rect x="110" y="40" width="620" height="340" rx="16" class="cv-panel" />
+        <line x1="420" y1="40" x2="420" y2="380" class="cv-rule" />
+        <line x1="110" y1="210" x2="730" y2="210" class="cv-rule" />
+        <circle cx={110 + 0.8 * 620} cy={40 + 0.22 * 340} r="56" class="cv-lime" />
+        <text x={110 + 0.8 * 620} y={40 + 0.22 * 340 + 7} text-anchor="middle" class="cv-label">{v.streaming.open}</text>
+        {v.streaming.spots.map((s) => (
+          <g>
+            <circle cx={110 + s.x * 620} cy={40 + s.y * 340} r="9" class="cv-pine" />
+            {!compact && <text x={110 + s.x * 620 + 16} y={40 + s.y * 340 + 6} class="cv-tiny">{s.l}</text>}
+          </g>
+        ))}
+        <text x="110" y="412" class="cv-small">{v.streaming.paid}</text>
+        <text x="730" y="412" text-anchor="end" class="cv-small">{v.streaming.free}</text>
+        <text x="96" y="70" text-anchor="end" class="cv-small">{v.streaming.curated}</text>
+        <text x="96" y="372" text-anchor="end" class="cv-small">{v.streaming.broad}</text>
+      </g>
+    )
+  }
+  {
+    kind === 'journey' && (
+      <g>
+        {[1, 2, 3, 4, 5].map((r) => <line x1="70" x2="730" y1={jy(r)} y2={jy(r)} class="cv-grid" />)}
+        <polyline points={line(app)} class="cv-line cv-line-app" />
+        <polyline points={line(walk)} class="cv-line cv-line-walk" />
+        {walk.map((r, i) => <circle cx={jx(i)} cy={jy(r)} r="7" class="cv-pine" />)}
+        {app.map((r, i) => <circle cx={jx(i)} cy={jy(r)} r="7" class="cv-magenta" />)}
+        {!compact && v.journey.stages.map((s, i) => <text x={jx(i)} y="425" text-anchor="middle" class="cv-tiny">{s}</text>)}
+        {!compact && (
+          <g>
+            <rect x="70" y="14" width="22" height="6" class="cv-pine" />
+            <text x="100" y="22" class="cv-tiny">{v.journey.walk}</text>
+            <rect x="380" y="14" width="22" height="6" class="cv-magenta" />
+            <text x="410" y="22" class="cv-tiny">{v.journey.app}</text>
+          </g>
+        )}
+      </g>
+    )
+  }
+  {
+    kind === 'medtech' && (
+      <g>
+        {v.medtech.areas.map((a, i) => (
+          <g>
+            <rect x={70 + i * 230} y="60" width="200" height="110" rx="14" class={i === 0 ? 'cv-pine' : 'cv-panel'} />
+            {!compact && <foreignObject x={84 + i * 230} y="74" width="172" height="90"><p xmlns="http://www.w3.org/1999/xhtml" class={i === 0 ? 'cv-fo cv-fo-dark' : 'cv-fo'}>{a}</p></foreignObject>}
+            <line x1={170 + i * 230} y1="170" x2="400" y2="300" class="cv-rule" />
+          </g>
+        ))}
+        <rect x="250" y="300" width="300" height="80" rx="40" class="cv-lime" />
+        <text x="400" y="349" text-anchor="middle" class="cv-label">{v.medtech.focus}</text>
+      </g>
+    )
+  }
+  {
+    kind === 'shots' && (
+      <g>
+        <rect x="40" y="30" width="720" height="390" rx="18" class="cv-panel" />
+      </g>
+    )
+  }
+</svg>
+
+<style>
+  .cv {
+    display: block;
+    width: 100%;
+    height: auto;
+    font-family: var(--sans);
+  }
+  .cv :global(.cv-pine) { fill: var(--paper); }
+  .cv :global(.cv-lime) { fill: var(--judgment-mark); }
+  .cv :global(.cv-violet) { fill: var(--ai); }
+  .cv :global(.cv-teal) { fill: var(--c3); }
+  .cv :global(.cv-magenta) { fill: var(--c2); }
+  .cv :global(.cv-panel) { fill: var(--ink-sunk); stroke: var(--rule); stroke-width: 2; }
+  .cv :global(.cv-rule-fill) { fill: var(--rule); }
+  .cv :global(.cv-none) { fill: none; }
+  .cv :global(.cv-rule) { stroke: var(--rule); stroke-width: 3; fill: none; }
+  .cv :global(.cv-grid) { stroke: var(--rule); stroke-width: 1.5; }
+  .cv :global(.cv-line) { fill: none; stroke-width: 5; stroke-linejoin: round; stroke-linecap: round; }
+  .cv :global(.cv-line-walk) { stroke: var(--paper); }
+  .cv :global(.cv-line-app) { stroke: var(--c2); stroke-dasharray: 12 9; }
+  .cv :global(text) { fill: var(--paper); }
+  .cv :global(.cv-hero) { font: 500 110px var(--display); letter-spacing: -0.03em; }
+  .cv :global(.cv-big) { font: 500 34px var(--display); }
+  .cv :global(.cv-mid) { font: 500 28px var(--display); }
+  .cv :global(.cv-label) { font: 600 22px var(--sans); }
+  .cv :global(.cv-small) { font: 500 20px var(--sans); fill: var(--stone); }
+  .cv :global(.cv-tiny) { font: 500 17px var(--sans); fill: var(--stone); }
+  .cv :global(.cv-on-dark) { fill: #fff; }
+  .cv :global(.cv-fo) { margin: 0; font: 600 19px/1.25 var(--sans); color: var(--paper); }
+  .cv :global(.cv-fo-dark) { color: #fff; }
+  .is-compact :global(.cv-hero) { font-size: 130px; }
+</style>
