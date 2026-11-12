@@ -16,10 +16,33 @@ const c = labPage[lang];
 const p = project.copy[lang];
 const Tool = toolComponents[slug];
 /** The two systems keep their own data and have their own export, so they skip the shared toolbar. */
+const site = Astro.site!;
+const schema = [
+  {
+    '@type': 'WebApplication',
+    name: p.title,
+    description: p.summary,
+    url: new URL(localePath(lang, `lab/${slug}`), site).href,
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Any, runs in the browser',
+    isAccessibleForFree: true,
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    inLanguage: lang === 'es' ? 'es-MX' : 'en',
+    author: { '@id': `${site.href}#alberto` },
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Alberto Drucker', item: new URL(localePath(lang), site).href },
+      { '@type': 'ListItem', position: 2, name: 'Lab', item: new URL(localePath(lang, 'lab'), site).href },
+      { '@type': 'ListItem', position: 3, name: p.title },
+    ],
+  },
+];
 const ownState = project.category === 'systems' || slug === 'launch-teardown';
 ---
 
-<Base lang={lang} slug={`lab/${slug}`} title={`${p.title} | Alberto Drucker`} description={p.summary}>
+<Base lang={lang} slug={`lab/${slug}`} title={`${p.title} | Alberto Drucker`} description={p.summary} schema={schema}>
   <section class="tool-hero wrap">
     <p class="crumbs">
       <a href={localePath(lang, 'lab')}>{c.back}</a>

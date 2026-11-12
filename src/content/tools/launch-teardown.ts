@@ -14,7 +14,7 @@ export const launchTeardown: Localized<{ product: string; brief: string; callLab
   en: {
     product: 'Mesa Lista',
     brief:
-      'A fictional product: a reservation tool for independent restaurants that takes a small deposit when a guest books, so tables stop sitting empty. The team has a working product, 40 pilot restaurants in Monterrey and a budget for one city launch.',
+      'A fictional product: a reservation tool for independent restaurants that takes a small deposit when a guest books, so tables stop sitting empty. The team has a working product, 40 pilot restaurants in Monterrey, Mexico, and a budget for one city launch.',
     callLabel: 'My call',
     fictional: 'Mesa Lista and its numbers are invented to show the method. Any resemblance to a real product is a coincidence.',
     planCols: ['Plan', 'Price', 'For', 'Includes'],
@@ -103,7 +103,7 @@ export const launchTeardown: Localized<{ product: string; brief: string; callLab
   es: {
     product: 'Mesa Lista',
     brief:
-      'Un producto ficticio: una herramienta de reservaciones para restaurantes independientes que cobra un pequeño depósito cuando el comensal reserva, para que las mesas dejen de quedarse vacías. El equipo tiene un producto funcionando, 40 restaurantes piloto en Monterrey y presupuesto para lanzar en una ciudad.',
+      'Un producto ficticio: una herramienta de reservaciones para restaurantes independientes que cobra un pequeño depósito cuando el comensal reserva, para que las mesas dejen de quedarse vacías. El equipo tiene un producto funcionando, 40 restaurantes piloto en Monterrey, México, y presupuesto para lanzar en una ciudad.',
     callLabel: 'Mi decisión',
     fictional: 'Mesa Lista y sus números son inventados para mostrar el método. Cualquier parecido con un producto real es coincidencia.',
     planCols: ['Plan', 'Precio', 'Para', 'Incluye'],

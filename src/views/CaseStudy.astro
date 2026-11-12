@@ -21,6 +21,26 @@ const F = factLabels[lang];
 const L = caseLabels[lang];
 const next = list[(i + 1) % list.length];
 const nx = caseExtras[lang][next.id];
+const site = Astro.site!;
+const schema = [
+  {
+    '@type': 'Article',
+    headline: s.title,
+    description: x.seoDesc,
+    inLanguage: lang === 'es' ? 'es-MX' : 'en',
+    author: { '@id': `${site.href}#alberto` },
+    image: new URL(`/og/${lang}/work-${id}.jpg`, site).href,
+    mainEntityOfPage: new URL(localePath(lang, `work/${id}`), site).href,
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Alberto Drucker', item: new URL(localePath(lang), site).href },
+      { '@type': 'ListItem', position: 2, name: F.back, item: new URL(localePath(lang, 'work'), site).href },
+      { '@type': 'ListItem', position: 3, name: s.title },
+    ],
+  },
+];
 const LiveTool = x.live && s.demo ? toolComponents[s.demo] : null;
 const facts: [string, string][] = [
   [F.role, x.facts.role],
@@ -30,7 +50,7 @@ const facts: [string, string][] = [
 ];
 ---
 
-<Base lang={lang} slug={`work/${id}`} title={`${s.title} | Alberto Drucker`} description={s.summary}>
+<Base lang={lang} slug={`work/${id}`} title={x.seoTitle.length > 46 ? x.seoTitle : `${x.seoTitle} | Alberto Drucker`} description={x.seoDesc} type="article" schema={schema}>
   <article class="case">
     <header class="wrap case-head">
       <p class="case-back"><a href={localePath(lang, 'work')}>{F.back}</a></p>

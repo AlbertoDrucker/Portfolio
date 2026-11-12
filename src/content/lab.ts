@@ -38,8 +38,8 @@ export const labPage: Localized<{
   bar: { share: string; copied: string; print: string; reset: string; note: string };
 }> = {
   en: {
-    metaTitle: 'Lab | Alberto Drucker',
-    metaDescription: 'Working tools for strategy, applied AI and a few things built for fun. Everything runs in your browser.',
+    metaTitle: 'Free strategy and business tools | Alberto Drucker',
+    metaDescription: 'Free tools for pricing, sales funnels, market sizing, launches and AI adoption. Use your own numbers; everything runs in your browser.',
     title: 'Lab',
     lead: 'Working systems and tools I built for strategy, growth and applied AI, plus a few things I care about outside work. Everything runs in your browser, your data stays with you and every tool is free to use.',
     homeTitle: 'From the Lab',
@@ -58,8 +58,8 @@ export const labPage: Localized<{
     bar: { share: 'Copy a link to this scenario', copied: 'Link copied. Anyone who opens it sees your numbers.', print: 'Print or save as PDF', reset: 'Reset', note: 'Your inputs are saved in this browser only.' },
   },
   es: {
-    metaTitle: 'Lab | Alberto Drucker',
-    metaDescription: 'Herramientas que funcionan para estrategia, IA aplicada y algunas cosas hechas por gusto. Todo corre en tu navegador.',
+    metaTitle: 'Herramientas gratis de estrategia y negocio | Alberto Drucker',
+    metaDescription: 'Herramientas gratis de precios, embudo de ventas, tamaño de mercado, lanzamientos y adopción de IA. Usa tus propios números; todo corre en tu navegador.',
     title: 'Lab',
     lead: 'Sistemas y herramientas que construí para estrategia, crecimiento e IA aplicada, además de algunas cosas que me importan fuera del trabajo. Todo corre en tu navegador, tus datos se quedan contigo y todo es gratis.',
     homeTitle: 'Desde el Lab',

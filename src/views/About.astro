@@ -19,7 +19,7 @@ const outside = c.outside.map((o) => ({ ...o, src: photo(o.key) })).filter((o) =
 const paragraphs = outside.length ? c.paragraphs : [...c.paragraphs.slice(0, -1), `${c.paragraphs[c.paragraphs.length - 1]} ${c.hobbies}`];
 ---
 
-<Base lang={lang} slug="about" title={c.metaTitle} description={c.metaDescription}>
+<Base lang={lang} slug="about" title={c.metaTitle} description={c.metaDescription} type="profile">
   <section class={`page-hero wrap${portrait ? ' about-hero' : ''}`}>
     <div class="about-hero-text">
       <h1 class="page-title">{c.title}</h1>

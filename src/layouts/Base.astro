@@ -13,15 +13,48 @@ interface Props {
   slug: PageSlug | string;
   title: string;
   description: string;
+  /** Share image path under public/og, defaults to one made for this page. */
+  image?: string;
+  type?: 'website' | 'article' | 'profile';
+  /** Extra structured data for this page. */
+  schema?: Record<string, unknown>[];
+  noindex?: boolean;
 }
 
-const { lang, slug, title, description } = Astro.props;
+const { lang, slug, title, description, type = 'website', schema = [], noindex = false } = Astro.props;
 const t = useStrings(lang);
 const alt = otherLang(lang);
-const site = Astro.site ?? new URL('https://albertodrucker.vercel.app');
+const site = Astro.site ?? new URL('https://adrucker.vercel.app');
 const canonical = new URL(localePath(lang, slug), site).href;
 const altHref = new URL(localePath(alt, slug), site).href;
 const enHref = new URL(localePath('en', slug), site).href;
+const ogSlug = String(slug).replace(/\/$/, '').replace(/\//g, '-') || 'home';
+const image = new URL(Astro.props.image ?? `/og/${lang}/${ogSlug}.jpg`, site).href;
+const siteUrl = new URL(localePath(lang), site).href;
+const person = {
+  '@type': 'Person',
+  '@id': `${site.href}#alberto`,
+  name: 'Alberto Drucker',
+  url: siteUrl,
+  jobTitle: lang === 'es' ? 'Estratega de marketing, producto e innovación' : 'Strategy, product marketing and innovation',
+  homeLocation: { '@type': 'Place', name: lang === 'es' ? 'Monterrey, Nuevo León, México' : 'Monterrey, Nuevo León, Mexico' },
+  alumniOf: [
+    { '@type': 'CollegeOrUniversity', name: 'Tecnológico de Monterrey' },
+    { '@type': 'CollegeOrUniversity', name: 'Indiana University Kelley School of Business' },
+  ],
+  knowsAbout: ['Corporate strategy', 'Strategic planning', 'Product marketing', 'Innovation', 'Go to market', 'Applied AI', 'Customer research'],
+  knowsLanguage: ['es', 'en'],
+  sameAs: [contact.linkedin],
+};
+const graph = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    person,
+    { '@type': 'WebSite', '@id': `${site.href}#site`, name: 'Alberto Drucker', url: site.href, inLanguage: ['en', 'es-MX'], publisher: { '@id': `${site.href}#alberto` } },
+    { '@type': 'WebPage', name: title, description, url: canonical, inLanguage: lang === 'es' ? 'es-MX' : 'en', isPartOf: { '@id': `${site.href}#site` }, about: { '@id': `${site.href}#alberto` }, primaryImageOfPage: image },
+    ...schema,
+  ],
+};
 
 const nav: { slug: PageSlug; label: string }[] = [
   { slug: 'lab', label: t.nav.lab },
@@ -43,12 +76,28 @@ const nav: { slug: PageSlug; label: string }[] = [
     <link rel="alternate" hreflang={alt === 'es' ? 'es-MX' : 'en'} href={altHref} />
     <link rel="alternate" hreflang="x-default" href={enHref} />
     <meta name="theme-color" content="#f3f5ef" />
-    <meta property="og:type" content="website" />
+    <meta name="author" content="Alberto Drucker" />
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'} />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="Alberto Drucker" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={lang === 'es' ? 'es_MX' : 'en_US'} />
+    <meta property="og:locale:alternate" content={lang === 'es' ? 'en_US' : 'es_MX'} />
+    <meta property="og:image" content={image} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={title} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    <script type="application/ld+json" set:html={JSON.stringify(graph)} />
   </head>
   <body>
     <a class="skip-link" href="#main">{t.skip}</a>

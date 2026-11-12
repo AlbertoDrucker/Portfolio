@@ -83,3 +83,10 @@ Quality floor: responsive to 360px, visible keyboard focus, AA contrast, works w
 ## Workflow
 - Plan before each phase. Keep `BUILD_LOG.md` updated with what was built, key decisions and what broke. It is an internal file and is never published on the site.
 - Before committing: `npm run build` must pass, then check every page in both locales at 390px and 1440px.
+
+## SEO and share images
+- Every page sets title, description, canonical, hreflang, Open Graph and Twitter tags, and JSON-LD (Person, WebSite, WebPage; Article on cases; WebApplication on Lab tools) in `src/layouts/Base.astro`.
+- `src/pages/sitemap.xml.ts` lists every page in both languages with alternates; `public/robots.txt` points to it.
+- Share images live in `public/og/<lang>/<slug>.jpg` (1200x630). They are made from `src/pages/og-src/[...path].astro`, which only builds with OG=1. After changing titles, cases or tools, regenerate:
+  `OG=1 npx astro build --outDir .og-build && NODE_PATH=$(npm root -g) node scripts/og.cjs`
+- Write "Monterrey, Mexico" (or "Monterrey, México") when the city appears, so it is never confused with another Monterrey. "Tec de Monterrey" stays as the school's name.

@@ -55,7 +55,7 @@ export const caseStudies: Localized<CaseStudy[]> = {
       title: 'Building an innovation practice, and launching a premium brand with it',
       summary:
         'I was the first hire of a new innovation department. I had it running in four months, and its first big project took a client into the premium mattress market after five years of failed attempts.',
-      context: 'Innovation and marketing consulting firm, Monterrey, 2020 to 2021',
+      context: 'Innovation and marketing consulting firm, Monterrey, Mexico, 2020 to 2021',
       stats: [
         { v: '4 months', l: 'to stand up the innovation department' },
         { v: '1,000%', l: 'increase in revenue per client for the new brand' },
@@ -248,7 +248,7 @@ export const caseStudies: Localized<CaseStudy[]> = {
       title: 'Construir un área de innovación y lanzar con ella una marca premium',
       summary:
         'Fui la primera contratación de un área de innovación nueva. La puse en marcha en cuatro meses, y su primer gran proyecto llevó a un cliente al mercado de colchones premium después de cinco años de intentos fallidos.',
-      context: 'Consultora de innovación y marketing, Monterrey, 2020 a 2021',
+      context: 'Consultora de innovación y marketing, Monterrey, México, 2020 a 2021',
       stats: [
         { v: '4 meses', l: 'para poner en marcha el área de innovación' },
         { v: '1,000%', l: 'más ingreso por cliente para la nueva marca' },

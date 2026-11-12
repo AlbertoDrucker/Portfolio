@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /og-src/
+
+Sitemap: https://adrucker.vercel.app/sitemap.xml

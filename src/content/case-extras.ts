@@ -16,6 +16,9 @@ export interface CaseExtra {
   shots?: { src: string; alt: string; caption: string }[];
   /** Put the working Lab tool on the case page itself, so visitors can use it in place. */
   live?: boolean;
+  /** Search result title (before the name) and description. */
+  seoTitle: string;
+  seoDesc: string;
   tryNote?: string;
 }
 
@@ -27,6 +30,8 @@ export const factLabels: Localized<{ role: string; team: string; when: string; s
 export const caseExtras: Localized<Record<string, CaseExtra>> = {
   en: {
     property: {
+      seoTitle: 'Property management system case study',
+      seoDesc: 'A property management system I designed and built: rent, repairs, payouts and owner reporting, where software drafts and a person approves. Try the live demo.',
       facts: { role: 'Designed and built it', team: 'Me, with the two owners', when: '2026', sector: 'Property management' },
       heads: {
         challenge: 'Every late fee, payout and repair depended on someone remembering',
@@ -45,6 +50,8 @@ export const caseExtras: Localized<Record<string, CaseExtra>> = {
       ],
     },
     'premium-launch': {
+      seoTitle: 'Launching a premium brand from a new innovation practice',
+      seoDesc: 'How I built an innovation department from its first hire and launched a premium sleep brand with it: 1,000% more revenue per client, paid back in eight months.',
       facts: { role: 'Head of innovation, first hire of the department', team: 'Grew to 10 people', when: '2020 to 2021', sector: 'Home and sleep retail' },
       heads: {
         challenge: 'A new department with a tight budget, and a client stuck for five years',
@@ -56,6 +63,8 @@ export const caseExtras: Localized<Record<string, CaseExtra>> = {
       cover: '1,000% more revenue per client',
     },
     pitch: {
+      seoTitle: 'Winning 14 of 14 brands in a consumer goods pitch',
+      seoDesc: 'How a cross department team won all 14 food and consumer brands in a six country review, then scaled to deliver them. Strategy, rhythm and one point of view.',
       facts: { role: 'Led the pitch across departments', team: 'Strategy, digital and creative leads', when: '2022', sector: 'Food and consumer goods, 6 countries' },
       heads: {
         challenge: '14 brands, 6 countries, and a team that had never worked as one',
@@ -67,6 +76,8 @@ export const caseExtras: Localized<Record<string, CaseExtra>> = {
       cover: '14 of 14 brands won',
     },
     pipeline: {
+      seoTitle: 'A five year product pipeline for a kids’ brand',
+      seoDesc: 'An innovation pipeline built from consumer needs and spare plant capacity: seven times the products and four new categories for a packaged food brand.',
       facts: { role: 'Innovation lead', team: 'Research, design and plant teams', when: '2022 to 2024', sector: 'Packaged food' },
       heads: {
         challenge: 'Spare plant capacity and no plan to use it',
@@ -78,6 +89,8 @@ export const caseExtras: Localized<Record<string, CaseExtra>> = {
       cover: '+600% products in the roadmap',
     },
     'ai-ar': {
+      seoTitle: 'AI recipe assistant and a new AR and CGI business',
+      seoDesc: 'How a consumer AI recipe assistant fed product decisions, cut product design time 25%, and launched a new AR and CGI line of business.',
       facts: { role: 'Innovation lead and owner of the new unit’s P&L', team: 'Creative, digital and a U.S. studio partner', when: '2023 to 2025', sector: 'Food and advertising production' },
       heads: {
         challenge: 'A brand that wanted to know what people really cook',
@@ -89,6 +102,8 @@ export const caseExtras: Localized<Record<string, CaseExtra>> = {
       cover: '25% faster product design',
     },
     venture: {
+      seoTitle: 'Venture plan: nutrition for GLP-1 patients',
+      seoDesc: 'An MBA venture plan for a protein bar built for weight loss drug patients, sold through clinics: $16 vs $58 to win a customer, break even in month 29.',
       facts: { role: 'Co-author of the plan', team: 'Four MBA students', when: '2026', sector: 'Clinical nutrition' },
       heads: {
         challenge: 'The protein bars on the shelf make these patients feel worse',
@@ -100,6 +115,8 @@ export const caseExtras: Localized<Record<string, CaseExtra>> = {
       cover: '$16 vs $58 to win a customer',
     },
     streaming: {
+      seoTitle: 'Market analysis: independent film streaming',
+      seoDesc: 'Market report for a Series A pitch: specialty streaming growing 14% vs 6%, a positioning map of every player, and the open space a hybrid model can take.',
       facts: { role: 'Marketing lead', team: 'Startup founding team', when: '2026', sector: 'Streaming and independent film' },
       heads: {
         challenge: 'A growing niche, and a leader hurt by its own big bets',
@@ -111,6 +128,8 @@ export const caseExtras: Localized<Record<string, CaseExtra>> = {
       cover: 'Specialty growing 14% vs 6%',
     },
     journey: {
+      seoTitle: 'Customer journey map: quick service restaurant',
+      seoDesc: 'A customer journey map from interviews, observation and reviews: why 8 of 9 loyal customers skip the app that would fix their visit, and seven ideas to fix it.',
       facts: { role: 'Research and journey design', team: 'Three MBA students', when: '2026', sector: 'Quick service restaurants' },
       heads: {
         challenge: 'A near perfect app, and still a long line at lunch',
@@ -122,6 +141,8 @@ export const caseExtras: Localized<Record<string, CaseExtra>> = {
       cover: '8 of 9 customers skipped the app',
     },
     medtech: {
+      seoTitle: 'Reading an emerging medtech market',
+      seoDesc: 'An MBA consulting project scanning an emerging medical device market for a Western manufacturer, narrowed to the one technology with the clearest implications.',
       facts: { role: 'Market research and synthesis', team: 'MBA consulting team', when: '2026', sector: 'Medical devices' },
       heads: {
         challenge: 'A fast market that is hard to read from the outside',
@@ -135,6 +156,8 @@ export const caseExtras: Localized<Record<string, CaseExtra>> = {
   },
   es: {
     property: {
+      seoTitle: 'Caso: sistema de administración de propiedades',
+      seoDesc: 'Un sistema de administración de propiedades que diseñé y construí: rentas, reparaciones, pagos y reportes, donde el software prepara y una persona aprueba.',
       facts: { role: 'Lo diseñé y lo construí', team: 'Yo, con los dos dueños', when: '2026', sector: 'Administración de propiedades' },
       heads: {
         challenge: 'Cada recargo, pago y reparación dependía de que alguien se acordara',
@@ -153,6 +176,8 @@ export const caseExtras: Localized<Record<string, CaseExtra>> = {
       ],
     },
     'premium-launch': {
+      seoTitle: 'Lanzar una marca premium desde un área de innovación',
+      seoDesc: 'Cómo construí un área de innovación desde su primer integrante y lancé con ella una marca premium: 1,000% más ingreso por cliente, inversión recuperada en ocho meses.',
       facts: { role: 'Head de innovación, primer integrante del área', team: 'Creció a 10 personas', when: '2020 a 2021', sector: 'Retail de descanso y hogar' },
       heads: {
         challenge: 'Un área nueva con poco presupuesto, y un cliente atorado cinco años',
@@ -164,6 +189,8 @@ export const caseExtras: Localized<Record<string, CaseExtra>> = {
       cover: '1,000% más ingreso por cliente',
     },
     pitch: {
+      seoTitle: 'Ganar 14 de 14 marcas en un pitch de consumo',
+      seoDesc: 'Cómo un equipo entre áreas ganó las 14 marcas de alimentos y consumo de una revisión en seis países, y luego creció para atenderlas.',
       facts: { role: 'Lideré el pitch entre áreas', team: 'Líderes de estrategia, digital y creatividad', when: '2022', sector: 'Alimentos y consumo, 6 países' },
       heads: {
         challenge: '14 marcas, 6 países y un equipo que nunca había trabajado junto',
@@ -175,6 +202,8 @@ export const caseExtras: Localized<Record<string, CaseExtra>> = {
       cover: '14 de 14 marcas ganadas',
     },
     pipeline: {
+      seoTitle: 'Un pipeline de producto a cinco años para una marca infantil',
+      seoDesc: 'Un pipeline de innovación construido desde las necesidades del consumidor y la capacidad de planta: siete veces más productos y cuatro categorías nuevas.',
       facts: { role: 'Líder de innovación', team: 'Equipos de investigación, diseño y plantas', when: '2022 a 2024', sector: 'Alimentos empacados' },
       heads: {
         challenge: 'Capacidad sobrante en las plantas y ningún plan para usarla',
@@ -186,6 +215,8 @@ export const caseExtras: Localized<Record<string, CaseExtra>> = {
       cover: '+600% productos en el roadmap',
     },
     'ai-ar': {
+      seoTitle: 'Asistente de recetas con IA y una unidad de AR y CGI',
+      seoDesc: 'Cómo un asistente de recetas con IA alimentó decisiones de producto, redujo 25% el tiempo de diseño y lanzó una nueva línea de negocio de AR y CGI.',
       facts: { role: 'Líder de innovación y dueño del P&L de la nueva unidad', team: 'Creatividad, digital y un estudio aliado en Estados Unidos', when: '2023 a 2025', sector: 'Alimentos y producción publicitaria' },
       heads: {
         challenge: 'Una marca que quería saber qué cocina de verdad la gente',
@@ -197,6 +228,8 @@ export const caseExtras: Localized<Record<string, CaseExtra>> = {
       cover: '25% más rápido el diseño de producto',
     },
     venture: {
+      seoTitle: 'Plan de negocio: nutrición para pacientes con GLP-1',
+      seoDesc: 'Un plan de negocio del MBA para una barra de proteína hecha para pacientes con medicamentos para bajar de peso, vendida a través de clínicas: $16 vs $58 por cliente.',
       facts: { role: 'Coautor del plan', team: 'Cuatro estudiantes del MBA', when: '2026', sector: 'Nutrición clínica' },
       heads: {
         challenge: 'Las barras de proteína del anaquel hacen sentir peor a estos pacientes',
@@ -208,6 +241,8 @@ export const caseExtras: Localized<Record<string, CaseExtra>> = {
       cover: '$16 vs $58 por cliente ganado',
     },
     streaming: {
+      seoTitle: 'Análisis de mercado: streaming de cine independiente',
+      seoDesc: 'Reporte de mercado para una ronda Serie A: el streaming especializado crece 14% vs 6%, un mapa de posicionamiento y el espacio libre para un modelo híbrido.',
       facts: { role: 'Líder de marketing', team: 'Equipo fundador de la startup', when: '2026', sector: 'Streaming y cine independiente' },
       heads: {
         challenge: 'Un nicho que crece, y un líder dañado por sus propias apuestas',
@@ -219,6 +254,8 @@ export const caseExtras: Localized<Record<string, CaseExtra>> = {
       cover: 'El nicho crece 14% vs 6%',
     },
     journey: {
+      seoTitle: 'Mapa del recorrido del cliente: restaurante de servicio rápido',
+      seoDesc: 'Un mapa del recorrido del cliente con entrevistas, observación y reseñas: por qué 8 de 9 clientes leales no usan la app que arreglaría su visita.',
       facts: { role: 'Investigación y diseño del recorrido', team: 'Tres estudiantes del MBA', when: '2026', sector: 'Restaurantes de servicio rápido' },
       heads: {
         challenge: 'Una app casi perfecta, y aun así una fila larga a la hora de la comida',
@@ -230,6 +267,8 @@ export const caseExtras: Localized<Record<string, CaseExtra>> = {
       cover: '8 de 9 clientes no usaron la app',
     },
     medtech: {
+      seoTitle: 'Leer un mercado emergente de tecnología médica',
+      seoDesc: 'Un proyecto de consultoría del MBA que mapeó un mercado emergente de dispositivos médicos para un fabricante occidental y lo enfocó en una tecnología.',
       facts: { role: 'Investigación de mercado y síntesis', team: 'Equipo de consultoría del MBA', when: '2026', sector: 'Dispositivos médicos' },
       heads: {
         challenge: 'Un mercado rápido y difícil de leer desde fuera',

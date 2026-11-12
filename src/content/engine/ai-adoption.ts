@@ -6,7 +6,7 @@ export const aiAdoption: Scenario = {
     en: {
       label: 'AI adoption',
       brief:
-        'A family owned industrial distributor in Monterrey, with 400 people and 12 branches, sells parts and supplies to factories and contractors. Competitors are announcing AI pilots and the board wants a plan. Leadership asks: where should we use AI first?',
+        'A family owned industrial distributor in Monterrey, Mexico, with 400 people and 12 branches, sells parts and supplies to factories and contractors. Competitors are announcing AI pilots and the board wants a plan. Leadership asks: where should we use AI first?',
       steps: [
         {
           key: 'frame',
@@ -196,7 +196,7 @@ export const aiAdoption: Scenario = {
     es: {
       label: 'Adopción de IA',
       brief:
-        'Un distribuidor industrial familiar en Monterrey, con 400 personas y 12 sucursales, vende refacciones e insumos a fábricas y contratistas. Sus competidores están anunciando pilotos de IA y el consejo quiere un plan. La dirección pregunta: ¿dónde usamos IA primero?',
+        'Un distribuidor industrial familiar en Monterrey, México, con 400 personas y 12 sucursales, vende refacciones e insumos a fábricas y contratistas. Sus competidores están anunciando pilotos de IA y el consejo quiere un plan. La dirección pregunta: ¿dónde usamos IA primero?',
       steps: [
         {
           key: 'frame',

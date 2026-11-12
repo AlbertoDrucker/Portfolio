@@ -32,12 +32,12 @@ export const home: Localized<{
   methodLink: string;
 }> = {
   en: {
-    metaTitle: 'Alberto Drucker | Strategy that ships',
+    metaTitle: 'Alberto Drucker | Strategy, product marketing and innovation',
     metaDescription:
-      'Strategist from Monterrey working across marketing, strategy and applied AI. Working systems and free tools you can use with your own numbers.',
+      'Strategist from Monterrey, Mexico, working across marketing, strategy and applied AI. Working systems and free tools you can use with your own numbers.',
     heroLines: ['Strategy that ships.', 'Applied AI for business.'],
     heroIntro:
-      'I’m a strategist from Monterrey with an engineer’s training and a designer’s habits. I turn messy business questions into clear decisions, and then into systems people actually use. AI gets me there faster. The judgment stays mine.',
+      'I’m a strategist from Monterrey, Mexico, with an engineer’s training and a designer’s habits. I turn messy business questions into clear decisions, and then into systems people actually use. AI gets me there faster. The judgment stays mine.',
     ctaBuilt: 'See what I have built',
     ctaContact: 'Get in touch',
     heroNote: 'Everything on this site works. Go ahead, try it.',
@@ -66,9 +66,9 @@ export const home: Localized<{
     methodLink: 'See the full method',
   },
   es: {
-    metaTitle: 'Alberto Drucker | Estrategia que se ejecuta',
+    metaTitle: 'Alberto Drucker | Estrategia, product marketing e innovación',
     metaDescription:
-      'Estratega regiomontano en marketing, estrategia e IA aplicada. Sistemas que funcionan y herramientas gratuitas para usar con tus propios números.',
+      'Estratega de Monterrey, México, en marketing, estrategia e IA aplicada. Sistemas que funcionan y herramientas gratuitas para usar con tus propios números.',
     heroLines: ['Estrategia que se ejecuta.', 'IA aplicada al negocio.'],
     heroIntro:
       'Soy estratega, regiomontano, con formación de ingeniero y hábitos de diseñador. Convierto preguntas de negocio complejas en decisiones claras, y luego en sistemas que la gente sí usa. La IA me ayuda a llegar más rápido. El criterio sigue siendo mío.',
@@ -129,7 +129,7 @@ export const howIWork: Localized<{
 }> = {
   en: {
     metaTitle: 'How I work with AI | Alberto Drucker',
-    metaDescription: 'A seven step strategy method where AI does the volume and I bring the judgment.',
+    metaDescription: 'The seven step strategy method I use with AI: AI does the volume, I bring the judgment. Watch it work through a real business question, step by step.',
     title: 'How I work with AI',
     lead: 'AI does the volume. I bring the judgment.',
     intro:
@@ -161,7 +161,7 @@ export const howIWork: Localized<{
   },
   es: {
     metaTitle: 'Cómo trabajo con IA | Alberto Drucker',
-    metaDescription: 'Un método estratégico de siete pasos donde la IA pone el volumen y yo pongo el criterio.',
+    metaDescription: 'El método estratégico de siete pasos que uso con IA: la IA pone el volumen y yo el criterio. Míralo resolver una pregunta de negocio, paso a paso.',
     title: 'Cómo trabajo con IA',
     lead: 'La IA pone el volumen. Yo pongo el criterio.',
     intro:
@@ -215,15 +215,15 @@ export const work: Localized<{
   stories: CaseStudy[];
 }> = {
   en: {
-    metaTitle: 'Selected work | Alberto Drucker',
-    metaDescription: 'Projects in applied AI, strategy and innovation, told without client names.',
+    metaTitle: 'Case studies in strategy and innovation | Alberto Drucker',
+    metaDescription: 'Case studies in strategy, product launches, innovation and applied AI, with real results and no client names. Includes a working property management demo.',
     title: 'Selected work',
     lead: 'Real projects and real outcomes. Clients and employers stay unnamed; the industries and the work are all here.',
     stories: caseStudies.en,
   },
   es: {
-    metaTitle: 'Proyectos | Alberto Drucker',
-    metaDescription: 'Proyectos de IA aplicada, estrategia e innovación, contados sin nombres de clientes.',
+    metaTitle: 'Casos de estrategia e innovación | Alberto Drucker',
+    metaDescription: 'Casos de estrategia, lanzamientos, innovación e IA aplicada, con resultados reales y sin nombres de clientes. Incluye un demo que funciona.',
     title: 'Proyectos',
     lead: 'Proyectos reales, contados sin nombres de clientes. Cada uno muestra una parte distinta de cómo trabajo.',
     stories: caseStudies.es,
@@ -252,16 +252,16 @@ export const about: Localized<{
   hobbies: string;
 }> = {
   en: {
-    metaTitle: 'About | Alberto Drucker',
-    metaDescription: 'Engineer turned head of innovation turned strategist. I build things that did not exist yet, starting from what customers need.',
+    metaTitle: 'About Alberto Drucker | Strategist from Monterrey, Mexico',
+    metaDescription: 'Engineer turned head of innovation turned strategist, from Monterrey, Mexico, now an MBA candidate at Kelley. I build new things from what customers need.',
     title: 'About',
     lead: 'I build things that did not exist yet, starting from what customers actually need.',
     paragraphs: [
-      'I was born in Mexico City and grew up in Monterrey. I studied Innovation and Development Engineering at Tec de Monterrey and started my career in manufacturing, designing buses and then redesigning the supply process for two of them.',
+      'I was born in Mexico City and grew up in Monterrey, Mexico. I studied Innovation and Development Engineering at Tec de Monterrey and started my career in manufacturing, designing buses and then redesigning the supply process for two of them.',
       'In 2020 I joined an innovation and marketing consulting firm as the first person in its new innovation department. Over five years I built that practice and then led it as head of innovation, with teams of more than 20 people working on new products, brand strategy, research and new business lines for 18+ brands in four countries.',
       'Some of the work I’m proudest of: a premium brand that paid back its investment in eight months, a pitch where we won 14 of 14 brands, a five year roadmap that gave a kids’ brand seven times as many products, and the strategy for a mental health and suicide prevention campaign that reached more than a million people.',
       'Now I’m finishing an MBA in marketing at Indiana University’s Kelley School of Business, where I’m VP of AI and Applied Technology at the Tech Club. I build my own tools, like the systems on this site, because a working prototype settles a discussion faster than a deck.',
-      'I’m moving back to Monterrey to do this work in Mexico.',
+      'I’m moving back to Monterrey, Mexico, to do this work there.',
     ],
     focusTitle: 'Where I add the most value',
     focus: [
@@ -288,16 +288,16 @@ export const about: Localized<{
     hobbies: 'Outside work: drums for more than 15 years, tennis since I was a kid, padel, pickleball and skiing.',
   },
   es: {
-    metaTitle: 'Sobre mí | Alberto Drucker',
-    metaDescription: 'Ingeniero, head of innovation y estratega. Construyo cosas que todavía no existen, a partir de lo que el cliente necesita.',
+    metaTitle: 'Sobre Alberto Drucker | Estratega de Monterrey, México',
+    metaDescription: 'Ingeniero, head of innovation y estratega de Monterrey, México, hoy en el MBA de Kelley. Construyo cosas nuevas a partir de lo que el cliente necesita.',
     title: 'Sobre mí',
     lead: 'Construyo cosas que todavía no existen, a partir de lo que el cliente de verdad necesita.',
     paragraphs: [
-      'Nací en la Ciudad de México y crecí en Monterrey. Estudié Ingeniería en Innovación y Desarrollo en el Tec de Monterrey y empecé mi carrera en manufactura, diseñando autobuses y después rediseñando el proceso de abastecimiento de dos modelos.',
+      'Nací en la Ciudad de México y crecí en Monterrey, México. Estudié Ingeniería en Innovación y Desarrollo en el Tec de Monterrey y empecé mi carrera en manufactura, diseñando autobuses y después rediseñando el proceso de abastecimiento de dos modelos.',
       'En 2020 entré a una consultora de innovación y marketing como la primera persona de su nueva área de innovación. En cinco años construí esa práctica y luego la dirigí como head of innovation, con equipos de más de 20 personas trabajando en nuevos productos, estrategia de marca, investigación y nuevas líneas de negocio para más de 18 marcas en cuatro países.',
       'Algunos de los proyectos de los que más me enorgullezco: una marca premium que recuperó su inversión en ocho meses, un pitch en el que ganamos 14 de 14 marcas, un roadmap a cinco años que le dio a una marca infantil siete veces más productos y la estrategia de una campaña de salud mental y prevención del suicidio que llegó a más de un millón de personas.',
       'Hoy estoy terminando un MBA en marketing en Kelley School of Business de Indiana University, donde soy VP de IA y Tecnología Aplicada del Tech Club. Construyo mis propias herramientas, como los sistemas de este sitio, porque un prototipo que funciona resuelve una discusión más rápido que una presentación.',
-      'Estoy regresando a Monterrey para hacer este trabajo en México.',
+      'Estoy regresando a Monterrey, México, para hacer este trabajo allá.',
     ],
     focusTitle: 'Donde más valor aporto',
     focus: [
