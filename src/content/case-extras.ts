@@ -14,6 +14,9 @@ export interface CaseExtra {
   /** One short line for the cover card. */
   cover: string;
   shots?: { src: string; alt: string; caption: string }[];
+  /** Put the working Lab tool on the case page itself, so visitors can use it in place. */
+  live?: boolean;
+  tryNote?: string;
 }
 
 export const factLabels: Localized<{ role: string; team: string; when: string; sector: string; back: string; next: string; all: string; open: string }> = {
@@ -31,7 +34,9 @@ export const caseExtras: Localized<Record<string, CaseExtra>> = {
         outcome: '31 steps of the business in one prototype, heading into a pilot',
       },
       visual: 'shots',
-      caption: 'The team workspace from the public demo. Everything that needs a decision lands in one queue, money first.',
+      caption: 'The working demo, with an invented company, people and homes. Approve or edit a draft, report a repair, switch to the renter or owner portal, or jump ahead a day.',
+      live: true,
+      tryNote: 'This one works. Click around.',
       cover: '4 connected apps, nothing sent without approval',
       shots: [
         { src: '/work/property-team.webp', alt: 'Team workspace showing today’s approvals, rent status and open repairs', caption: 'Team workspace. Today’s approvals sit above everything else, so nothing waits on memory.' },
@@ -137,7 +142,9 @@ export const caseExtras: Localized<Record<string, CaseExtra>> = {
         outcome: '31 pasos del negocio en un prototipo, rumbo a un piloto',
       },
       visual: 'shots',
-      caption: 'El espacio del equipo en el demo público. Todo lo que necesita una decisión llega a una sola fila, el dinero primero.',
+      caption: 'El demo funcionando, con una empresa, personas y casas inventadas. Aprueba o edita un borrador, reporta una reparación, cambia al portal de inquilinos o de propietarios, o adelanta un día.',
+      live: true,
+      tryNote: 'Este sí funciona. Pruébalo.',
       cover: '4 apps conectadas, nada sale sin aprobación',
       shots: [
         { src: '/work/property-team.webp', alt: 'Espacio del equipo con las aprobaciones del día, el estado de rentas y las reparaciones abiertas', caption: 'Espacio del equipo. Las aprobaciones del día van arriba de todo, así nada depende de la memoria.' },

@@ -1,6 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
+import '../styles/tools.css';
 import CaseVisual from '../components/CaseVisual.astro';
+import { toolComponents } from '../components/tools/registry';
 import { localePath, type Lang } from '../i18n/ui';
 import { caseStudies, caseLabels } from '../content/cases';
 import { caseExtras, factLabels } from '../content/case-extras';
@@ -19,6 +21,7 @@ const F = factLabels[lang];
 const L = caseLabels[lang];
 const next = list[(i + 1) % list.length];
 const nx = caseExtras[lang][next.id];
+const LiveTool = x.live && s.demo ? toolComponents[s.demo] : null;
 const facts: [string, string][] = [
   [F.role, x.facts.role],
   [F.team, x.facts.team],
@@ -48,7 +51,12 @@ const facts: [string, string][] = [
 
     <figure class="wrap case-hero">
       {
-        x.shots ? (
+        LiveTool ? (
+          <div class="case-live">
+            {x.tryNote && <p class="case-try" aria-hidden="true">{x.tryNote}</p>}
+            <LiveTool lang={lang} />
+          </div>
+        ) : x.shots ? (
           <div class="case-shot">
             <img src={x.shots[0].src} alt={x.shots[0].alt} width="1440" height="900" />
           </div>
@@ -88,7 +96,7 @@ const facts: [string, string][] = [
         </ul>
       </section>
       {
-        x.shots && (
+        x.shots && !LiveTool && (
           <div class="case-gallery">
             {x.shots.slice(1).map((sh) => (
               <figure>
@@ -191,6 +199,24 @@ const facts: [string, string][] = [
     border-radius: 18px;
     box-shadow: var(--lift);
     overflow: hidden;
+  }
+
+  .case-live {
+    position: relative;
+  }
+
+  .case-try {
+    position: absolute;
+    top: -1.6rem;
+    right: 1.5rem;
+    z-index: 2;
+    margin: 0;
+    padding: 0.2rem 0.8rem 0.3rem;
+    background: var(--judgment-mark);
+    border-radius: 4px 12px 6px 14px;
+    font: 400 1.45rem / 1.2 var(--hand);
+    color: var(--paper);
+    rotate: -2deg;
   }
 
   .case-visual {

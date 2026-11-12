@@ -1006,3 +1006,18 @@
 .app-card.is-hero .app-label {
   color: rgba(255, 255, 255, 0.78);
 }
+
+/* Phones and tablets: every control gets a finger sized target. */
+@media (pointer: coarse) {
+  .tool button,
+  .tool select,
+  .tool input[type='number'],
+  .tool input[type='text'],
+  .tool input[type='date'] {
+    min-height: 40px;
+  }
+
+  .tool input[type='range'] {
+    min-height: 32px;
+  }
+}

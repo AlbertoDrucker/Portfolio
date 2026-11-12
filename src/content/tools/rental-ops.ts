@@ -28,6 +28,7 @@ export interface RentalCopy {
   examples: string[];
   submit: string;
   triageTitle: string;
+  liveTitle: string;
   priority: string;
   reason: string;
   vendor: string;
@@ -120,6 +121,7 @@ export const rentalOps: Localized<RentalCopy> = {
     examples: ['There is no heat and it is freezing', 'The kitchen sink is dripping', 'I smell gas near the stove', 'The fridge stopped cooling', 'Ants in the kitchen'],
     submit: 'Send request',
     triageTitle: 'How the system read it',
+    liveTitle: 'Reading as you type',
     priority: 'Priority',
     reason: 'Reason',
     vendor: 'Vendor',
@@ -235,6 +237,7 @@ export const rentalOps: Localized<RentalCopy> = {
     examples: ['No hay calefacción y hace mucho frío', 'Gotea el fregadero de la cocina', 'Huele a gas cerca de la estufa', 'El refri dejó de enfriar', 'Hay hormigas en la cocina'],
     submit: 'Enviar solicitud',
     triageTitle: 'Cómo lo leyó el sistema',
+    liveTitle: 'Leyendo mientras escribes',
     priority: 'Prioridad',
     reason: 'Motivo',
     vendor: 'Proveedor',

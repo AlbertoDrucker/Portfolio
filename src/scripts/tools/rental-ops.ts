@@ -127,6 +127,25 @@ export function setupRentalOps(root: HTMLElement) {
   let valUnit = 'u7';
   const valPicks: Record<string, number> = {};
   let lastTriage: Req | null = null;
+
+  /** A line under the text box that reads the request while the person types: priority, category, vendor. */
+  const liveRead = (area: HTMLTextAreaElement) => {
+    const out = h('p', { class: 'rops-live', 'aria-live': 'polite' });
+    const paint = () => {
+      const text = area.value.trim();
+      if (!text) {
+        out.replaceChildren();
+        out.hidden = true;
+        return;
+      }
+      const t = triage(text);
+      out.hidden = false;
+      out.replaceChildren(h('span', { class: 'app-label' }, c.liveTitle), levelPill(t.level as Level), h('span', null, `${c.cats[t.cat as Cat]}, ${VENDORS[t.cat as Cat]}`));
+    };
+    area.addEventListener('input', paint);
+    paint();
+    return { out, paint };
+  };
   let toast = '';
 
   const first = (name: string) => name.split(' ')[0];
@@ -348,6 +367,9 @@ export function setupRentalOps(root: HTMLElement) {
           c.approve,
         ),
         h('button', { type: 'button', class: 'btn btn-quiet', onclick: () => skip(a, meta.title) }, c.skip),
+        a.kind === 'request' && (() => { const r = S.reqs.find((y) => y.id === a.ref); return !!r && needsOwner(S, r); })()
+          ? h('button', { type: 'button', class: 'app-link', onclick: () => { app = 'owner'; render(); } }, x.openOwner)
+          : '',
       ),
     );
   }
@@ -389,6 +411,7 @@ export function setupRentalOps(root: HTMLElement) {
   function requestsView() {
     const select = h('select', { 'aria-label': c.unit }, S.units.filter((u) => u.tenant).map((u) => h('option', { value: u.id }, `${u.addr} (${u.tenant})`)));
     const area = h('textarea', { 'aria-label': c.describe, placeholder: c.describePlaceholder });
+    const live = liveRead(area);
     const send = () => {
       const text = area.value.trim();
       if (text) submitRequest(select.value, text);
@@ -435,11 +458,11 @@ export function setupRentalOps(root: HTMLElement) {
           h('h2', null, c.reportTitle),
           h('p', { class: 'app-sub' }, c.reportLead),
           h('div', { class: 'app-field' }, h('span', { class: 'app-label' }, c.unit), select),
-          h('div', { class: 'app-field' }, h('span', { class: 'app-label' }, c.describe), area),
+          h('div', { class: 'app-field' }, h('span', { class: 'app-label' }, c.describe), area, live.out),
           h(
             'div',
             { class: 'app-actions' },
-            c.examples.map((ex) => h('button', { type: 'button', class: 'btn btn-quiet sm', onclick: () => ((area.value = ex), area.focus()) }, ex)),
+            c.examples.map((ex) => h('button', { type: 'button', class: 'btn btn-quiet sm', onclick: () => ((area.value = ex), live.paint(), area.focus()) }, ex)),
           ),
           h('div', null, h('button', { type: 'button', class: 'btn', onclick: send }, c.submit)),
         ),
@@ -735,6 +758,7 @@ export function setupRentalOps(root: HTMLElement) {
     const fees = u.fee && !u.paid ? Math.max(0, S.day - 1) * DAILY_FEE : 0;
     const owe = u.paid ? 0 : u.rent / 2 + fees;
     const area = h('textarea', { 'aria-label': c.describe, placeholder: c.describePlaceholder });
+    const liveR = liveRead(area);
     const mine = S.reqs.filter((r) => r.unitId === RENTER_UNIT);
     const nameIn = h('input', { type: 'text', 'aria-label': x.typeName, placeholder: u.tenant ?? '' }) as HTMLInputElement;
     const agree = h('input', { type: 'checkbox' }) as HTMLInputElement;
@@ -794,7 +818,8 @@ export function setupRentalOps(root: HTMLElement) {
           h('h2', null, x.renterRepair),
           h('p', { class: 'app-sub' }, x.renterRepairLead),
           area,
-          h('div', { class: 'app-actions' }, c.examples.slice(0, 3).map((ex) => h('button', { type: 'button', class: 'btn btn-quiet sm', onclick: () => ((area.value = ex), area.focus()) }, ex))),
+          liveR.out,
+          h('div', { class: 'app-actions' }, c.examples.slice(0, 3).map((ex) => h('button', { type: 'button', class: 'btn btn-quiet sm', onclick: () => ((area.value = ex), liveR.paint(), area.focus()) }, ex))),
           h('div', null, h('button', { type: 'button', class: 'btn', onclick: () => area.value.trim() && submitRequest(RENTER_UNIT, area.value.trim()) }, c.submit)),
         ),
         h(

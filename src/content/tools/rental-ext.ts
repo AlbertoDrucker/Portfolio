@@ -22,6 +22,7 @@ export interface RentalExt {
   // owner limits
   overLimit: string;
   waitsOwner: string;
+  openOwner: string;
   ownerApproved: string;
   // bills
   billsTitle: string;
@@ -108,6 +109,7 @@ export const rentalExt: Localized<RentalExt> = {
     payoutLocked: 'Payouts open on the 10th. Use “Jump to tomorrow” to get there.',
     overLimit: 'Estimated at {cost}, over {owner}’s repair limit of {limit}',
     waitsOwner: 'Waiting for the owner’s OK in the owner portal',
+    openOwner: 'Open the owner portal',
     ownerApproved: '{owner} approved the repair at {unit}.',
     billsTitle: 'Bills inbox',
     billsLead: 'Vendors email their invoices to one address. The system reads each one, matches it to the job and the home, and splits shared bills across properties. A person checks and pays.',
@@ -197,6 +199,7 @@ export const rentalExt: Localized<RentalExt> = {
     payoutLocked: 'Los pagos se abren el día 10. Usa “Pasar al día siguiente” para llegar.',
     overLimit: 'Estimada en {cost}, arriba del límite de reparación de {owner} de {limit}',
     waitsOwner: 'Esperando el visto bueno del propietario en su portal',
+    openOwner: 'Abrir el portal de propietarios',
     ownerApproved: '{owner} aprobó la reparación en {unit}.',
     billsTitle: 'Bandeja de facturas',
     billsLead: 'Los proveedores mandan sus facturas a un solo correo. El sistema lee cada una, la relaciona con el trabajo y la casa, y reparte las facturas compartidas entre propiedades. Una persona revisa y paga.',
